@@ -16,7 +16,6 @@ export async function connectDatabase() {
 
   try {
     await mongoose.connect(MONGODB_URI, {
-      useNewUrlParser: true,
       dbName: "vote-application",
     });
     console.log("MongoDB connected successfully");
