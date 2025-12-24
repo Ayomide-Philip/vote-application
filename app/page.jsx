@@ -27,18 +27,31 @@ export default function Home() {
               V
             </div>
             <div className="hidden sm:block leading-tight">
-              <p className="text-sm font-bold text-zinc-900 dark:text-white">Votely</p>
-              <p className="text-xs text-zinc-500 dark:text-zinc-400">Decisions made clear</p>
+              <p className="text-sm font-bold text-zinc-900 dark:text-white">
+                Votely
+              </p>
+              <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                Decisions made clear
+              </p>
             </div>
           </div>
           <div className="hidden lg:flex items-center gap-10 text-sm font-medium text-zinc-600 dark:text-zinc-400">
-            <a href="#features" className="hover:text-blue-600 dark:hover:text-blue-400 transition">
+            <a
+              href="#features"
+              className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+            >
               Features
             </a>
-            <a href="#pricing" className="hover:text-blue-600 dark:hover:text-blue-400 transition">
+            <a
+              href="#pricing"
+              className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+            >
               Pricing
             </a>
-            <a href="#faq" className="hover:text-blue-600 dark:hover:text-blue-400 transition">
+            <a
+              href="#faq"
+              className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+            >
               FAQ
             </a>
           </div>
@@ -121,7 +134,9 @@ export default function Home() {
                   <p className="text-sm font-semibold text-zinc-800 dark:text-white">
                     Best time for weekly standup?
                   </p>
-                  <p className="text-xs text-zinc-500 dark:text-zinc-400">342 responses</p>
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                    342 responses
+                  </p>
                 </div>
                 <div className="space-y-4">
                   {[
@@ -152,10 +167,14 @@ export default function Home() {
                     <p className="text-xs text-zinc-600 dark:text-zinc-400 font-medium">
                       Participation
                     </p>
-                    <p className="text-lg font-bold text-blue-600 dark:text-blue-400 mt-1">94%</p>
+                    <p className="text-lg font-bold text-blue-600 dark:text-blue-400 mt-1">
+                      94%
+                    </p>
                   </div>
                   <div className="rounded-lg bg-zinc-50 dark:bg-zinc-800 p-3">
-                    <p className="text-xs text-zinc-600 dark:text-zinc-400 font-medium">Status</p>
+                    <p className="text-xs text-zinc-600 dark:text-zinc-400 font-medium">
+                      Status
+                    </p>
                     <p className="text-lg font-bold text-green-600 dark:text-green-400 mt-1">
                       Live
                     </p>
@@ -177,14 +196,20 @@ export default function Home() {
             </p>
           </div>
           <div className="text-center">
-            <p className="text-4xl sm:text-5xl font-bold text-blue-600 dark:text-blue-400">5M+</p>
-            <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-2 font-medium">Votes Cast</p>
+            <p className="text-4xl sm:text-5xl font-bold text-blue-600 dark:text-blue-400">
+              5M+
+            </p>
+            <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-2 font-medium">
+              Votes Cast
+            </p>
           </div>
           <div className="text-center">
             <p className="text-4xl sm:text-5xl font-bold text-blue-600 dark:text-blue-400">
               99.9%
             </p>
-            <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-2 font-medium">Uptime SLA</p>
+            <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-2 font-medium">
+              Uptime SLA
+            </p>
           </div>
         </div>
 
@@ -304,7 +329,9 @@ export default function Home() {
                   <h3 className="text-2xl font-bold mb-3 text-zinc-900 dark:text-white">
                     {step.title}
                   </h3>
-                  <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">{step.desc}</p>
+                  <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                    {step.desc}
+                  </p>
                 </div>
                 {idx < 2 && (
                   <div className="hidden sm:flex absolute top-1/2 -right-4 transform -translate-y-1/2 text-zinc-300 dark:text-zinc-700">
@@ -388,7 +415,9 @@ export default function Home() {
                     {plan.price}
                   </span>
                   {plan.period && (
-                    <span className="text-zinc-600 dark:text-zinc-400 ml-1">{plan.period}</span>
+                    <span className="text-zinc-600 dark:text-zinc-400 ml-1">
+                      {plan.period}
+                    </span>
                   )}
                 </div>
                 <ul className="space-y-3 mb-8 border-t border-zinc-200 dark:border-zinc-700 pt-8">
@@ -469,126 +498,161 @@ export default function Home() {
         </section>
 
         {/* CTA Footer */}
-        <section className="rounded-2xl border border-zinc-200 bg-gradient-to-br from-blue-600 to-blue-700 px-6 sm:px-12 py-20 text-center text-white mb-20 mx-auto max-w-6xl">
+        <section className="rounded-2xl border border-blue-700 dark:border-blue-600 bg-gradient-to-br from-blue-600 to-blue-700 dark:from-blue-900 dark:to-blue-800 px-6 sm:px-12 py-20 text-center text-white mb-20 mx-auto max-w-6xl">
           <h2 className="text-5xl sm:text-6xl font-black mb-4">
             Ready to decide better?
           </h2>
-          <p className="text-xl text-blue-100 mb-10 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl text-blue-100 dark:text-blue-200 mb-10 max-w-2xl mx-auto leading-relaxed">
             Join thousands of teams making faster, smarter decisions with
             Votely.
           </p>
-          <button className="rounded-lg bg-white text-blue-600 px-10 py-4 text-lg font-bold hover:bg-blue-50 transition shadow-lg hover:shadow-xl inline-flex items-center gap-2">
+          <button className="rounded-lg bg-white dark:bg-zinc-100 text-blue-600 dark:text-blue-600 px-10 py-4 text-lg font-bold hover:bg-blue-50 dark:hover:bg-white transition shadow-lg hover:shadow-xl inline-flex items-center gap-2">
             Start Free Now
             <ArrowRight className="w-5 h-5" />
           </button>
-          <p className="text-blue-100 text-sm mt-6">
+          <p className="text-blue-100 dark:text-blue-200 text-sm mt-6">
             No credit card required. Start with 100 voters free.
           </p>
         </section>
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-zinc-200 bg-zinc-50 py-16 overflow-x-hidden">
+      <footer className="border-t border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 py-16 overflow-x-hidden">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 w-full">
           <div className="grid sm:grid-cols-5 gap-8 mb-12">
             <div className="sm:col-span-1">
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center text-sm font-bold">
+                <div className="w-8 h-8 rounded-lg bg-blue-600 dark:bg-blue-700 text-white flex items-center justify-center text-sm font-bold">
                   V
                 </div>
-                <span className="font-bold text-zinc-900">Votely</span>
+                <span className="font-bold text-zinc-900 dark:text-white">
+                  Votely
+                </span>
               </div>
-              <p className="text-sm text-zinc-600 leading-relaxed">
+              <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
                 The modern way to make decisions together.
               </p>
             </div>
             <div>
-              <p className="text-xs font-bold text-zinc-900 mb-4 uppercase tracking-wider">
+              <p className="text-xs font-bold text-zinc-900 dark:text-white mb-4 uppercase tracking-wider">
                 Product
               </p>
-              <ul className="space-y-2.5 text-sm text-zinc-600">
+              <ul className="space-y-2.5 text-sm text-zinc-600 dark:text-zinc-400">
                 <li>
                   <a
                     href="#features"
-                    className="hover:text-blue-600 transition"
+                    className="hover:text-blue-600 dark:hover:text-blue-400 transition"
                   >
                     Features
                   </a>
                 </li>
                 <li>
-                  <a href="#pricing" className="hover:text-blue-600 transition">
+                  <a
+                    href="#pricing"
+                    className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+                  >
                     Pricing
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-blue-600 transition">
+                  <a
+                    href="#"
+                    className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+                  >
                     Security
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-blue-600 transition">
+                  <a
+                    href="#"
+                    className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+                  >
                     Roadmap
                   </a>
                 </li>
               </ul>
             </div>
             <div>
-              <p className="text-xs font-bold text-zinc-900 mb-4 uppercase tracking-wider">
+              <p className="text-xs font-bold text-zinc-900 dark:text-white mb-4 uppercase tracking-wider">
                 Company
               </p>
-              <ul className="space-y-2.5 text-sm text-zinc-600">
+              <ul className="space-y-2.5 text-sm text-zinc-600 dark:text-zinc-400">
                 <li>
-                  <a href="#" className="hover:text-blue-600 transition">
+                  <a
+                    href="#"
+                    className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+                  >
                     About
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-blue-600 transition">
+                  <a
+                    href="#"
+                    className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+                  >
                     Blog
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-blue-600 transition">
+                  <a
+                    href="#"
+                    className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+                  >
                     Careers
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-blue-600 transition">
+                  <a
+                    href="#"
+                    className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+                  >
                     Contact
                   </a>
                 </li>
               </ul>
             </div>
             <div>
-              <p className="text-xs font-bold text-zinc-900 mb-4 uppercase tracking-wider">
+              <p className="text-xs font-bold text-zinc-900 dark:text-white mb-4 uppercase tracking-wider">
                 Legal
               </p>
-              <ul className="space-y-2.5 text-sm text-zinc-600">
+              <ul className="space-y-2.5 text-sm text-zinc-600 dark:text-zinc-400">
                 <li>
-                  <a href="#" className="hover:text-blue-600 transition">
+                  <a
+                    href="#"
+                    className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+                  >
                     Privacy
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-blue-600 transition">
+                  <a
+                    href="#"
+                    className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+                  >
                     Terms
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-blue-600 transition">
+                  <a
+                    href="#"
+                    className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+                  >
                     Cookies
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-blue-600 transition">
+                  <a
+                    href="#"
+                    className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+                  >
                     Compliance
                   </a>
                 </li>
               </ul>
             </div>
           </div>
-          <div className="border-t border-zinc-200 pt-8">
-            <p className="text-sm text-zinc-600 text-center">
+          <div className="border-t border-zinc-200 dark:border-zinc-700 pt-8">
+            <p className="text-sm text-zinc-600 dark:text-zinc-400 text-center">
               &copy; 2025 Votely. All rights reserved. Made with precision.
             </p>
           </div>
