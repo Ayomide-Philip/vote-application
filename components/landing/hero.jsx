@@ -70,7 +70,7 @@ export default function HeroSection() {
       </nav>
 
       <section className="relative min-h-screen bg-linear-to-br from-white via-blue-50/30 to-white dark:from-zinc-900 dark:via-blue-950/20 dark:to-zinc-900 pt-24 sm:pt-28 lg:pt-32 pb-12 sm:pb-16 lg:pb-20 px-4 sm:px-6 overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px]"></div>
 
         <div className="absolute top-20 -left-20 w-96 h-96 bg-blue-500/20 dark:bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
         <div
@@ -164,7 +164,7 @@ export default function HeroSection() {
               </div>
             </div>
 
-            <div className="relative mt-12 lg:mt-0 lg:h-[600px] flex items-center justify-center">
+            <div className="relative mt-12 lg:mt-0 lg:h-150 flex items-center justify-center">
               <div className="relative w-full max-w-md mx-auto">
                 <div className="relative bg-white/90 dark:bg-zinc-800/90 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl border border-zinc-200 dark:border-zinc-700 p-6 sm:p-8 hover:scale-105 transition-transform duration-500">
                   <div className="space-y-4 sm:space-y-6">
