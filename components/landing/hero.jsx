@@ -80,9 +80,7 @@ export default function HeroSection() {
 
         <div className="relative mx-auto max-w-7xl pt-20">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Left Column - Content */}
             <div className="space-y-8">
-              {/* Trust Badge */}
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-linear-to-r from-blue-50 to-cyan-50 dark:from-blue-950/50 dark:to-cyan-950/50 border border-blue-200/50 dark:border-blue-800/50 backdrop-blur-sm">
                 <Shield className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                 <span className="text-sm font-semibold text-blue-700 dark:text-blue-300">
@@ -90,7 +88,6 @@ export default function HeroSection() {
                 </span>
               </div>
 
-              {/* Main Headline */}
               <div className="space-y-4">
                 <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight text-zinc-900 dark:text-zinc-100 leading-tight">
                   Make Every Voice{" "}
@@ -105,7 +102,6 @@ export default function HeroSection() {
                 </p>
               </div>
 
-              {/* CTA Section */}
               <div className="space-y-6">
                 <div className="flex flex-col sm:flex-row gap-4">
                   <button className="group relative px-8 py-4 bg-linear-to-r from-blue-600 to-cyan-600 dark:from-blue-500 dark:to-cyan-500 text-white rounded-2xl font-bold text-lg shadow-xl shadow-blue-600/30 hover:shadow-2xl hover:shadow-blue-600/50 hover:scale-105 transition-all duration-300 flex items-center justify-center gap-3">
@@ -118,7 +114,6 @@ export default function HeroSection() {
                   </button>
                 </div>
 
-                {/* Quick Stats */}
                 <div className="flex items-center gap-8 pt-4">
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="w-5 h-5 text-green-600 dark:text-green-400" />
@@ -141,7 +136,6 @@ export default function HeroSection() {
                 </div>
               </div>
 
-              {/* Social Proof */}
               <div className="flex items-center gap-6 pt-6 border-t border-zinc-200 dark:border-zinc-800">
                 <div>
                   <div className="text-3xl font-black text-zinc-900 dark:text-zinc-100">
@@ -172,14 +166,10 @@ export default function HeroSection() {
               </div>
             </div>
 
-            {/* Right Column - Visual Mockup */}
             <div className="relative lg:h-150 flex items-center justify-center">
-              {/* Floating Card */}
               <div className="relative w-full max-w-md">
-                {/* Main Poll Card */}
                 <div className="relative bg-white/90 dark:bg-zinc-800/90 backdrop-blur-xl rounded-3xl shadow-2xl border border-zinc-200 dark:border-zinc-700 p-8 hover:scale-105 transition-transform duration-500">
                   <div className="space-y-6">
-                    {/* Poll Header */}
                     <div className="flex items-start justify-between">
                       <div>
                         <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
@@ -192,7 +182,6 @@ export default function HeroSection() {
                       <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
                     </div>
 
-                    {/* Poll Options */}
                     <div className="space-y-3">
                       {[
                         { option: "Pizza", votes: 5, color: "bg-blue-500" },
@@ -218,14 +207,12 @@ export default function HeroSection() {
                       ))}
                     </div>
 
-                    {/* Action Button */}
                     <button className="w-full py-3 bg-linear-to-r from-blue-600 to-cyan-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all">
                       Cast Your Vote
                     </button>
                   </div>
                 </div>
 
-                {/* Floating Feature Badges */}
                 <div
                   className="absolute -top-6 -left-6 bg-white dark:bg-zinc-800 rounded-2xl shadow-xl border border-zinc-200 dark:border-zinc-700 p-4 animate-bounce"
                   style={{ animationDuration: "3s" }}
