@@ -34,14 +34,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (user) {
         const existingUser = await User.findOne({ email: user.email });
         if (existingUser) {
-          token.id = existingUser._id.toString();
+          token.id = existingUser?._id.toString();
+          token.googleId = existingUser?.googleId;
         }
       }
       return token;
     },
     async session({ session, token }) {
       if (token) {
-        session.user.id = token.id;
+        session.user.id = token?.id;
+        session.user.googleId = token?.googleId;
       }
       return session;
     },
