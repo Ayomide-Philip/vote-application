@@ -14,8 +14,8 @@ import {
 export default function HeroSection() {
   return (
     <>
-      <nav className="fixed top-4 left-4 right-4 z-50 border border-zinc-200 dark:border-zinc-700 bg-white/80 dark:bg-zinc-800/80 backdrop-blur-md rounded-2xl shadow-lg">
-        <div className="max-w-6xl mx-auto px-6 sm:px-8 py-3.5 flex items-center justify-between w-full">
+      <nav className="fixed top-4 left-4 right-4 z-50 ">
+        <div className="border border-zinc-200 dark:border-zinc-700 bg-white/80 dark:bg-zinc-800/80 backdrop-blur-md rounded-2xl shadow-lg max-w-5xl mx-auto px-6 sm:px-8 py-3.5 flex items-center justify-between w-full">
           <div className="flex items-center gap-3 min-w-0">
             <div className="flex h-9 w-9 items-center justify-center shrink-0 rounded-lg bg-linear-to-br from-blue-600 to-blue-700 text-base font-bold text-white">
               V
