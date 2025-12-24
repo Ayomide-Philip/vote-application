@@ -15,18 +15,20 @@ const userSchema = new Schema(
       type: String,
     },
     voteInfo: {
-      type: {
-        voteId: {
-          type: Schema.Types.ObjectId,
-          default: null,
+      type: [
+        {
+          voteId: {
+            type: Schema.Types.ObjectId,
+            default: null,
+          },
+          role: {
+            type: String,
+            enum: ["voter", "admin", "contestant"],
+            default: "voter",
+          },
         },
-        role: {
-          type: String,
-          enum: ["voter", "admin","contestant"],
-          default: "voter",
-        },
-      },
-      default: {},
+      ],
+      default: [],
     },
     googleId: {
       type: String,
