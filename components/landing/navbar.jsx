@@ -2,7 +2,6 @@
 import { signIn } from "next-auth/react";
 import Toggle from "../toggle";
 import { BsGoogle } from "react-icons/bs";
-import { CgGoogle } from "react-icons/cg";
 export default function Navbar() {
   return (
     <nav className="fixed top-4 left-4 right-4 z-50 ">
