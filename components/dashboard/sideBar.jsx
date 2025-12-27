@@ -1,12 +1,25 @@
 import { BarChart3, Settings, LogOut } from "lucide-react";
 import { LayoutDashboard, FileText, PlusCircle } from "lucide-react";
-const menuItems = [
-  { icon: LayoutDashboard, label: "Dashboard", active: true },
-  { icon: FileText, label: "My Polls", active: false },
-  { icon: PlusCircle, label: "Create Poll", active: false },
-  { icon: BarChart3, label: "Results", active: false },
-];
+import { usePathname } from "next/navigation";
+
 export default function SideBar({ sidebarOpen, sidebarCollapsed }) {
+  const pathname = usePathname();
+  console.log(pathname);
+
+  const menuItems = [
+    {
+      icon: LayoutDashboard,
+      label: "Dashboard",
+      active: pathname.includes("dashboard"),
+    },
+    { icon: FileText, label: "My Polls", active: pathname.includes("mypolls") },
+    {
+      icon: PlusCircle,
+      label: "Create Poll",
+      active: pathname.includes("createpoll"),
+    },
+    { icon: BarChart3, label: "Results", active: pathname.includes("results") },
+  ];
   return (
     <aside
       className={`fixed left-0 top-0 z-40 h-screen w-64 bg-white dark:bg-gray-800 shadow-lg transition-all duration-300 ${
