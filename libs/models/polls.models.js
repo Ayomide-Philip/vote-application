@@ -31,6 +31,17 @@ const pollsModels = new Schema(
       type: Date,
       required: true,
     },
+    rule: {
+      type: {
+        emailPrefix: {
+          type: String,
+        },
+        departmentCodes: {
+          type: [String],
+          lowercase: true,
+        },
+      },
+    },
   },
   {
     timestamps: true,

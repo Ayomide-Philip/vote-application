@@ -24,11 +24,23 @@ const userSchema = new Schema(
       unique: true,
       default: null,
     },
-    departement: {
+    department: {
       type: String,
     },
     faculty: {
       type: String,
+    },
+    voteInformation: {
+      type: {
+        pollId: {
+          type: Schema.Types.ObjectId,
+          ref: "Polls",
+        },
+        role: {
+          type: ["Voters", "Candidate"],
+          default: "Voters",
+        },
+      },
     },
   },
   {
