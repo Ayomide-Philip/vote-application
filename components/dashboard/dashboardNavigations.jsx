@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState } from "react";
@@ -65,21 +66,21 @@ export default function DashboardNavigations({ children, session }) {
 
               <div
                 className="flex max-w-[180px] items-center gap-3 rounded-lg border border-gray-200 dark:border-gray-600 py-1.5 pl-1.5 pr-2 hover:bg-gray-50 dark:hover:bg-gray-700"
-                title={`${displayName} • ${displayEmail}`}
+                title={`${session?.user?.name} • ${session?.user?.email}`}
               >
                 {session?.user?.image ? (
                   <img
                     className="h-8 w-8 rounded-full"
                     src={session?.user?.image}
-                    alt={displayName}
+                    alt={session?.user?.name || "User Avatar"}
                   />
                 ) : (
                   <div className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-indigo-500 to-cyan-500 text-xs font-semibold text-white">
-                    {initial}
+                    {(session?.user?.name?.[0] ?? "G").toUpperCase()}
                   </div>
                 )}
                 <span className="truncate text-[12px] font-medium text-gray-700 dark:text-gray-200 capitalize">
-                  {displayName}
+                  {session?.user?.name || "Guest"}
                 </span>
               </div>
             </div>
