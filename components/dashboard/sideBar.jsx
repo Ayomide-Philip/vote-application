@@ -17,7 +17,7 @@ export default function SideBar({ sidebarOpen, sidebarCollapsed }) {
       icon: FileText,
       label: "My Polls",
       active: pathname.includes("mypolls"),
-      href: "/mypolls",
+      href: "/polls",
     },
     {
       icon: PlusCircle,
