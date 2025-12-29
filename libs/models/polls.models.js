@@ -62,7 +62,8 @@ const pollsModels = new Schema(
       type: [
         {
           role: {
-            type: ["Owner", "Admin"],
+            enum: ["Owner", "Admin"],
+              default:null
           },
           userId: {
             type: Schema.Types.ObjectId,
