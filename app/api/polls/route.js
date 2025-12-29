@@ -2,10 +2,19 @@ import { NextResponse } from "next/server";
 import { connectDatabase } from "@/libs/connectdatabase";
 import User from "@/libs/models/user.models";
 import Polls from "@/libs/models/polls.models";
+import { auth } from "@/auth";
 
-export async function POST(req) {
+export const POST = auth(async function POST(req) {
+  if (!req.auth || !req.auth.user) {
+    return NextResponse.json(
+      { error: "Unauthorized Access" },
+      {
+        status: 400,
+      }
+    );
+  }
+  const userId = req?.auth?.user?.id;
   const {
-    userId,
     title,
     description,
     startDate,
@@ -124,6 +133,15 @@ export async function POST(req) {
       }
     );
   }
+
+  if (emailPrefix && !emailPrefix.startsWith("@")) {
+    return NextResponse.json(
+      { error: "Start with an @ symbol" },
+      {
+        status: 400,
+      }
+    );
+  }
   // checking departmental codes
   let departmentalCodeArray;
   if (departmentCodes) {
@@ -171,4 +189,4 @@ export async function POST(req) {
       }
     );
   }
-}
+});
