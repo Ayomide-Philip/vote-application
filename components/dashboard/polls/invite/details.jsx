@@ -5,7 +5,7 @@ export default function InvitationDetails({ pollData }) {
   return (
     <div className="px-8 sm:px-12 py-10">
       <p className="text-gray-700 dark:text-slate-300 text-center mb-8 leading-relaxed">
-        {pollData.description}
+        {pollData?.description}
       </p>
 
       {/* Divider */}
@@ -26,7 +26,7 @@ export default function InvitationDetails({ pollData }) {
           Who Can Vote
         </p>
         <div className="space-y-3">
-          {pollData.rule.emailPrefix && (
+          {pollData?.rule?.emailPrefix && (
             <div className="flex items-start gap-3">
               <div className="h-5 w-5 rounded-full bg-purple-600 dark:bg-purple-500 text-white flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
                 ✓
@@ -36,12 +36,12 @@ export default function InvitationDetails({ pollData }) {
                   Email Domain Required
                 </p>
                 <p className="text-xs text-gray-600 dark:text-slate-400">
-                  Must have a {pollData.rule.emailPrefix} email address
+                  Must have a {pollData?.rule?.emailPrefix} email address
                 </p>
               </div>
             </div>
           )}
-          {pollData.rule.departmentCodes.length > 0 && (
+          {pollData?.rule?.departmentCodes.length > 0 && (
             <div className="flex items-start gap-3">
               <div className="h-5 w-5 rounded-full bg-purple-600 dark:bg-purple-500 text-white flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
                 ✓
@@ -54,7 +54,7 @@ export default function InvitationDetails({ pollData }) {
                   Must be part of one of these departments:
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  {pollData.rule.departmentCodes.map((dept) => (
+                  {pollData?.rule?.departmentCodes.map((dept) => (
                     <span
                       key={dept}
                       className="inline-block px-2.5 py-1 bg-purple-200 dark:bg-purple-800/50 text-purple-900 dark:text-purple-300 text-xs font-semibold rounded-full uppercase"
@@ -82,7 +82,7 @@ export default function InvitationDetails({ pollData }) {
       </div>
 
       <div className="space-y-2 mb-10">
-        {pollData.candidates.map((candidate) => (
+        {pollData?.candidates.map((candidate) => (
           <div
             key={candidate.id}
             className="bg-gray-50 dark:bg-slate-700/50 rounded-lg p-3 border border-gray-200 dark:border-slate-600 hover:border-blue-300 dark:hover:border-blue-600 transition-colors"
@@ -114,17 +114,17 @@ export default function InvitationDetails({ pollData }) {
         </p>
         <div className="flex items-center gap-3">
           <img
-            src={pollData.userId.image}
-            alt={pollData.userId.name}
+            src={pollData?.userId?.image}
+            alt={pollData?.userId?.name}
             className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold text-sm flex-shrink-0"
           />
 
           <div>
             <p className="font-semibold text-gray-900 dark:text-white text-sm">
-              {pollData.userId.name}
+              {pollData?.userId?.name}
             </p>
             <p className="text-xs text-gray-600 dark:text-slate-400">
-              {pollData.userId.email}
+              {pollData?.userId?.email}
             </p>
           </div>
         </div>
