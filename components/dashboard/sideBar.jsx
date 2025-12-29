@@ -102,7 +102,7 @@ export default function SideBar({ sidebarOpen, sidebarCollapsed }) {
             <span className={sidebarCollapsed ? "lg:hidden" : ""}>Setting</span>
           </Link>
           <button
-            className={`flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 ${
+            className={`flex cursor-pointer w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 ${
               sidebarCollapsed ? "lg:justify-center" : ""
             }`}
             title={sidebarCollapsed ? "Logout" : ""}
