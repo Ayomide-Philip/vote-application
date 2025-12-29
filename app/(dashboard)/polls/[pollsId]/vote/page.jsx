@@ -10,7 +10,7 @@ export default function VotingPage({ params }) {
 
   // Sample poll data
   const pollData = {
-    id: params.pollsId,
+    id: 1,
     title: "Election for Company Leadership Team",
     description:
       "Vote for your preferred candidate for the Chief Technology Officer position. Your vote is confidential and will help shape our organization's future.",
@@ -124,25 +124,58 @@ export default function VotingPage({ params }) {
   }
 
   return (
-    <main className="min-h-screen bg-white dark:bg-slate-950 transition-colors">
+    <main className="min-h-screen bg-gray-50 dark:bg-slate-950 transition-colors">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-700 dark:to-blue-800 px-6 py-12">
-        <div className="max-w-5xl mx-auto text-center">
-          <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3">
-            {pollData.title}
-          </h1>
-          <p className="text-blue-100 dark:text-blue-200 text-lg mb-6 max-w-2xl mx-auto">
-            {pollData.description}
-          </p>
-          <div className="flex items-center justify-center gap-2 text-sm font-medium text-blue-100">
-            <Clock className="h-4 w-4" />
-            Voting closes on {formatDate(pollData.endDate)}
+      <div className="bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-800">
+        <div className="max-w-5xl mx-auto px-6 py-8 sm:py-12">
+          <div className="mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/50 rounded-full mb-4">
+              <span className="h-2 w-2 bg-green-500 rounded-full animate-pulse"></span>
+              <span className="text-sm font-semibold text-blue-700 dark:text-blue-400">
+                Voting Open
+              </span>
+            </div>
+            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-3">
+              {pollData.title}
+            </h1>
+            <p className="text-gray-600 dark:text-slate-400 text-base sm:text-lg max-w-3xl">
+              {pollData.description}
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-6 pt-4 border-t border-gray-200 dark:border-slate-800">
+            <div className="flex items-center gap-2">
+              <div className="h-10 w-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                <Clock className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+              </div>
+              <div>
+                <p className="text-xs font-medium text-gray-500 dark:text-slate-500">
+                  Voting Closes
+                </p>
+                <p className="text-sm font-semibold text-gray-900 dark:text-white">
+                  {formatDate(pollData.endDate)}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="h-10 w-10 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
+                <User className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+              </div>
+              <div>
+                <p className="text-xs font-medium text-gray-500 dark:text-slate-500">
+                  Candidates
+                </p>
+                <p className="text-sm font-semibold text-gray-900 dark:text-white">
+                  {pollData.candidates.length} Running
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Notice */}
-      <div className="max-w-5xl mx-auto px-6 -mt-6">
+      <div className="max-w-5xl mx-auto px-6 py-6">
         <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/50 rounded-xl p-4 flex items-start gap-3">
           <Info className="h-5 w-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
           <div>
