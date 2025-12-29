@@ -58,6 +58,19 @@ const pollsModels = new Schema(
       default: [],
       ref: "User",
     },
+    role: {
+      type: [
+        {
+          role: {
+            type: ["Owner", "Admin"],
+          },
+          userId: {
+            type: Schema.Types.ObjectId,
+            ref: "User",
+          },
+        },
+      ],
+    },
   },
   {
     timestamps: true,
