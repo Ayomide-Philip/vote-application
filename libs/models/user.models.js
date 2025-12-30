@@ -22,7 +22,7 @@ const userSchema = new Schema(
     matricNumber: {
       type: String,
       unique: true,
-      default: null,
+      sparse: true,
     },
     department: {
       type: String,
