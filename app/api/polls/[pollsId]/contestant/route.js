@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { connectDatabase } from "@/libs/connectdatabase";
 import Polls from "@/libs/models/polls.models";
 import Contestant from "@/libs/models/contestant.models";
+import User from "@/libs/models/user.models";
 
 export async function GET(req, { params }) {
   const { pollsId } = await params;
@@ -87,11 +88,68 @@ export async function POST(req, { params }) {
     );
   }
 
-  // success message
-  return NextResponse.json(
-    { message: "POST a new contestant.", userId, position, pollsId },
-    {
-      status: 200,
+  try {
+    await connectDatabase();
+    // check if the user exist
+    const user = await User.findById(userId);
+    if (!user) {
+      return NextResponse.json(
+        { error: "User does not exist" },
+        {
+          status: 400,
+        }
+      );
     }
-  );
+    // check if user belong to the poll
+    const userBelongs = user?.voteInformation.find((info) => {
+      return info?.pollId?.toString() === pollsId.toString();
+    });
+    // if user does not belong
+    if (!userBelongs) {
+      return NextResponse.json(
+        { error: "User doesnt belong to this poll" },
+        {
+          status: 400,
+        }
+      );
+    }
+    // check if the user has the correct authorization to create a contestant
+    if (userBelongs?.role !== "Owner" && userBelongs?.role !== "Admin") {
+      return NextResponse.json(
+        { error: "You dont have permission to perform this action" },
+        {
+          status: 400,
+        }
+      );
+    }
+    //after verifying all process then create a contestant
+    const contestant = await Contestant.create({
+      pollId: pollsId,
+      userId: userId,
+      position: position.toLowerCase(),
+    });
+    // success message
+    return NextResponse.json(
+      { message: "Successfully Created.", contestant: contestant },
+      {
+        status: 200,
+      }
+    );
+  } catch (err) {
+    if (err?.code === 11000) {
+      return NextResponse.json(
+        { error: "You have created this position before" },
+        {
+          status: 400,
+        }
+      );
+    }
+    console.log(err);
+    return NextResponse.json(
+      { error: "An error occurred while creating new contestant." },
+      {
+        status: 400,
+      }
+    );
+  }
 }

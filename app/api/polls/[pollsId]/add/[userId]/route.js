@@ -102,6 +102,11 @@ export async function PUT(req, { params }) {
     }
     //add the user to the voters
     poll?.voters?.push(userId);
+    user.voteInformation.push({
+      pollId: pollsId,
+      role: "Voters",
+    });
+    await user.save();
     await poll.save();
     // return successfully added user
     return NextResponse.json(
