@@ -192,3 +192,34 @@ export const POST = auth(async function POST(req) {
     );
   }
 });
+
+export const GET = auth(async function GET(req) {
+  if (!req.auth || !req.auth.user) {
+    return NextResponse.json(
+      { error: "Unauthorized Access" },
+      {
+        status: 400,
+      }
+    );
+  }
+  const userId = req?.auth?.user?.id;
+  try {
+    await connectDatabase();
+    // get all polls from the database
+    const polls = await Polls.find({
+      voters: { $in: [userId] },
+    }).sort({ createdAt: -1 });
+    return NextResponse.json(
+      { message: "Polls fetched successfully", polls: polls },
+      { status: 200 }
+    );
+  } catch (err) {
+    console.log(err);
+    return NextResponse.json(
+      { error: "An error occurred while fetching polls" },
+      {
+        status: 400,
+      }
+    );
+  }
+});

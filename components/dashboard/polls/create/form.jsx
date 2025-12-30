@@ -110,7 +110,6 @@ export default function CreatePollForm() {
         ? `/polls/invite/${response.poll._id}`
         : "/polls";
       setShareLink(`${window.location.origin}${targetPath}`);
-      setRedirectUrl(targetPath);
       setIsSubmitting(false);
       setShowSuccess(true);
       toast.success("Poll created successfully!");
@@ -312,7 +311,7 @@ export function ShareOverLay({
           type="button"
           onClick={handleCloseModal}
           aria-label="Close"
-          className="absolute right-4 top-4 h-10 w-10 rounded-full border border-gray-200 dark:border-slate-700 flex items-center justify-center text-gray-500 hover:text-gray-800 dark:text-slate-400 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-slate-800 transition"
+          className="absolute cursor-pointer right-4 top-4 h-10 w-10 rounded-full border border-gray-200 dark:border-slate-700 flex items-center justify-center text-gray-500 hover:text-gray-800 dark:text-slate-400 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-slate-800 transition"
         >
           <X className="h-5 w-5" />
         </button>
