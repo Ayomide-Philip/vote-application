@@ -48,7 +48,7 @@ const pollsModels = new Schema(
       ref: "User",
       default: [],
     },
-    candidates: {
+    contestants: {
       type: [Schema.Types.ObjectId],
       ref: "Candidates",
       default: [],
@@ -56,7 +56,7 @@ const pollsModels = new Schema(
     completedVoters: {
       type: [Schema.Types.ObjectId],
       default: [],
-      ref: "User",
+      ref: "Contestant",
     },
     role: {
       type: [
