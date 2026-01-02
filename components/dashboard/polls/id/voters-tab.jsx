@@ -1,17 +1,33 @@
-import { Plus, UserX, UserPlus, Trash2, CheckCircle } from "lucide-react";
+import { Plus, Trash2, CheckCircle } from "lucide-react";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
-const formatDate = (dateString) => {
-  const date = new Date(dateString);
-  return date.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-};
-
-export default function VotersTab({ pollData, poll }) {
+export default function VotersTab({ pollData, poll, pollId }) {
+  const [voters, setVoters] = useState([]);
+  useEffect(() => {
+    async function fetchVoters() {
+      try {
+        const request = await fetch(`/api/polls/${pollId}/voters/`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
+        const response = await request.json();
+        if (!request.ok || response?.error) {
+          toast.error(response?.error || "An error occurred");
+          return setVoters([]);
+        }
+        setVoters(response?.voters);
+      } catch (err) {
+        console.log(err);
+        setVoters([]);
+        return toast.error("Network Error");
+      }
+    }
+    fetchVoters();
+  }, [pollId]);
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
@@ -67,12 +83,7 @@ export default function VotersTab({ pollData, poll }) {
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {voter.blocked ? (
-                        <span className="px-2.5 py-1 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 text-xs font-semibold rounded-full flex items-center gap-1 w-fit">
-                          <UserX className="h-3 w-3" />
-                          Blocked
-                        </span>
-                      ) : voter.voted ? (
+                      {voter.voted ? (
                         <span className="px-2.5 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-semibold rounded-full flex items-center gap-1 w-fit">
                           <CheckCircle className="h-3 w-3" />
                           Voted
@@ -86,15 +97,6 @@ export default function VotersTab({ pollData, poll }) {
 
                     <td className="px-6 py-4 whitespace-nowrap text-right">
                       <div className="flex items-center justify-end gap-2">
-                        {!voter.blocked ? (
-                          <button className="p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors">
-                            <UserX className="h-4 w-4 text-red-600 dark:text-red-400" />
-                          </button>
-                        ) : (
-                          <button className="p-2 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-lg transition-colors">
-                            <UserPlus className="h-4 w-4 text-green-600 dark:text-green-400" />
-                          </button>
-                        )}
                         <button className="p-2 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg transition-colors">
                           <Trash2 className="h-4 w-4 text-gray-600 dark:text-slate-400" />
                         </button>
