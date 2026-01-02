@@ -9,7 +9,7 @@ const ContestantSchema = new Schema(
     },
     createdBy: {
       type: Schema.Types.ObjectId,
-      ref: "Users",
+      ref: "User",
       required: true,
     },
     position: {
@@ -36,7 +36,7 @@ const ContestantSchema = new Schema(
     voters: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Users",
+        ref: "User",
       },
     ],
   },

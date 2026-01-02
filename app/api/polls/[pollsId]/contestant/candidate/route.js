@@ -29,9 +29,9 @@ export async function GET(req, { params }) {
       );
     }
     // check if the contestant has any one with this poll id
-    const contestant = await Contestant.find({ pollId: pollsId }).populate(
-      "candidates"
-    ).populate("candidates.userId");
+    const contestant = await Contestant.find({ pollId: pollsId })
+      .populate("candidates")
+      .populate("candidates.userId");
     // get all the total candidate in the Contestant
     const candidate = [];
     // if there is no contestant
@@ -45,7 +45,12 @@ export async function GET(req, { params }) {
     }
     // get all candidate if they exist
     for (let i = 0; i < contestant.length; i++) {
-      candidate.push(...contestant[i].candidates);
+      candidate.push(
+        ...contestant[i].candidates.map((c) => ({
+          ...c.toObject(),
+          position: contestant[i].position,
+        }))
+      );
     }
     return NextResponse.json(
       { candidate },
