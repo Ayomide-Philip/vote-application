@@ -45,7 +45,7 @@ export async function GET(req, { params }) {
       .populate("candidates.userId", "name image department faculty")
       .populate("pollId", "startDate endDate title description");
     return NextResponse.json(
-      { contestants },
+      { contestant: contestants },
       {
         status: 200,
       }

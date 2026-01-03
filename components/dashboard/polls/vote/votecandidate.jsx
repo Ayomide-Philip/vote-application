@@ -4,33 +4,6 @@
 import { useState } from "react";
 import { ArrowRight, CheckCircle } from "lucide-react";
 
-const fallbackContestant = {
-  position: "Vice President",
-  description: "Choose the candidate you want to represent you.",
-  candidates: [
-    {
-      _id: "cand-1",
-      votes: 14,
-      userId: {
-        _id: "user-1",
-        name: "Ayomide Areo",
-        email: "ayomide@example.com",
-        image:
-          "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?auto=format&fit=crop&w=200&q=80",
-      },
-    },
-    {
-      _id: "cand-2",
-      votes: 9,
-      userId: {
-        _id: "user-2",
-        name: "Favour Adebayo",
-        email: "favour@example.com",
-      },
-    },
-  ],
-};
-
 export default function VoteCandidate({ candidates, contestant }) {
   const [selectedCandidate, setSelectedCandidate] = useState(null);
 
@@ -52,39 +25,28 @@ export default function VoteCandidate({ candidates, contestant }) {
     return `${value.slice(0, 4)}*****${value.slice(-4)}`;
   };
 
-  const baseContestant =
-    contestant && contestant.candidates?.length ? contestant : null;
-  const safeContestant = baseContestant || fallbackContestant;
-  const safeCandidates =
-    candidates && candidates.length ? candidates : safeContestant.candidates;
-  const positionLabel = safeContestant?.position || "Position";
-
-  const handleSelect = (id) => {
-    setSelectedCandidate(id);
-  };
-
   const handleSubmit = () => {
     if (!selectedCandidate) return;
     console.log("Submit vote for", selectedCandidate);
   };
 
   return (
-    <section className="max-w-5xl mx-auto px-5 sm:px-6 lg:px-8 py-6 space-y-6">
-      <div className="grid gap-5 md:grid-cols-2">
-        {safeCandidates.map((candidate) => {
+    <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+      <div className="grid gap-4 sm:gap-5 md:grid-cols-2">
+        {candidates.map((candidate) => {
           const isSelected = selectedCandidate === candidate._id;
           return (
             <article
               key={candidate._id}
-              onClick={() => handleSelect(candidate._id)}
+              onClick={() => setSelectedCandidate(candidate._id)}
               className={`group h-full rounded-2xl border bg-white/90 dark:bg-slate-900/80 backdrop-blur transition-all cursor-pointer shadow-sm hover:shadow-lg ${
                 isSelected
                   ? "border-blue-600 ring-2 ring-blue-100 dark:ring-blue-900/60"
                   : "border-gray-200 dark:border-slate-800 hover:border-blue-200 dark:hover:border-slate-700"
               }`}
             >
-              <div className="p-6 space-y-5 h-full flex flex-col">
-                <div className="flex items-start gap-4">
+              <div className="p-5 sm:p-6 space-y-5 h-full flex flex-col">
+                <div className="flex flex-col sm:flex-row sm:items-start gap-4">
                   {candidate?.userId?.image ? (
                     <img
                       src={candidate.userId.image}
@@ -98,13 +60,13 @@ export default function VoteCandidate({ candidates, contestant }) {
                   )}
 
                   <div className="flex-1 min-w-0 space-y-2">
-                    <div className="flex items-start justify-between gap-3">
+                    <div className="flex flex-wrap items-start justify-between gap-3">
                       <div className="space-y-1">
                         <h3 className="text-xl font-semibold text-gray-900 dark:text-white leading-tight">
                           {candidate?.userId?.name}
                         </h3>
                         <p className="text-sm font-medium text-gray-600 dark:text-slate-300 capitalize">
-                          {positionLabel}
+                          {contestant?.position}
                         </p>
                       </div>
                       {isSelected ? (
@@ -122,23 +84,12 @@ export default function VoteCandidate({ candidates, contestant }) {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
                       <div className="rounded-lg border border-gray-200 dark:border-slate-800 px-3 py-2 bg-gray-50 dark:bg-slate-800/60">
                         <p className="text-xs font-semibold text-gray-500 dark:text-slate-400">
-                          Email
-                        </p>
-                        <p className="text-gray-900 dark:text-white break-all">
-                          {candidate?.userId?.email || "Not provided"}
-                        </p>
-                      </div>
-                      <div className="rounded-lg border border-gray-200 dark:border-slate-800 px-3 py-2 bg-gray-50 dark:bg-slate-800/60">
-                        <p className="text-xs font-semibold text-gray-500 dark:text-slate-400">
                           Candidate ID
                         </p>
                         <p className="text-gray-900 dark:text-white truncate">
                           {maskId(candidate?._id)}
                         </p>
                       </div>
-                    </div>
-
-                    <div className="grid grid-cols-3 gap-3 text-sm">
                       <div className="rounded-lg border border-gray-200 dark:border-slate-800 px-3 py-2 bg-white dark:bg-slate-900/80">
                         <p className="text-xs font-semibold text-gray-500 dark:text-slate-400">
                           Votes
@@ -147,30 +98,14 @@ export default function VoteCandidate({ candidates, contestant }) {
                           {candidate?.votes ?? 0}
                         </p>
                       </div>
-                      <div className="rounded-lg border border-gray-200 dark:border-slate-800 px-3 py-2 bg-white dark:bg-slate-900/80">
-                        <p className="text-xs font-semibold text-gray-500 dark:text-slate-400">
-                          Status
-                        </p>
-                        <p className="text-base font-semibold text-gray-900 dark:text-white">
-                          {isSelected ? "Preferred" : "Available"}
-                        </p>
-                      </div>
-                      <div className="rounded-lg border border-gray-200 dark:border-slate-800 px-3 py-2 bg-white dark:bg-slate-900/80">
-                        <p className="text-xs font-semibold text-gray-500 dark:text-slate-400">
-                          Profile
-                        </p>
-                        <p className="text-base font-semibold text-blue-600 dark:text-blue-200">
-                          View summary
-                        </p>
-                      </div>
                     </div>
                   </div>
                 </div>
 
                 <button
                   type="button"
-                  onClick={() => handleSelect(candidate._id)}
-                  className={`mt-auto inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold transition-colors ${
+                  onClick={() => setSelectedCandidate(candidate._id)}
+                  className={`mt-auto inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold transition-colors w-full sm:w-auto ${
                     isSelected
                       ? "bg-blue-600 text-white shadow hover:bg-blue-700"
                       : "bg-gray-100 text-gray-900 hover:bg-gray-200 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"

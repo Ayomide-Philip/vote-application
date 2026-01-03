@@ -2,8 +2,9 @@ import VoteCandidate from "@/components/dashboard/polls/vote/votecandidate";
 import { Clock, Info, User } from "lucide-react";
 import { BASE_URL } from "@/libs/config/configuration";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
-export default async function VotingPage({ params, contestantProp }) {
+export default async function VotingPage({ params }) {
   const { pollsId, voteId } = await params;
   const request = await fetch(
     `${BASE_URL}/api/polls/${pollsId}/contestant/${voteId}`,
@@ -15,31 +16,9 @@ export default async function VotingPage({ params, contestantProp }) {
       },
     }
   );
-  // Static template: pass `contestant` as a prop; hook-free so you can wire fetching/state yourself.
-  const contestant = contestantProp || {
-    _id: "6956e115248243c2988fa1e1",
-    position: "vice president",
-    description:
-      "Vice president of the faculty of computing sciene and cyber security",
-    pollId: {
-      _id: "6956dcd8248243c2988fa1a8",
-      startDate: "2026-01-04T23:00:00.000Z",
-      endDate: "2026-01-09T23:00:00.000Z",
-    },
-    candidates: [
-      {
-        _id: "69596e350183e6f7f7abd322",
-        votes: 0,
-        userId: {
-          _id: "69541166141b7f27d67277d2",
-          name: "Ayomide Areo",
-          image:
-            "https://lh3.googleusercontent.com/a/ACg8ocLlUTOKSPpJvFM06aqJeYArNCLaDdiU6Kubliri9rjPN7fVUw=s96-c",
-          email: "ayomide@example.com",
-        },
-      },
-    ],
-  };
+  const response = await request.json();
+  if (!request?.ok || response?.error) return redirect(`/polls/${pollsId}`);
+  const { contestant } = response;
 
   const pollInfo = {
     startDate: contestant?.pollId?.startDate,
@@ -49,12 +28,6 @@ export default async function VotingPage({ params, contestantProp }) {
   };
 
   const candidates = contestant?.candidates || [];
-  const positionLabel = contestant?.position || "Position";
-  const totalCandidates = candidates.length;
-  const totalVotes = candidates.reduce(
-    (sum, current) => sum + (Number(current?.votes) || 0),
-    0
-  );
 
   const formatDate = (dateString) => {
     if (!dateString) return "";
@@ -94,8 +67,8 @@ export default async function VotingPage({ params, contestantProp }) {
                 {getStatus().label}
               </span>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-3">
-              {pollInfo.title || "Voting"}
+            <h1 className="text-3xl sm:text-4xl capitalize font-bold text-gray-900 dark:text-white mb-3">
+              {`Vote for ${pollInfo.title}` || "Voting"}
             </h1>
             <p className="text-gray-600 dark:text-slate-400 text-base sm:text-lg max-w-3xl">
               {pollInfo.description || "No description provided."}
