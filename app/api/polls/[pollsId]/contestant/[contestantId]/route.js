@@ -37,6 +37,24 @@ export async function GET(req, { params }) {
         }
       );
     }
+    // if voting hasnt started
+    if (new Date() < new Date(poll?.startDate)) {
+      return NextResponse.json(
+        { error: "Voting has not started" },
+        {
+          status: 400,
+        }
+      );
+    }
+    // if voting has ended
+    if (new Date() > new Date(poll?.endDate)) {
+      return NextResponse.json(
+        { error: "Voting has ended" },
+        {
+          status: 400,
+        }
+      );
+    }
     // check if the contestant exist
     const contestants = await Contestant.findOne({
       _id: contestantId,

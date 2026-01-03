@@ -62,7 +62,6 @@ export default function VoteCandidate({
       return toast.error("Network Error");
     }
   }
-
   return (
     <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
       <div className="grid gap-4 sm:gap-5 md:grid-cols-2">

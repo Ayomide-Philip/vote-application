@@ -179,7 +179,15 @@ export default function VoteTab({ poll, pollId }) {
                       </div>
                     )}
 
-                    {candidateCount === 0 ? (
+                    {new Date() < new Date(poll?.startDate) ? (
+                      <div className="mt-auto w-full px-4 py-3 bg-gray-200 dark:bg-slate-700 text-gray-600 dark:text-slate-300 font-semibold rounded-lg flex items-center justify-center gap-2 cursor-not-allowed">
+                        Voting has not started
+                      </div>
+                    ) : new Date() > new Date(poll?.endDate) ? (
+                      <div className="mt-auto w-full px-4 py-3 bg-gray-200 dark:bg-slate-700 text-gray-600 dark:text-slate-300 font-semibold rounded-lg flex items-center justify-center gap-2 cursor-not-allowed">
+                        Voting has ended
+                      </div>
+                    ) : candidateCount === 0 ? (
                       <div className="mt-auto w-full px-4 py-3 bg-gray-200 dark:bg-slate-700 text-gray-600 dark:text-slate-300 font-semibold rounded-lg flex items-center justify-center gap-2 cursor-not-allowed">
                         No candidates
                       </div>
