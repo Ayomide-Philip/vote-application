@@ -42,33 +42,73 @@ export default function VoteTab({ poll, pollId }) {
   if (loading) return <LoadingSpinner />;
   return (
     <div className="space-y-6">
-      <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl p-4 sm:p-6 shadow-sm">
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-1">
-          Cast Your Votes
-        </h2>
-        <p className="text-gray-600 dark:text-slate-400 mb-3">
-          Choose a position to view candidates and submit your vote.
-        </p>
-        <div className="flex flex-wrap items-center gap-3 text-sm text-gray-700 dark:text-slate-300">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gray-100 dark:bg-slate-700">
-            <Users className="h-4 w-4" />
+      <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl p-5 sm:p-6 shadow-sm space-y-4">
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <p className="text-xs uppercase tracking-[0.14em] font-semibold text-gray-500 dark:text-slate-400 mb-2">
+              Voting
+            </p>
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
+              Cast your votes
+            </h2>
+            <p className="text-sm text-gray-600 dark:text-slate-400 mt-2">
+              Choose a position to view candidates and submit your vote.
+            </p>
+          </div>
+          <div className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-xl bg-gray-100 dark:bg-slate-700 text-xs font-semibold text-gray-700 dark:text-slate-200">
+            <Clock className="h-4 w-4" />
             <span>
-              {positions.length} position{positions.length !== 1 ? "s" : ""}
+              {poll?.endDate
+                ? `Closes ${new Date(poll.endDate).toLocaleString()}`
+                : "Ongoing"}
             </span>
           </div>
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gray-100 dark:bg-slate-700">
-            <ArrowRight className="h-4 w-4" />
-            <span>
-              {totalCandidates} candidate{totalCandidates !== 1 ? "s" : ""}{" "}
-              available
-            </span>
-          </div>
-          {poll?.endDate && (
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gray-100 dark:bg-slate-700">
-              <Clock className="h-4 w-4" />
-              <span>Closes {new Date(poll.endDate).toLocaleString()}</span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="flex items-center gap-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-750 px-4 py-3">
+            <div className="h-10 w-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-200 flex items-center justify-center font-bold">
+              {positions.length}
             </div>
-          )}
+            <div>
+              <p className="text-xs font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wide">
+                Positions
+              </p>
+              <p className="text-sm font-semibold text-gray-900 dark:text-white">
+                Available to vote
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-750 px-4 py-3">
+            <div className="h-10 w-10 rounded-lg bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-200 flex items-center justify-center font-bold">
+              {totalCandidates}
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wide">
+                Candidates
+              </p>
+              <p className="text-sm font-semibold text-gray-900 dark:text-white">
+                Across all positions
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-750 px-4 py-3">
+            <div className="h-10 w-10 rounded-lg bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-slate-200 flex items-center justify-center font-bold">
+              <Clock className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wide">
+                Status
+              </p>
+              <p className="text-sm font-semibold text-gray-900 dark:text-white">
+                {poll?.endDate
+                  ? `Closes ${new Date(poll.endDate).toLocaleDateString()}`
+                  : "Ongoing"}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
