@@ -1,9 +1,9 @@
 import LoadingSpinner from "@/components/loadingspinner";
-import {CheckCircle, Plus, Trash2} from "lucide-react";
-import {useEffect, useState} from "react";
-import {toast} from "react-toastify";
+import { CheckCircle, Plus, Trash2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
-export default function VotersTab({  poll, pollId }) {
+export default function VotersTab({ poll, pollId }) {
   const [voters, setVoters] = useState([]);
   const [loading, setLoading] = useState(false);
   const completedVoters = poll?.completedVoters;
@@ -41,6 +41,27 @@ export default function VotersTab({  poll, pollId }) {
   }, [pollId]);
 
   if (loading) return <LoadingSpinner />;
+
+  async function handleRemoveVoter(voterId) {
+    try {
+      const request = await fetch(`/api/polls/${pollId}/voters/${voterId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+      const response = await request.json();
+      if (!request.ok || response?.error) {
+        return toast.error(response?.error || "An error occurred");
+      }
+      toast.success(response?.message || "User Successfully Removed from Poll");
+      window.location.reload();
+    } catch (err) {
+      console.log(err);
+      return toast.error("Network Error");
+    }
+  }
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
@@ -110,7 +131,10 @@ export default function VotersTab({  poll, pollId }) {
 
                     <td className="px-6 py-4 whitespace-nowrap text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <button className="p-2 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg transition-colors">
+                        <button
+                          onClick={() => handleRemoveVoter(voter._id)}
+                          className="p-2 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
+                        >
                           <Trash2 className="h-4 w-4 text-gray-600 dark:text-slate-400" />
                         </button>
                       </div>

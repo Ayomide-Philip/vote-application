@@ -4,10 +4,20 @@ import User from "@/libs/models/user.models";
 import Polls from "@/libs/models/polls.models";
 import Contestant from "@/libs/models/contestant.models";
 import mongoose from "mongoose";
+import { auth } from "@/auth";
 
-export async function DELETE(req, { params }) {
+export const DELETE = auth(async function DELETE(req, { params }) {
+  if (!req.auth || !req.auth.user) {
+    return NextResponse.json(
+      { error: "Unauthorized Access" },
+      {
+        status: 400,
+      }
+    );
+  }
+  const authorizingUser = req?.auth?.user?.id;
   const { pollsId, userId } = await params;
-  const { authorizingUser } = await req.json();
+
   // if pollsId is not defined
   if (!pollsId) {
     return NextResponse.json(
@@ -187,4 +197,4 @@ export async function DELETE(req, { params }) {
       }
     );
   }
-}
+});
