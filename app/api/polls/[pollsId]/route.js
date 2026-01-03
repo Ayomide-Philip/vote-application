@@ -3,8 +3,18 @@ import { connectDatabase } from "@/libs/connectdatabase";
 import Polls from "@/libs/models/polls.models";
 import User from "@/libs/models/user.models";
 import Contestant from "@/libs/models/contestant.models";
+import { auth } from "@/auth";
 
-export async function GET(req, { params }) {
+export const GET = auth(async function GET(req, { params }) {
+  if (!req.auth || !req.auth.user) {
+    return NextResponse.json(
+      { error: "Unauthorized Access" },
+      {
+        status: 400,
+      }
+    );
+  }
+  const userId = req?.auth?.user?.id;
   const { pollsId } = await params;
   if (!pollsId) {
     return NextResponse.json(
@@ -30,6 +40,19 @@ export async function GET(req, { params }) {
       );
     }
 
+    const userExist = poll?.voters.find(
+      (v) => v.toString() === userId.toString()
+    );
+
+    if (!userExist) {
+      return NextResponse.json(
+        { error: "User Does not belong to this board" },
+        {
+          status: 400,
+        }
+      );
+    }
+
     return NextResponse.json(
       { poll: poll },
       {
@@ -45,4 +68,4 @@ export async function GET(req, { params }) {
       }
     );
   }
-}
+});

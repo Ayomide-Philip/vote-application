@@ -7,7 +7,7 @@ import { BASE_URL } from "@/libs/config/configuration";
 
 export default async function Page({ params }) {
   const { invitationId } = await params;
-  const request = await fetch(`${BASE_URL}/api/polls/${invitationId}`, {
+  const request = await fetch(`${BASE_URL}/api/polls/${invitationId}/join`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
