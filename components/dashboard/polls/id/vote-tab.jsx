@@ -66,7 +66,7 @@ export default function VoteTab({ poll, pollId }) {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <div className="flex items-center gap-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-750 px-4 py-3">
+          <div className="flex items-center gap-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800/60 px-4 py-3">
             <div className="h-10 w-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-200 flex items-center justify-center font-bold">
               {positions.length}
             </div>
@@ -80,7 +80,7 @@ export default function VoteTab({ poll, pollId }) {
             </div>
           </div>
 
-          <div className="flex items-center gap-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-750 px-4 py-3">
+          <div className="flex items-center gap-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800/60 px-4 py-3">
             <div className="h-10 w-10 rounded-lg bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-200 flex items-center justify-center font-bold">
               {totalCandidates}
             </div>
@@ -94,7 +94,7 @@ export default function VoteTab({ poll, pollId }) {
             </div>
           </div>
 
-          <div className="flex items-center gap-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-750 px-4 py-3">
+          <div className="flex items-center gap-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800/60 px-4 py-3">
             <div className="h-10 w-10 rounded-lg bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-slate-200 flex items-center justify-center font-bold">
               <Clock className="h-5 w-5" />
             </div>
