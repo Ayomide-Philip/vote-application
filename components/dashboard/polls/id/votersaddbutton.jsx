@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, X } from "lucide-react";
+import { Plus, X, Loader } from "lucide-react";
 import { toast } from "react-toastify";
 
 export default function VotersAddButton({ pollId }) {
   const [open, setOpen] = useState(false);
   const [userId, setUserId] = useState("");
+  const [loading, setLoading] = useState(false);
 
   function closeModal() {
     setOpen(false);
@@ -17,6 +18,7 @@ export default function VotersAddButton({ pollId }) {
     if (!userId.trim()) {
       return toast.error("User ID is required");
     }
+    setLoading(true);
     try {
       const request = await fetch(`/api/polls/${pollId}/add/${userId}`, {
         method: "PUT",
@@ -27,12 +29,16 @@ export default function VotersAddButton({ pollId }) {
       });
       const response = await request.json();
       if (!request?.ok || response?.error) {
+        setLoading(false);
         return toast.error(response?.error || "An unexpected error occurred.");
       }
       toast.success(response?.message);
+      setLoading(false);
       closeModal();
+      window.location.reload();
     } catch (err) {
       console.log(err);
+      setLoading(false);
       return toast.error("Network Error");
     }
   }
@@ -95,9 +101,17 @@ export default function VotersAddButton({ pollId }) {
               <button
                 type="button"
                 onClick={handleSubmit}
-                className="w-full sm:w-auto px-5 cursor-pointer py-2 rounded-lg text-sm font-semibold bg-blue-600 hover:bg-blue-700 text-white shadow text-center"
+                disabled={loading}
+                className="w-full sm:w-auto px-5 cursor-pointer py-2 rounded-lg text-sm font-semibold bg-blue-600 hover:bg-blue-700 text-white shadow text-center disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
-                Add Voter
+                {loading ? (
+                  <>
+                    <Loader className="h-4 w-4 animate-spin" />
+                    Adding...
+                  </>
+                ) : (
+                  "Add Voter"
+                )}
               </button>
             </div>
           </div>
