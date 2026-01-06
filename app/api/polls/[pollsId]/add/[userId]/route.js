@@ -119,7 +119,7 @@ export const PUT = auth(async function PUT(req, { params }) {
     await poll.save();
     // return successfully added user
     return NextResponse.json(
-      { message: "Add a new user", voter: poll?.voters },
+      { message: "User Successfully Added", voter: poll?.voters },
       {
         status: 200,
       }

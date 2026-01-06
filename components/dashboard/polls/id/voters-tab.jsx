@@ -1,5 +1,5 @@
 import LoadingSpinner from "@/components/loadingspinner";
-import { CheckCircle, Plus, Trash2 } from "lucide-react";
+import { CheckCircle, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import VotersAddButton from "./votersaddbutton";
