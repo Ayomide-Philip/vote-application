@@ -13,7 +13,7 @@ export default function PollsCard({ poll }) {
     userId,
   } = poll;
   return (
-    <div className="border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm dark:shadow-lg hover:shadow-md dark:hover:shadow-xl transition-all hover:border-gray-300 dark:hover:border-slate-600">
+    <div className="border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm dark:shadow-lg hover:shadow-md dark:hover:shadow-xl transition-all hover:border-gray-300 dark:hover:border-slate-600 min-h-full flex flex-col">
       <div className="flex items-center gap-2 mb-3">
         <span
           className={`text-xs font-semibold px-2 py-1 rounded-full ${
@@ -29,7 +29,7 @@ export default function PollsCard({ poll }) {
       <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
         {title}
       </h3>
-      <p className="text-gray-600 dark:text-slate-400 text-sm mb-4">
+      <p className="text-gray-600 dark:text-slate-400 text-sm mb-4 flex-grow">
         {description}
       </p>
 
@@ -57,7 +57,7 @@ export default function PollsCard({ poll }) {
         </p>
       </div>
 
-      <div className="mb-4">
+      <div className="mb-4 mt-auto">
         <div className="flex items-center justify-between text-xs mb-1 text-gray-600 dark:text-slate-400">
           <span>Voted</span>
           <span className="font-semibold text-gray-900 dark:text-white">
