@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-"use client";
+// "use client";
 
 import {
   BadgeCheck,
@@ -76,7 +76,7 @@ export default function SettingsPage({ user }) {
   const initials = toInitials(profile.name);
 
   return (
-    <main className="min-h-screen bg-linear-to-b from-slate-900 via-slate-950 to-black px-4 py-8 text-slate-100 sm:px-6 lg:px-8">
+    <main className="min-h-screen overflow-x-hidden bg-linear-to-b from-slate-900 via-slate-950 to-black px-4 py-8 text-slate-100 sm:px-6 lg:px-8">
       <div className="mx-auto flex max-w-5xl flex-col gap-6">
         <header className="rounded-3xl border border-white/10 bg-white/5 px-5 py-4 shadow-xl shadow-black/40 sm:px-6 sm:py-5">
           <p className="text-xs uppercase tracking-[0.16em] text-slate-400">
@@ -235,13 +235,15 @@ export default function SettingsPage({ user }) {
                   roles.map((assignment) => (
                     <div
                       key={assignment._id}
-                      className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm"
+                      className="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm sm:flex-row sm:items-center sm:justify-between"
                     >
-                      <div className="flex items-center gap-2 text-slate-200">
+                      <div className="flex items-center gap-2 text-slate-200 min-w-0">
                         <Fingerprint className="h-4 w-4 text-cyan-300" />
-                        <span className="font-semibold">{assignment.role}</span>
+                        <span className="font-semibold truncate">
+                          {assignment.role}
+                        </span>
                       </div>
-                      <span className="truncate text-xs text-slate-400">
+                      <span className="break-all text-xs text-slate-400 sm:truncate sm:break-normal">
                         Poll ID: {assignment.pollId}
                       </span>
                     </div>
@@ -336,15 +338,6 @@ export default function SettingsPage({ user }) {
                   </div>
                 ))}
               </div>
-            </div>
-
-            <div className="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-xl shadow-black/40">
-              <h2 className="text-sm font-semibold text-white">Mobile ready</h2>
-              <p className="mt-1 text-sm text-slate-300">
-                Sections stack on small screens with generous touch targets and
-                readable type. All values shown are pulled from the provided
-                user payload.
-              </p>
             </div>
           </aside>
         </section>
