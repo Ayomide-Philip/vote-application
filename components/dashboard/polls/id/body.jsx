@@ -69,7 +69,7 @@ export default function PollsIdBody({ poll, pollId, user }) {
         )}
         {activeTab === "settings" && (
           <div id="settings">
-            <SettingsTab pollData={pollData} />
+            <SettingsTab pollData={poll} />
           </div>
         )}
       </div>
