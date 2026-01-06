@@ -51,8 +51,8 @@ export default function SettingsProfilePage({ user }) {
         {[
           { label: "Full name", value: user?.name },
           { label: "Email", value: user?.email },
-          { label: "Department", value: user?.department },
-          { label: "Faculty", value: user?.faculty },
+          { label: "Department", value: user?.department || "Not set" },
+          { label: "Faculty", value: user?.faculty || "Not set" },
         ].map((item) => (
           <div
             key={item.label}
