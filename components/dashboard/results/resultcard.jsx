@@ -53,7 +53,7 @@ export default function ResultCard({ poll }) {
           </div>
           <div className="h-2 w-full bg-gray-200 dark:bg-slate-700 rounded-full overflow-hidden">
             <div
-              className="h-full bg-linear-to-r from-indigo-500 to-blue-500 rounded-full transition-all"
+              className="h-full bg-blue-500 rounded-full transition-all"
               style={{ width: `${participation}%` }}
             />
           </div>
