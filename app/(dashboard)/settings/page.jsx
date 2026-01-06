@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-// "use client";
+"use client";
 
 import {
   BadgeCheck,
@@ -76,24 +76,24 @@ export default function SettingsPage({ user }) {
   const initials = toInitials(profile.name);
 
   return (
-    <main className="min-h-screen overflow-x-hidden bg-linear-to-b from-slate-900 via-slate-950 to-black px-4 py-6 text-slate-100 sm:px-6 sm:py-8 lg:px-8">
+    <main className="min-h-screen overflow-x-hidden bg-linear-to-b from-slate-50 via-white to-slate-100 px-4 py-6 text-slate-900 dark:from-slate-900 dark:via-slate-950 dark:to-black dark:text-slate-100 sm:px-6 sm:py-8 lg:px-8">
       <div className="mx-auto flex max-w-5xl flex-col gap-5 sm:gap-6">
-        <header className="rounded-3xl border border-white/10 bg-white/5 px-4 py-4 shadow-xl shadow-black/40 sm:px-6 sm:py-5">
-          <p className="text-xs uppercase tracking-[0.16em] text-slate-400">
+        <header className="rounded-3xl border border-slate-200 bg-white/90 px-4 py-4 shadow-xl shadow-black/10 backdrop-blur-sm dark:border-white/10 dark:bg-white/5 dark:shadow-black/40 sm:px-6 sm:py-5">
+          <p className="text-xs uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
             User settings
           </p>
           <div className="mt-2 flex flex-wrap items-center gap-2 sm:gap-3">
-            <h1 className="text-2xl font-semibold text-white sm:text-3xl">
+            <h1 className="text-2xl font-semibold text-slate-900 dark:text-white sm:text-3xl">
               Account overview
             </h1>
-            <span className="rounded-full bg-emerald-500/15 px-3 py-1 text-xs font-semibold text-emerald-200">
+            <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-200">
               {authProvider} linked
             </span>
-            <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-slate-200">
+            <span className="rounded-full bg-slate-200 px-3 py-1 text-xs font-semibold text-slate-800 dark:bg-white/10 dark:text-slate-200">
               {primaryRole}
             </span>
           </div>
-          <p className="mt-1 text-sm text-slate-400">
+          <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
             Keep your profile, contact, and security details aligned with what
             you share across polls. All values below render from the data passed
             into this page.
@@ -102,15 +102,15 @@ export default function SettingsPage({ user }) {
 
         <section className="grid gap-4 sm:gap-5 lg:grid-cols-[1.05fr_0.95fr]">
           <div className="space-y-4 sm:space-y-5">
-            <div className="rounded-3xl border border-white/10 bg-white/5 p-4 sm:p-5 shadow-xl shadow-black/40">
+            <div className="rounded-3xl border border-slate-200 bg-white/90 p-4 shadow-xl shadow-black/10 backdrop-blur-sm dark:border-white/10 dark:bg-white/5 dark:shadow-black/40 sm:p-5">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
-                <div className="flex items-center gap-2 text-sm font-semibold text-white">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 text-cyan-200">
+                <div className="flex items-center gap-2 text-sm font-semibold text-slate-900 dark:text-white">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-cyan-600 dark:bg-white/10 dark:text-cyan-200">
                     <UserRound className="h-4 w-4" />
                   </div>
                   <span>Profile</span>
                 </div>
-                <button className="inline-flex w-full items-center justify-center rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-slate-100 transition hover:border-white/20 hover:bg-white/10 sm:w-auto">
+                <button className="inline-flex w-full items-center justify-center rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-900 transition hover:border-slate-300 hover:bg-slate-50 dark:border-white/10 dark:bg-white/5 dark:text-slate-100 dark:hover:border-white/20 dark:hover:bg-white/10 sm:w-auto">
                   Edit profile
                 </button>
               </div>
@@ -127,11 +127,13 @@ export default function SettingsPage({ user }) {
                   )}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm text-slate-400">Display name</p>
-                  <p className="truncate text-base font-semibold text-white">
+                  <p className="text-sm text-slate-600 dark:text-slate-400">
+                    Display name
+                  </p>
+                  <p className="truncate text-base font-semibold text-slate-900 dark:text-white">
                     {profile.name || "Not provided"}
                   </p>
-                  <p className="text-xs text-slate-500">
+                  <p className="text-xs text-slate-500 dark:text-slate-500">
                     Shown on your public votes
                   </p>
                 </div>
@@ -145,12 +147,12 @@ export default function SettingsPage({ user }) {
                 ].map((item) => (
                   <div
                     key={item.label}
-                    className="rounded-xl border border-white/10 bg-white/5 px-3 py-3"
+                    className="rounded-xl border border-slate-200 bg-white/90 px-3 py-3 dark:border-white/10 dark:bg-white/5"
                   >
-                    <p className="text-xs uppercase tracking-[0.12em] text-slate-400">
+                    <p className="text-xs uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
                       {item.label}
                     </p>
-                    <p className="text-sm font-semibold text-white">
+                    <p className="text-sm font-semibold text-slate-900 dark:text-white">
                       {item.value || "Not set"}
                     </p>
                   </div>
@@ -158,15 +160,15 @@ export default function SettingsPage({ user }) {
               </div>
             </div>
 
-            <div className="rounded-3xl border border-white/10 bg-white/5 p-4 sm:p-5 shadow-xl shadow-black/40">
+            <div className="rounded-3xl border border-slate-200 bg-white/90 p-4 shadow-xl shadow-black/10 backdrop-blur-sm dark:border-white/10 dark:bg-white/5 dark:shadow-black/40 sm:p-5">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
-                <div className="flex items-center gap-2 text-sm font-semibold text-white">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 text-cyan-200">
+                <div className="flex items-center gap-2 text-sm font-semibold text-slate-900 dark:text-white">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-cyan-600 dark:bg-white/10 dark:text-cyan-200">
                     <Mail className="h-4 w-4" />
                   </div>
                   <span>Contact</span>
                 </div>
-                <button className="inline-flex w-full items-center justify-center rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-slate-100 transition hover:border-white/20 hover:bg-white/10 sm:w-auto">
+                <button className="inline-flex w-full items-center justify-center rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-900 transition hover:border-slate-300 hover:bg-slate-50 dark:border-white/10 dark:bg-white/5 dark:text-slate-100 dark:hover:border-white/20 dark:hover:bg-white/10 sm:w-auto">
                   Update contact
                 </button>
               </div>
@@ -179,71 +181,71 @@ export default function SettingsPage({ user }) {
                 ].map((item) => (
                   <div
                     key={item.label}
-                    className="rounded-xl border border-white/10 bg-white/5 px-3 py-3"
+                    className="rounded-xl border border-slate-200 bg-white/90 px-3 py-3 dark:border-white/10 dark:bg-white/5"
                   >
-                    <p className="text-xs uppercase tracking-[0.12em] text-slate-400">
+                    <p className="text-xs uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
                       {item.label}
                     </p>
-                    <p className="truncate text-sm font-semibold text-white">
+                    <p className="truncate text-sm font-semibold text-slate-900 dark:text-white">
                       {item.value || "Not set"}
                     </p>
                   </div>
                 ))}
               </div>
-              <p className="mt-2 text-xs text-slate-500">
+              <p className="mt-2 text-xs text-slate-600 dark:text-slate-500">
                 Contact details drive notifications and recovery; add a phone to
                 enable SMS recovery.
               </p>
             </div>
 
-            <div className="rounded-3xl border border-white/10 bg-white/5 p-4 sm:p-5 shadow-xl shadow-black/40">
+            <div className="rounded-3xl border border-slate-200 bg-white/90 p-4 shadow-xl shadow-black/10 backdrop-blur-sm dark:border-white/10 dark:bg-white/5 dark:shadow-black/40 sm:p-5">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
-                <div className="flex items-center gap-2 text-sm font-semibold text-white">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 text-cyan-200">
+                <div className="flex items-center gap-2 text-sm font-semibold text-slate-900 dark:text-white">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-cyan-600 dark:bg-white/10 dark:text-cyan-200">
                     <ShieldCheck className="h-4 w-4" />
                   </div>
                   <span>Access & roles</span>
                 </div>
-                <button className="inline-flex w-full items-center justify-center rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-slate-100 transition hover:border-white/20 hover:bg-white/10 sm:w-auto">
+                <button className="inline-flex w-full items-center justify-center rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-900 transition hover:border-slate-300 hover:bg-slate-50 dark:border-white/10 dark:bg-white/5 dark:text-slate-100 dark:hover:border-white/20 dark:hover:bg-white/10 sm:w-auto">
                   Manage access
                 </button>
               </div>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                <div className="rounded-xl border border-white/10 bg-white/5 px-3 py-3">
-                  <p className="text-xs uppercase tracking-[0.12em] text-slate-400">
+                <div className="rounded-xl border border-slate-200 bg-white/90 px-3 py-3 dark:border-white/10 dark:bg-white/5">
+                  <p className="text-xs uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
                     Primary role
                   </p>
-                  <p className="text-sm font-semibold text-white">
+                  <p className="text-sm font-semibold text-slate-900 dark:text-white">
                     {primaryRole}
                   </p>
                 </div>
-                <div className="rounded-xl border border-white/10 bg-white/5 px-3 py-3">
-                  <p className="text-xs uppercase tracking-[0.12em] text-slate-400">
+                <div className="rounded-xl border border-slate-200 bg-white/90 px-3 py-3 dark:border-white/10 dark:bg-white/5">
+                  <p className="text-xs uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
                     Poll assignments
                   </p>
-                  <p className="text-sm font-semibold text-white">
+                  <p className="text-sm font-semibold text-slate-900 dark:text-white">
                     {pollsCount > 0 ? `${pollsCount} active` : "None"}
                   </p>
                 </div>
               </div>
               <div className="mt-3 space-y-2">
                 {roles.length === 0 ? (
-                  <div className="rounded-xl border border-dashed border-white/10 bg-white/5 px-3 py-3 text-sm text-slate-400">
+                  <div className="rounded-xl border border-dashed border-slate-200 bg-white/90 px-3 py-3 text-sm text-slate-600 dark:border-white/10 dark:bg-white/5 dark:text-slate-400">
                     No poll roles assigned yet.
                   </div>
                 ) : (
                   roles.map((assignment) => (
                     <div
                       key={assignment._id}
-                      className="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm sm:flex-row sm:items-center sm:justify-between"
+                      className="flex flex-col gap-1 rounded-xl border border-slate-200 bg-white/90 px-3 py-2 text-sm sm:flex-row sm:items-center sm:justify-between dark:border-white/10 dark:bg-white/5"
                     >
-                      <div className="flex items-center gap-2 text-slate-200 min-w-0">
-                        <Fingerprint className="h-4 w-4 text-cyan-300" />
-                        <span className="font-semibold truncate">
+                      <div className="flex items-center gap-2 text-slate-800 min-w-0 dark:text-slate-200">
+                        <Fingerprint className="h-4 w-4 text-cyan-600 dark:text-cyan-300" />
+                        <span className="truncate font-semibold">
                           {assignment.role}
                         </span>
                       </div>
-                      <span className="break-all text-xs text-slate-400 sm:truncate sm:break-normal">
+                      <span className="break-all text-xs text-slate-500 sm:truncate sm:break-normal dark:text-slate-400">
                         Poll ID: {assignment.pollId}
                       </span>
                     </div>
@@ -252,15 +254,15 @@ export default function SettingsPage({ user }) {
               </div>
             </div>
 
-            <div className="rounded-3xl border border-white/10 bg-white/5 p-4 sm:p-5 shadow-xl shadow-black/40">
+            <div className="rounded-3xl border border-slate-200 bg-white/90 p-4 shadow-xl shadow-black/10 backdrop-blur-sm dark:border-white/10 dark:bg-white/5 dark:shadow-black/40 sm:p-5">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
-                <div className="flex items-center gap-2 text-sm font-semibold text-white">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 text-cyan-200">
+                <div className="flex items-center gap-2 text-sm font-semibold text-slate-900 dark:text-white">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-cyan-600 dark:bg-white/10 dark:text-cyan-200">
                     <Lock className="h-4 w-4" />
                   </div>
                   <span>Security</span>
                 </div>
-                <button className="inline-flex w-full items-center justify-center rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-slate-100 transition hover:border-white/20 hover:bg-white/10 sm:w-auto">
+                <button className="inline-flex w-full items-center justify-center rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-900 transition hover:border-slate-300 hover:bg-slate-50 dark:border-white/10 dark:bg-white/5 dark:text-slate-100 dark:hover:border-white/20 dark:hover:bg-white/10 sm:w-auto">
                   Manage security
                 </button>
               </div>
@@ -279,26 +281,28 @@ export default function SettingsPage({ user }) {
                 ].map((item) => (
                   <div
                     key={item.label}
-                    className="rounded-xl border border-white/10 bg-white/5 px-3 py-3"
+                    className="rounded-xl border border-slate-200 bg-white/90 px-3 py-3 dark:border-white/10 dark:bg-white/5"
                   >
-                    <p className="text-xs uppercase tracking-[0.12em] text-slate-400">
+                    <p className="text-xs uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
                       {item.label}
                     </p>
-                    <p className="text-sm font-semibold text-white">
+                    <p className="text-sm font-semibold text-slate-900 dark:text-white">
                       {item.value || "Not set"}
                     </p>
                   </div>
                 ))}
               </div>
-              <p className="mt-2 text-xs text-slate-500">
+              <p className="mt-2 text-xs text-slate-600 dark:text-slate-500">
                 Enable 2FA to protect access to polls you own or manage.
               </p>
             </div>
           </div>
 
           <aside className="space-y-4 sm:space-y-5">
-            <div className="rounded-3xl border border-white/10 bg-white/5 p-4 sm:p-5 shadow-xl shadow-black/40">
-              <h2 className="text-sm font-semibold text-white">At a glance</h2>
+            <div className="rounded-3xl border border-slate-200 bg-white/90 p-4 shadow-xl shadow-black/10 backdrop-blur-sm dark:border-white/10 dark:bg-white/5 dark:shadow-black/40 sm:p-5">
+              <h2 className="text-sm font-semibold text-slate-900 dark:text-white">
+                At a glance
+              </h2>
               <div className="mt-3 space-y-3">
                 {[
                   {
@@ -326,13 +330,13 @@ export default function SettingsPage({ user }) {
                 ].map((item) => (
                   <div
                     key={item.label}
-                    className="flex items-center justify-between gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-200"
+                    className="flex items-center justify-between gap-2 rounded-xl border border-slate-200 bg-white/90 px-3 py-2 text-sm text-slate-800 dark:border-white/10 dark:bg-white/5 dark:text-slate-200"
                   >
-                    <div className="flex items-center gap-2 text-slate-300 min-w-0">
+                    <div className="flex min-w-0 items-center gap-2 text-slate-600 dark:text-slate-300">
                       {item.icon}
                       <span className="truncate">{item.label}</span>
                     </div>
-                    <span className="truncate font-semibold text-white max-w-[60%] sm:max-w-none">
+                    <span className="max-w-[60%] truncate font-semibold text-slate-900 dark:text-white sm:max-w-none">
                       {item.value}
                     </span>
                   </div>
