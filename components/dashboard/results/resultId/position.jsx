@@ -6,10 +6,12 @@ export default function ResultPosition({ poll }) {
         const sortedCandidates = position?.candidates?.sort((a, b) => {
           return (b.votes || 0) - (a.votes || 0);
         });
-        console.log("Sorted Candidates:", sortedCandidates);
         function getUserInfo(userId) {
           return poll.voters.find((voter) => voter._id === userId);
         }
+        const candidate = sortedCandidates?.map((c) => {
+          return { ...c, user: getUserInfo(c.userId) };
+        });
 
         return (
           <div
@@ -63,10 +65,11 @@ export default function ResultPosition({ poll }) {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-slate-700">
-                  {sortedCandidates.map((candidate, index) => {
+                  {candidate.map((candidate, index) => {
                     const percentage =
-                      poll?.voters?.length > 0
-                        ? ((candidate.votes || 0) / poll?.voters?.length) * 100
+                      position?.voters?.length > 0
+                        ? ((candidate.votes || 0) / position?.voters?.length) *
+                          100
                         : 0;
                     const isWinner = index === 0;
 
@@ -96,19 +99,19 @@ export default function ResultPosition({ poll }) {
 
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm font-semibold text-gray-900 dark:text-white">
-                            {getUserInfo(sortedCandidates[index]?.userId).name}
+                            {candidate?.user?.name}
                           </div>
                         </td>
 
                         <td className="px-6 py-4">
                           <div className="text-sm text-gray-600 dark:text-slate-400 truncate max-w-xs">
-                            {getUserInfo(sortedCandidates[index]?.userId).email}
+                            {candidate?.user?.email}
                           </div>
                         </td>
 
                         <td className="px-6 py-4 whitespace-nowrap text-right">
                           <div className="text-lg font-bold text-gray-900 dark:text-white">
-                            {candidate.votes}
+                            {candidate?.votes}
                           </div>
                         </td>
 
@@ -120,7 +123,7 @@ export default function ResultPosition({ poll }) {
                                 : "text-gray-600 dark:text-slate-400"
                             }`}
                           >
-                            {percentage.toFixed(1)}%
+                            {percentage?.toFixed(1)}%
                           </div>
                         </td>
 
