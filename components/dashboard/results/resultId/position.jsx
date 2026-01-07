@@ -79,7 +79,6 @@ export default function ResultPosition({ poll }) {
                           "bg-white dark:bg-slate-800 hover:bg-gray-50 dark:hover:bg-slate-700/50 transition-colors"
                         }
                       >
-                        {/* Rank */}
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
                             {isWinner ? (
