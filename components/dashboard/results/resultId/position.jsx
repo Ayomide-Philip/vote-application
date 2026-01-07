@@ -31,14 +31,26 @@ export default function ResultPosition({ poll }) {
                     {position.description}
                   </p>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-slate-300 bg-white dark:bg-slate-800 px-3 py-2 rounded-md border border-gray-200 dark:border-slate-700">
-                  <Users className="h-4 w-4" />
-                  <span className="font-semibold">
-                    {position?.voters?.length || 0}
-                  </span>
-                  <span className="text-gray-500 dark:text-slate-400">
-                    votes
-                  </span>
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-slate-300 bg-white dark:bg-slate-800 px-3 py-2 rounded-md border border-gray-200 dark:border-slate-700">
+                    <Users className="h-4 w-4" />
+                    <span className="font-semibold">
+                      {position?.voters.length}
+                    </span>
+                    <span className="text-gray-500 dark:text-slate-400">
+                      voted
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-slate-300 bg-gray-100 dark:bg-slate-900 px-3 py-2 rounded-md border border-gray-300 dark:border-slate-600">
+                    <Users className="h-4 w-4" />
+                    <span className="font-semibold">
+                      {poll?.voters.length - position?.voters.length || 0}
+                    </span>
+                    <span className="text-gray-500 dark:text-slate-400">
+                      didn&apos;t vote
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
