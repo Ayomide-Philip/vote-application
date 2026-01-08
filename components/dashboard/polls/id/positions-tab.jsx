@@ -1,14 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Plus,
-  Trash2,
-  Award,
-  Users,
-  BarChart3,
-  FileText,
-  Edit,
-  X,
-} from "lucide-react";
+import { Plus, Trash2, Award, Users, BarChart3, Edit, X } from "lucide-react";
 import { toast } from "react-toastify";
 import LoadingSpinner from "@/components/loadingspinner";
 
