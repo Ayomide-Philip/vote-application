@@ -108,71 +108,58 @@ export default function Page() {
           <h2 className="text-lg font-semibold text-gray-800 dark:text-white">
             Activity Statistics
           </h2>
-          <div className="flex gap-2">
-            {["Week", "Month", "Year"].map((p) => (
-              <button
-                key={p}
-                onClick={() => setPeriod(p)}
-                className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
-                  period === p
-                    ? "bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300"
-                    : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600"
-                }`}
-              >
-                {p}
-              </button>
-            ))}
-          </div>
         </div>
 
-        {/* Bar Chart - Works on all devices */}
-        <ResponsiveContainer width="100%" height={400}>
-          <BarChart
-            data={pollData}
-            margin={{ top: 20, right: 30, left: 0, bottom: 5 }}
-          >
-            <CartesianGrid
-              strokeDasharray="3 3"
-              stroke="#e5e7eb"
-              opacity={0.5}
-            />
-            <XAxis
-              dataKey="day"
-              stroke="#9ca3af"
-              style={{ fontSize: "14px" }}
-            />
-            <YAxis stroke="#9ca3af" style={{ fontSize: "14px" }} />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: "#1f2937",
-                border: "1px solid #374151",
-                borderRadius: "0.75rem",
-                color: "#fff",
-                padding: "12px",
-              }}
-              cursor={{ fill: "rgba(79, 70, 229, 0.1)" }}
-            />
-            <Legend
-              wrapperStyle={{
-                paddingTop: "20px",
-                fontSize: "14px",
-              }}
-              iconType="square"
-            />
-            <Bar
-              dataKey="active"
-              fill="#4f46e5"
-              radius={[8, 8, 0, 0]}
-              name="Active Polls"
-            />
-            <Bar
-              dataKey="completed"
-              fill="#60a5fa"
-              radius={[8, 8, 0, 0]}
-              name="Completed Polls"
-            />
-          </BarChart>
-        </ResponsiveContainer>
+        {/* Bar Chart - Responsive */}
+        <div className="overflow-x-auto -mx-6 px-6 sm:mx-0 sm:px-0">
+          <ResponsiveContainer width="100%" height={350} minWidth={300}>
+            <BarChart
+              data={pollData}
+              margin={{ top: 20, right: 10, left: 0, bottom: 5 }}
+            >
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke="#e5e7eb"
+                opacity={0.5}
+              />
+              <XAxis
+                dataKey="day"
+                stroke="#9ca3af"
+                style={{ fontSize: "12px" }}
+              />
+              <YAxis stroke="#9ca3af" style={{ fontSize: "12px" }} />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "#1f2937",
+                  border: "1px solid #374151",
+                  borderRadius: "0.75rem",
+                  color: "#fff",
+                  padding: "12px",
+                }}
+                cursor={{ fill: "rgba(79, 70, 229, 0.1)" }}
+              />
+              <Legend
+                wrapperStyle={{
+                  paddingTop: "20px",
+                  fontSize: "12px",
+                }}
+                iconType="square"
+              />
+              <Bar
+                dataKey="active"
+                fill="#4f46e5"
+                radius={[8, 8, 0, 0]}
+                name="Active Polls"
+              />
+              <Bar
+                dataKey="completed"
+                fill="#60a5fa"
+                radius={[8, 8, 0, 0]}
+                name="Completed Polls"
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
     </main>
   );
