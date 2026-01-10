@@ -42,4 +42,6 @@ export const GET = auth(async function GET(req) {
   }
 });
 
-export const PUT = async function PUT(){}
+export const PUT = async function PUT(){
+  return NextResponse.json({message:"Successfully updated user profile"});
+}
