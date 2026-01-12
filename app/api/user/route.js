@@ -85,6 +85,7 @@ export const PUT = async function PUT(req) {
         }
       );
     }
+    //success message
     return NextResponse.json(
       { message: "Successfully updated user profile" },
       {
