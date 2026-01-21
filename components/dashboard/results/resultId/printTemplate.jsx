@@ -50,11 +50,11 @@ export default function PrintTemplate({ poll }) {
 
           .print-header {
             text-align: center;
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            background: #1f2937;
             color: white;
             padding: 40px 20px;
             margin-bottom: 40px;
-            border-radius: 8px;
+            border-radius: 0;
             page-break-inside: avoid;
           }
 
@@ -88,9 +88,9 @@ export default function PrintTemplate({ poll }) {
           }
 
           th {
-            background: #4f46e5;
+            background: #374151;
             color: white;
-            border: 1px solid #4f46e5;
+            border: 1px solid #374151;
             padding: 14px 12px;
             text-align: left;
             font-weight: 600;
@@ -132,8 +132,8 @@ export default function PrintTemplate({ poll }) {
             font-size: 18pt;
             font-weight: 700;
             margin-bottom: 15px;
-            color: #4f46e5;
-            border-left: 5px solid #7c3aed;
+            color: #1f2937;
+            border-left: 5px solid #6b7280;
             padding-left: 15px;
             text-transform: capitalize;
             letter-spacing: 0.5px;
