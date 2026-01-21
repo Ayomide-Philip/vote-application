@@ -9,7 +9,7 @@ export const GET = auth(async function GET(req) {
       { error: "User is not Authorized" },
       {
         status: 400,
-      }
+      },
     );
   }
   try {
@@ -22,14 +22,14 @@ export const GET = auth(async function GET(req) {
         { error: "User does not exist" },
         {
           status: 400,
-        }
+        },
       );
     }
     return NextResponse.json(
       { user },
       {
         status: 200,
-      }
+      },
     );
   } catch (err) {
     console.log(err);
@@ -37,20 +37,29 @@ export const GET = auth(async function GET(req) {
       { error: "An error occurred while getting user information" },
       {
         status: 400,
-      }
+      },
     );
   }
 });
 
-export const PUT = async function PUT(req) {
-  const { faculty, department, userId } = await req.json();
+export const PUT = auth(async function PUT(req) {
+  if (!req?.auth?.user || !req?.auth?.user?.id) {
+    return NextResponse.json(
+      { error: "User is not Authorized" },
+      {
+        status: 400,
+      },
+    );
+  }
+  const userId = req?.auth?.user?.id;
+  const { faculty, department } = await req.json();
   // if no user Id
   if (!userId) {
     return NextResponse.json(
       { error: "Unauthorized Access" },
       {
         status: 400,
-      }
+      },
     );
   }
   // faculty is present
@@ -59,7 +68,7 @@ export const PUT = async function PUT(req) {
       { error: "Faculty cant be less than 5 characters long" },
       {
         status: 400,
-      }
+      },
     );
   }
   // department is present
@@ -68,7 +77,7 @@ export const PUT = async function PUT(req) {
       { error: "Department cannot be less than 5 characters long" },
       {
         status: 400,
-      }
+      },
     );
   }
 
@@ -82,7 +91,7 @@ export const PUT = async function PUT(req) {
         { error: "User does not exist" },
         {
           status: 400,
-        }
+        },
       );
     }
     // edit the user department and faculty
@@ -103,7 +112,7 @@ export const PUT = async function PUT(req) {
       { message: "Successfully updated user profile", user },
       {
         status: 200,
-      }
+      },
     );
   } catch (err) {
     console.log(err);
@@ -111,7 +120,7 @@ export const PUT = async function PUT(req) {
       { error: "An error occurred while updating user information" },
       {
         status: 400,
-      }
+      },
     );
   }
-};
+});

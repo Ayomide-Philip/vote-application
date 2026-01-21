@@ -38,8 +38,30 @@ export default function SettingsProfilePage({ user }) {
     if (formData?.faculty && formData?.faculty < 5) {
       return toast.error("Department should not be less than 5 characters!");
     }
-    console.log("Saving profile:", formData);
-    setIsEditing(false);
+
+    try {
+      const request = await fetch(`/api/user`, {
+        method: "PUT",
+        body: JSON.stringify({
+          department: formData?.department,
+          faculty: formData?.faculty,
+        }),
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const response = await request.json();
+      if (!request?.ok || response?.error)
+        return toast.error(
+          response?.error || "An Unexpected error has occurred.",
+        );
+      toast.success(response?.message || "User data updated successfully.");
+      window.location.reload();
+    } catch (error) {
+      toast.error("An error occurred.");
+      setIsEditing(false);
+    }
   }
 
   const handleCancel = () => {
