@@ -27,7 +27,7 @@ export default function DashboardNavigations({ children, session }) {
           sidebarCollapsed ? "lg:pl-20" : "lg:pl-64"
         }`}
       >
-        <header className="sticky top-0 z-20 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+        <header className="sticky no-print top-0 z-20 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
           <div className="flex items-center justify-between px-4 py-4 sm:px-6 lg:px-2">
             <div className="flex items-center gap-3">
               <button
@@ -90,6 +90,13 @@ export default function DashboardNavigations({ children, session }) {
 
         {children}
       </div>
+      <style jsx>{`
+        @media print {
+          .no-print {
+            display: none !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }
