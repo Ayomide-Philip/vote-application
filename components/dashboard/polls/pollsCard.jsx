@@ -69,7 +69,7 @@ export default function PollsCard({ poll }) {
             className="h-full bg-blue-500 dark:bg-blue-600 rounded-full transition-all"
             style={{
               width: `${Math.floor(
-                (completedVoters?.length / voters?.length) * 100
+                (completedVoters?.length / voters?.length) * 100,
               )}%`,
             }}
           />
