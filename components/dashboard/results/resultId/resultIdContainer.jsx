@@ -44,23 +44,23 @@ export default function ResultIdContainer({ poll: polls, pollId }) {
       <div className="no-print">
         <ResultHeader poll={poll} />
       </div>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 no-print">
-        <div className="space-y-6">
-          <div className="flex items-center justify-between gap-4">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8 no-print">
+        <div className="space-y-4 sm:space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
               Position Results
             </h2>
-            <div className="flex gap-3 no-print">
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 no-print">
               <button
                 onClick={handlePrint}
-                className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition hover:bg-gray-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600"
+                className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition hover:bg-gray-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600 w-full sm:w-auto"
               >
                 <Printer className="h-4 w-4" />
                 Print
               </button>
               <button
                 onClick={handleExportPDF}
-                className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600"
+                className="inline-flex items-center justify-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 w-full sm:w-auto"
               >
                 <Download className="h-4 w-4" />
                 Export PDF
