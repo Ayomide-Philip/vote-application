@@ -50,8 +50,6 @@ export default function PrintTemplate({ poll }) {
 
           .print-header {
             text-align: center;
-            background: #000000;
-            color: white;
             padding: 40px 20px;
             margin-bottom: 40px;
             border-radius: 0;
@@ -60,7 +58,7 @@ export default function PrintTemplate({ poll }) {
 
           .print-header h1 {
             font-size: 32pt;
-            font-weight: 500;
+            font-weight: 800;
             margin-bottom: 15px;
             letter-spacing: -0.5px;
           }
@@ -218,7 +216,7 @@ export default function PrintTemplate({ poll }) {
       `}</style>
 
       <div className="print-header">
-        <h1>{poll.title || "Election Results"}</h1>
+        <h1 className="text-black">{poll.title || "Election Results"}</h1>
         <div className="print-meta">
           <p>Generated on {formattedDate}</p>
           <p>Results Report</p>
