@@ -97,10 +97,6 @@ export default function PollsIdHeader({ pollData }) {
               {description}
             </p>
           </div>
-          <button className="px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg text-gray-700 dark:text-slate-300 font-medium hover:bg-gray-50 dark:hover:bg-slate-700/50 transition-colors flex items-center gap-2 shrink-0 w-full sm:w-auto justify-center sm:justify-start">
-            <MoreVertical className="h-4 w-4" />
-            Actions
-          </button>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
@@ -161,8 +157,8 @@ export default function PollsIdHeader({ pollData }) {
                   timingStatus.status === "upcoming"
                     ? "bg-amber-100 dark:bg-amber-900/30"
                     : timingStatus.status === "active"
-                    ? "bg-green-100 dark:bg-green-900/30"
-                    : "bg-red-100 dark:bg-red-900/30"
+                      ? "bg-green-100 dark:bg-green-900/30"
+                      : "bg-red-100 dark:bg-red-900/30"
                 }`}
               >
                 <Clock
@@ -170,8 +166,8 @@ export default function PollsIdHeader({ pollData }) {
                     timingStatus.status === "upcoming"
                       ? "text-amber-600 dark:text-amber-400"
                       : timingStatus.status === "active"
-                      ? "text-green-600 dark:text-green-400"
-                      : "text-red-600 dark:text-red-400"
+                        ? "text-green-600 dark:text-green-400"
+                        : "text-red-600 dark:text-red-400"
                   }`}
                 />
               </div>

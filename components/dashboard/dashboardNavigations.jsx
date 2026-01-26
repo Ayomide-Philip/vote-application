@@ -2,7 +2,7 @@
 "use client";
 
 import { useState } from "react";
-import { Bell, Mail, Menu, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { Bell, Menu, X, ChevronLeft, ChevronRight } from "lucide-react";
 import Toggle from "@/components/toggle";
 import SideBar from "@/components/dashboard/sideBar";
 export default function DashboardNavigations({ children, session }) {

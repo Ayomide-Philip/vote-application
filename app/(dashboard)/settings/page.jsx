@@ -17,7 +17,6 @@ export default async function Page() {
   const response = await request.json();
   if (!request.ok || response.error) return redirect("/");
   const { user } = response;
-  console.log("User data response:", user);
 
   return (
     <main className="min-h-screen overflow-x-hidden bg-white text-slate-900 px-4 py-6 sm:px-6 sm:py-8 lg:px-8 dark:bg-slate-950 dark:text-slate-100">
