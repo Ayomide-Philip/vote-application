@@ -11,7 +11,7 @@ export const GET = auth(async function GET(req, { params }) {
       { error: "Unauthorized Access" },
       {
         status: 400,
-      }
+      },
     );
   }
   const userId = req?.auth?.user?.id;
@@ -21,7 +21,7 @@ export const GET = auth(async function GET(req, { params }) {
       { error: "Poll ID is required" },
       {
         status: 400,
-      }
+      },
     );
   }
   let interval;
@@ -38,12 +38,12 @@ export const GET = auth(async function GET(req, { params }) {
         { error: "Poll not found" },
         {
           status: 404,
-        }
+        },
       );
     }
 
     const userExist = poll?.voters.find(
-      (v) => v._id.toString() === userId.toString()
+      (v) => v._id.toString() === userId.toString(),
     );
 
     if (!userExist) {
@@ -51,7 +51,7 @@ export const GET = auth(async function GET(req, { params }) {
         { error: "User Does not belong to this board" },
         {
           status: 400,
-        }
+        },
       );
     }
 
@@ -74,7 +74,7 @@ export const GET = auth(async function GET(req, { params }) {
 
             if (current !== lastPayload) {
               controller.enqueue(
-                new TextEncoder().encode(`data: ${current}\n\n`)
+                new TextEncoder().encode(`data: ${current}\n\n`),
               );
               lastPayload = current;
             }
@@ -82,7 +82,7 @@ export const GET = auth(async function GET(req, { params }) {
             // client disconnected, stop interval
             clearInterval(interval);
           }
-        }, 1000);
+        }, 600000);
       },
       cancel() {
         // Called when client disconnects
@@ -110,7 +110,7 @@ export const GET = auth(async function GET(req, { params }) {
       { error: "Unable to get Poll" },
       {
         status: 400,
-      }
+      },
     );
   }
 });
