@@ -4,7 +4,6 @@ import { Plus } from "lucide-react";
 export default function CreatePollPage() {
   return (
     <main className="min-h-screen bg-white dark:bg-slate-950 transition-colors">
-      {/* Header Section */}
       <div className="bg-linear-to-r from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800 border-b border-gray-200 dark:border-slate-700 px-6 py-12 sm:py-16 transition-colors">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center gap-4 mb-6">

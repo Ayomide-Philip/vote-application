@@ -1,11 +1,12 @@
 import PollsCard from "@/components/dashboard/polls/pollsCard";
+import { BASE_URL } from "@/libs/config/configuration";
 import { Clock, Users, ArrowRight } from "lucide-react";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function Page() {
-  const request = await fetch("http://localhost:3000/api/polls", {
+  const request = await fetch(`${BASE_URL}/api/polls`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
