@@ -1,8 +1,47 @@
 import { useState } from "react";
-import { UserPlus } from "lucide-react";
+import { UserPlus, Upload, X } from "lucide-react";
 export default function AddVoters() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [newVoterEmail, setNewVoterEmail] = useState("");
+  const [uploadedFile, setUploadedFile] = useState(null);
+  const [dragActive, setDragActive] = useState(false);
+
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setUploadedFile(file);
+    }
+  };
+
+  const handleDrag = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file) {
+      setUploadedFile(file);
+    }
+  };
+
+  const removeFile = () => {
+    setUploadedFile(null);
+  };
+
+  const resetModal = () => {
+    setShowAddModal(false);
+    setNewVoterEmail("");
+    setUploadedFile(null);
+  };
   return (
     <>
       <button
@@ -35,43 +74,79 @@ export default function AddVoters() {
               </div>
               <div className="border-t border-gray-200 dark:border-slate-700 pt-4">
                 <label className="block text-sm font-semibold text-gray-700 dark:text-slate-300 mb-2">
-                  Upload CSV File (Optional)
+                  Upload CSV/ Excel File (Optional)
                 </label>
-                <div className="border-2 border-dashed border-gray-300 dark:border-slate-600 rounded-lg p-6 text-center hover:border-indigo-500 dark:hover:border-indigo-400 transition-colors cursor-pointer">
+                <div
+                  onDragEnter={handleDrag}
+                  onDragLeave={handleDrag}
+                  onDragOver={handleDrag}
+                  onDrop={handleDrop}
+                  className={`border-2 border-dashed rounded-lg p-6 text-center transition-all cursor-pointer ${
+                    dragActive
+                      ? "border-indigo-500 dark:border-indigo-400 bg-indigo-50 dark:bg-indigo-900/20"
+                      : "border-gray-300 dark:border-slate-600 hover:border-indigo-500 dark:hover:border-indigo-400"
+                  }`}
+                >
+                  {uploadedFile ? (
+                    <div className="flex flex-col items-center gap-3">
+                      <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                        <svg
+                          className="w-6 h-6 text-green-600 dark:text-green-400"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-gray-900 dark:text-white">
+                          {uploadedFile.name}
+                        </p>
+                        <p className="text-xs text-gray-500 dark:text-slate-400">
+                          {(uploadedFile.size / 1024).toFixed(2)} KB
+                        </p>
+                      </div>
+                      <button
+                        onClick={removeFile}
+                        className="mt-2 inline-flex items-center gap-1 px-3 py-1 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors text-xs font-semibold"
+                      >
+                        <X className="w-3 h-3" />
+                        Remove File
+                      </button>
+                    </div>
+                  ) : (
+                    <label htmlFor="file-upload" className="cursor-pointer">
+                      <div className="flex flex-col items-center gap-2">
+                        <div className="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg flex items-center justify-center">
+                          <Upload className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold text-gray-700 dark:text-slate-300">
+                            Drag and drop your file
+                          </p>
+                          <p className="text-xs text-gray-500 dark:text-slate-400">
+                            or click to browse
+                          </p>
+                        </div>
+                        <p className="text-xs text-gray-500 dark:text-slate-400 mt-1">
+                          CSV, XLSX
+                        </p>
+                      </div>
+                    </label>
+                  )}
                   <input
                     type="file"
                     accept=".csv,.xlsx"
                     className="hidden"
                     id="file-upload"
+                    onChange={handleFileChange}
                   />
-                  <label htmlFor="file-upload" className="cursor-pointer">
-                    <div className="flex flex-col items-center gap-2">
-                      <svg
-                        className="w-8 h-8 text-gray-400 dark:text-slate-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M12 4v16m8-8H4"
-                        />
-                      </svg>
-                      <div>
-                        <p className="text-sm font-semibold text-gray-700 dark:text-slate-300">
-                          Drag and drop your file
-                        </p>
-                        <p className="text-xs text-gray-500 dark:text-slate-400">
-                          or click to browse
-                        </p>
-                      </div>
-                      <p className="text-xs text-gray-500 dark:text-slate-400 mt-1">
-                        CSV, XLSX
-                      </p>
-                    </div>
-                  </label>
                 </div>
               </div>
             </div>
@@ -80,6 +155,7 @@ export default function AddVoters() {
                 onClick={() => {
                   setShowAddModal(false);
                   setNewVoterEmail("");
+                  setUploadedFile(null);
                 }}
                 className="px-4 cursor-pointer py-2 border border-gray-300 dark:border-slate-600 text-gray-700 dark:text-slate-300 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors font-semibold"
               >
