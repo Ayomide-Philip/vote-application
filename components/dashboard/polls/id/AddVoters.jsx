@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { UserPlus, Upload, X } from "lucide-react";
-import * as XLSX from "xlsx";
+import Papa from "papaparse";
 
 export default function AddVoters() {
   const [showAddModal, setShowAddModal] = useState(false);
@@ -13,28 +13,18 @@ export default function AddVoters() {
     console.log("Processing file:", file.name, file.size, file.type);
 
     if (file.type === "text/csv") {
-      // Handle CSV file
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        try {
-          const csv = e.target.result;
-          const lines = csv.split("\n").filter((line) => line.trim());
-          const headers = lines[0].split(",").map((h) => h.trim());
-          const data = lines.slice(1).map((line) => {
-            const values = line.split(",").map((v) => v.trim());
-            const row = {};
-            headers.forEach((header, index) => {
-              row[header] = values[index];
-            });
-            return row;
-          });
-          console.log("CSV Data:", data);
-          setParsedData(data);
-        } catch (error) {
+      // Handle CSV file with Papa Parse
+      Papa.parse(file, {
+        header: true,
+        skipEmptyLines: true,
+        complete: (results) => {
+          console.log("CSV Data:", results.data);
+          setParsedData(results.data);
+        },
+        error: (error) => {
           console.error("Error parsing CSV:", error);
-        }
-      };
-      reader.readAsText(file);
+        },
+      });
     } else if (
       file.type ===
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -43,14 +33,33 @@ export default function AddVoters() {
       const reader = new FileReader();
       reader.onload = (e) => {
         try {
-          const data = new Uint8Array(e.target.result);
-          const workbook = XLSX.read(data, { type: "array" });
-          const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-          const jsonData = XLSX.utils.sheet_to_json(firstSheet);
-          console.log("Excel Data:", jsonData);
-          setParsedData(jsonData);
+          const data = e.target.result;
+          // Convert Excel binary to base64
+          const arr = new Uint8Array(data);
+          let binaryString = "";
+          for (let i = 0; i < arr.length; i++) {
+            binaryString += String.fromCharCode(arr[i]);
+          }
+          const base64 = btoa(binaryString);
+
+          // Parse Excel using a simple fetch to backend or use alternative method
+          // For now, we'll display a message that Excel needs to be converted
+          console.log(
+            "Excel file detected. Please convert to CSV format for best results.",
+          );
+          console.log("File ready for processing:", {
+            name: file.name,
+            size: file.size,
+          });
+
+          // You can send this to your backend API to parse
+          // For frontend-only: suggest converting Excel to CSV
+          alert(
+            "Excel files work best when converted to CSV format. Please convert and upload again.",
+          );
+          setParsedData(null);
         } catch (error) {
-          console.error("Error parsing Excel:", error);
+          console.error("Error processing Excel:", error);
         }
       };
       reader.readAsArrayBuffer(file);
