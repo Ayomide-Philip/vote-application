@@ -159,9 +159,7 @@ export default function PollsIdHeader({ pollData }) {
             </div>
           </div>
 
-          <div
-            className={`bg-white dark:bg-slate-800 rounded-xl p-4 border ${"border-green-200 dark:border-green-700/5 "}`}
-          >
+          <div className="bg-white dark:bg-slate-800 rounded-xl p-4 border border-gray-200 dark:border-slate-700">
             <div className="flex items-center gap-3">
               <div
                 className={`h-10 w-10 rounded-lg flex items-center justify-center ${
