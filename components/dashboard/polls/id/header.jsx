@@ -1,6 +1,5 @@
 import { Users, UserPlus, CheckCircle, Clock, Share2 } from "lucide-react";
 import { useState } from "react";
-import { ShareOverLay } from "../create/form";
 import { toast } from "react-toastify";
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -106,14 +105,6 @@ export default function PollsIdHeader({ pollData }) {
               {description}
             </p>
           </div>
-
-          <button
-            onClick={() => setOverlay(true)}
-            className="inline-flex cursor-pointer items-center justify-center h-10 w-10 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white rounded-lg transition-colors shadow-sm"
-            title="Share Poll"
-          >
-            <Share2 className="h-5 w-5" />
-          </button>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
@@ -200,14 +191,6 @@ export default function PollsIdHeader({ pollData }) {
           </div>
         </div>
       </div>
-      {overlay && (
-        <ShareOverLay
-          handleCloseModal={() => setOverlay(false)}
-          handleCopyLink={handleCopyLink}
-          redirectUrl={`/polls/invite/${pollData?._id}`}
-          shareLink={`${window.location.origin}/polls/invite/${pollData?._id}`}
-        />
-      )}
     </div>
   );
 }

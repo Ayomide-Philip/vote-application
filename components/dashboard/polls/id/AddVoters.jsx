@@ -11,8 +11,6 @@ export default function AddVoters() {
   const [parsedData, setParsedData] = useState(null);
 
   const processFile = (file) => {
-    console.log("Processing file:", file.name, file.size, file.type);
-
     if (file.type === "text/csv") {
       // Handle CSV file with Papa Parse
       Papa.parse(file, {
