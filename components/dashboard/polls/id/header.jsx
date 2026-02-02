@@ -46,7 +46,6 @@ export default function PollsIdHeader({ pollData }) {
   const {
     title,
     description,
-    status,
     voters,
     contestants,
     createdAt,
@@ -87,12 +86,16 @@ export default function PollsIdHeader({ pollData }) {
             <div className="flex items-center gap-3 mb-3">
               <span
                 className={`inline-block px-3 py-1 rounded-full text-xs font-bold ${
-                  status === "Active"
+                  new Date(endDate) > new Date()
                     ? "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400"
                     : "bg-gray-100 dark:bg-gray-900/30 text-gray-700 dark:text-gray-400"
                 }`}
               >
-                {status}
+                {new Date(startDate) > new Date()
+                  ? "Not Started"
+                  : new Date(endDate) < new Date()
+                    ? "Closed"
+                    : "Active"}
               </span>
               <span className="text-sm text-gray-600 dark:text-slate-400">
                 Created {formatDate(createdAt)}
