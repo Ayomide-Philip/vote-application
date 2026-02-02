@@ -73,12 +73,16 @@ export default function SettingsTab({ pollData, user }) {
               <div className="px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-xl bg-gray-50 dark:bg-slate-700/50">
                 <span
                   className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold ${
-                    pollData?.status === "Active"
+                    new Date(pollData?.endDate) > new Date()
                       ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
                       : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
                   }`}
                 >
-                  {pollData?.status || "Unknown"}
+                  {new Date(pollData?.startDate) > new Date()
+                    ? "Not Started"
+                    : new Date(pollData?.endDate) < new Date()
+                      ? "Closed"
+                      : "Active"}
                 </span>
               </div>
             </div>

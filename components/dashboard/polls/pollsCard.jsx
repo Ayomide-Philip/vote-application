@@ -5,7 +5,6 @@ export default function PollsCard({ poll }) {
     _id,
     title,
     description,
-    status,
     startDate,
     endDate,
     voters,
