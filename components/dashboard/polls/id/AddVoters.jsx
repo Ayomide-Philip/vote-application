@@ -3,7 +3,7 @@ import { UserPlus, Upload, X } from "lucide-react";
 import Papa from "papaparse";
 import { toast } from "react-toastify";
 
-export default function AddVoters() {
+export default function AddVoters({ voters }) {
   const [showAddModal, setShowAddModal] = useState(false);
   const [newVoterEmail, setNewVoterEmail] = useState("");
   const [uploadedFile, setUploadedFile] = useState(null);
@@ -218,6 +218,7 @@ export default function AddVoters() {
                 onClick={() => {
                   // Handle add user logic here
                   console.log("Adding voter:", newVoterEmail);
+                  console.log("Parsed Data:", parsedData);
                   setShowAddModal(false);
                   setNewVoterEmail("");
                 }}
