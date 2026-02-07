@@ -21,18 +21,19 @@ export async function PUT(req, { params }) {
   }
   // if no voters is specified
   if (!voters) {
-    if (Array.isArray(voters) && voters?.length < 1) {
-      return NextResponse.json(
-        { error: "Empty list of voters" },
-        {
-          status: 400,
-        },
-      );
-    }
     return NextResponse.json(
       {
         error: "Voters are not specified",
       },
+      {
+        status: 400,
+      },
+    );
+  }
+  // if the array is empty
+  if (Array.isArray(voters) && voters?.length === 0) {
+    return NextResponse.json(
+      { error: "Empty list of voters" },
       {
         status: 400,
       },
