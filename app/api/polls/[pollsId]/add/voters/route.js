@@ -8,6 +8,28 @@ export async function PUT(req, { params }) {
   const { pollsId } = await params;
   const { voters } = await req.json();
   console.log(pollsId, voters);
+  // if polls id is not defined
+  if (!pollsId) {
+    return NextResponse.json(
+      {
+        error: "No poll id was specified",
+      },
+      {
+        status: 400,
+      },
+    );
+  }
+  // if no voters is specified
+  if (!voters) {
+    return NextResponse.json(
+      {
+        error: "Voters are not specified",
+      },
+      {
+        status: 400,
+      },
+    );
+  }
   return NextResponse.json({ message: "ADD voters" });
 }
 
