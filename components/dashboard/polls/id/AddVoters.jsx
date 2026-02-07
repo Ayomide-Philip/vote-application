@@ -101,7 +101,9 @@ export default function AddVoters({ voters }) {
   }
 
   function handleAddVoters() {
-    if (newVoterEmail) console.log("Adding voter:", newVoterEmail);
+    if (newVoterEmail) {
+      
+    }
     console.log("Parsed Data:", parsedData);
     // setShowAddModal(false);
     // setNewVoterEmail("");
