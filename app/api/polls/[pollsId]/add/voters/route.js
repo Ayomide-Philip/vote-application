@@ -6,7 +6,7 @@ import { auth } from "@/auth";
 
 export async function PUT(req, { params }) {
   const { pollsId } = await params;
-  const { voters } = await req.json();
+  const { voters, departmentCodeComplusory } = await req.json();
   console.log(pollsId, voters);
   // if polls id is not defined
   if (!pollsId) {
@@ -67,6 +67,7 @@ export async function PUT(req, { params }) {
       return v.includes(pollRule?.emailPrefix);
     });
     console.log(voterWhoPassedEmailCheck);
+    // check if
     // if success
     return NextResponse.json(
       { message: "ADD voters" },
