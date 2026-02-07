@@ -3,6 +3,7 @@ import { connectDatabase } from "@/libs/connectdatabase";
 import User from "@/libs/models/user.models";
 import Polls from "@/libs/models/polls.models";
 import { auth } from "@/auth";
+import { Mongoose } from "mongoose";
 
 export async function PUT(req, { params }) {
   const { pollsId } = await params;
@@ -44,7 +45,9 @@ export async function PUT(req, { params }) {
     //connect to database
     await connectDatabase();
     // check if the poll exist
-    const poll = await Polls.findById(pollsId);
+    const poll = await Polls.findById(pollsId)
+      .populate("voters", "email")
+      .lean();
     // if poll does not exist
     if (!poll) {
       return NextResponse.json(
@@ -66,8 +69,14 @@ export async function PUT(req, { params }) {
     const voterWhoPassedEmailCheck = voters?.filter((v) => {
       return v.includes(pollRule?.emailPrefix);
     });
-    console.log(voterWhoPassedEmailCheck);
-    // check if
+    console.log("Voters who passed Check:", voterWhoPassedEmailCheck);
+    // check if the voters email which passed the email check are not already a voters
+    const votersNotInPollCurrentVoters = voters?.filter((v) => {
+      return !currentVoters?.filter((cv) => {
+        return cv?.email === v;
+      });
+    });
+    console.log("Not in Poll:", votersNotInPollCurrentVoters);
     // if success
     return NextResponse.json(
       { message: "ADD voters" },
