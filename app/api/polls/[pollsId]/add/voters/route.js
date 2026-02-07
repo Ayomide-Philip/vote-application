@@ -63,10 +63,10 @@ export async function PUT(req, { params }) {
       departmentCodes: [],
     };
     // check through the email that was passed and check if they have the email prefix
-    const voterWhoPassedCheck = voters?.filter((v) => {
+    const voterWhoPassedEmailCheck = voters?.filter((v) => {
       return v.includes(pollRule?.emailPrefix);
     });
-    console.log(voterWhoPassedCheck);
+    console.log(voterWhoPassedEmailCheck);
     // if success
     return NextResponse.json(
       { message: "ADD voters" },
