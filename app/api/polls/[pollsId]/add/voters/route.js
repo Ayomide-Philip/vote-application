@@ -41,7 +41,28 @@ export async function PUT(req, { params }) {
   }
 
   try {
-    return NextResponse.json({ message: "ADD voters" });
+    //connect to database
+    await connectDatabase();
+    // check if the poll exist
+    const poll = await Polls.findById(pollsId);
+    // if poll does not exist
+    if (!poll) {
+      return NextResponse.json(
+        {
+          error: "Poll does not exist",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+    // if success
+    return NextResponse.json(
+      { message: "ADD voters" },
+      {
+        status: 200,
+      },
+    );
   } catch (err) {
     return NextResponse.json(
       {
