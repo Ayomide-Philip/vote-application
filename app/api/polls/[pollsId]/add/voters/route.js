@@ -56,6 +56,17 @@ export async function PUT(req, { params }) {
         },
       );
     }
+    // get all the voters in the poll
+    const currentVoters = poll?.voters || [];
+    const pollRule = poll?.rule || {
+      emailPrefix: "@gmail.com",
+      departmentCodes: [],
+    };
+    // check through the email that was passed and check if they have the email prefix
+    const voterWhoPassedCheck = voters?.filter((v) => {
+      return v.includes(pollRule?.emailPrefix);
+    });
+    console.log(voterWhoPassedCheck);
     // if success
     return NextResponse.json(
       { message: "ADD voters" },
