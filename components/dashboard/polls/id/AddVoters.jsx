@@ -88,17 +88,25 @@ export default function AddVoters({ voters }) {
     }
   };
 
-  const removeFile = () => {
+  function removeFile() {
     setUploadedFile(null);
     setParsedData(null);
-  };
+  }
 
-  const resetModal = () => {
+  function resetModal() {
     setShowAddModal(false);
     setNewVoterEmail("");
     setUploadedFile(null);
     setParsedData(null);
-  };
+  }
+
+  function handleAddVoters() {
+    if (newVoterEmail) console.log("Adding voter:", newVoterEmail);
+    console.log("Parsed Data:", parsedData);
+    // setShowAddModal(false);
+    // setNewVoterEmail("");
+  }
+
   return (
     <>
       <button
@@ -215,13 +223,7 @@ export default function AddVoters({ voters }) {
                 Cancel
               </button>
               <button
-                onClick={() => {
-                  // Handle add user logic here
-                  console.log("Adding voter:", newVoterEmail);
-                  console.log("Parsed Data:", parsedData);
-                  setShowAddModal(false);
-                  setNewVoterEmail("");
-                }}
+                onClick={handleAddVoters}
                 className="px-4 cursor-pointer py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold transition-colors"
               >
                 Add Voter
