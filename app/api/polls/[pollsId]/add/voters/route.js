@@ -40,7 +40,18 @@ export async function PUT(req, { params }) {
     );
   }
 
-  return NextResponse.json({ message: "ADD voters" });
+  try {
+    return NextResponse.json({ message: "ADD voters" });
+  } catch (err) {
+    return NextResponse.json(
+      {
+        error: "Unable to add voters",
+      },
+      {
+        status: 400,
+      },
+    );
+  }
 }
 
 // export const PUT = auth(async function PUT(req, { params }) {
