@@ -4,7 +4,10 @@ import User from "@/libs/models/user.models";
 import Polls from "@/libs/models/polls.models";
 import { auth } from "@/auth";
 
-export async function PUT(req) {
+export async function PUT(req, { params }) {
+  const { pollsId } = await params;
+  const { voters } = await req.json();
+  console.log(pollsId, voters);
   return NextResponse.json({ message: "ADD voters" });
 }
 
