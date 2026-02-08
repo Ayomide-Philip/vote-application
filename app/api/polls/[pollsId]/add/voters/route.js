@@ -122,7 +122,7 @@ export async function PUT(req, { params }) {
     if (voterIds?.length === 0) {
       return NextResponse.json(
         {
-          error: "No Voters passed the required citeria",
+          error: "Voters dont exist",
         },
         {
           status: 400,
