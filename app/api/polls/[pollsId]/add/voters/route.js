@@ -111,15 +111,13 @@ export async function PUT(req, { params }) {
       );
     }
     // check if the voters remainig exist as a user in the database
-    const votersWhoExistInDatabase = voterWhoPassedDepartmentCodeCheck.filter(
-      async (v) => {
-        const votersExistInDB = await User.findOne({ email: v }).select(
-          "_id email",
-        );
-        return votersExistInDB ? votersExistInDB?._id.toString() : null;
-      },
-    );
-    console.log(await votersWhoExistInDatabase);
+    const users = await User.find({
+      email: { $in: voterWhoPassedDepartmentCodeCheck },
+    }).select("_id");
+
+    const voterIds = users.map((u) => u._id.toString());
+
+    console.log("voterIds", voterIds);
     // if success
     return NextResponse.json(
       {
