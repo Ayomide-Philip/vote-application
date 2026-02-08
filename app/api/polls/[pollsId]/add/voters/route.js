@@ -7,7 +7,7 @@ import mongoose from "mongoose";
 
 export async function PUT(req, { params }) {
   const { pollsId } = await params;
-  const { voters, departmentCodeComplusory } = await req.json();
+  const { voters, departmentCodeComplusory, userId } = await req.json();
   // if polls id is not defined
   if (!pollsId) {
     return NextResponse.json(
@@ -39,11 +39,33 @@ export async function PUT(req, { params }) {
       },
     );
   }
+  // check if user id is not defined
+  if (!userId) {
+    return NextResponse.json(
+      {
+        error: "User id is not specified",
+      },
+      {
+        status: 400,
+      },
+    );
+  }
 
   try {
     //connect to database
     await connectDatabase();
     // check if the poll exist
+    const authorizationUserId = await User.findById(userId);
+    if (!authorizationUserId) {
+      return NextResponse.json(
+        {
+          error: "User does not exist",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
     const poll = await Polls.findById(pollsId)
       .populate("voters", "email")
       .lean();
