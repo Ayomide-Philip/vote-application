@@ -74,7 +74,6 @@ export async function PUT(req, { params }) {
         return !currentVoters.some((a) => a.email === v);
       },
     );
-    console.log("Not in Poll:", votersNotInPollCurrentVoters);
     // check if the department code to check exist
     let voterWhoPassedDepartmentCodeCheck = [];
     if (
@@ -85,7 +84,6 @@ export async function PUT(req, { params }) {
       voterWhoPassedDepartmentCodeCheck = votersNotInPollCurrentVoters?.filter(
         (v) => {
           return pollRule?.departmentCodes?.some((cv) => {
-            console.log(v, cv);
             const emailRegex = new RegExp(
               `^[a-zA-Z0-9_.]+\\.${cv}\\d+${pollRule?.emailPrefix.replace(/\./g, "\\.")}$`,
             );
@@ -112,6 +110,16 @@ export async function PUT(req, { params }) {
         },
       );
     }
+    // check if the voters remainig exist as a user in the database
+    const votersWhoExistInDatabase = voterWhoPassedDepartmentCodeCheck.filter(
+      async (v) => {
+        const votersExistInDB = await User.findOne({ email: v }).select(
+          "_id email",
+        );
+        return votersExistInDB ? votersExistInDB?._id.toString() : null;
+      },
+    );
+    console.log(await votersWhoExistInDatabase);
     // if success
     return NextResponse.json(
       {
