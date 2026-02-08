@@ -66,6 +66,24 @@ export async function PUT(req, { params }) {
         },
       );
     }
+    // check if the user has access to the poll
+    const authorizationUserVoteInfo = authorizationUserId?.voteInformation.find(
+      (info) => {
+        return info.pollId.toString() === pollsId.toString();
+      },
+    );
+    // if user doesnt have access to the poll
+    if (!authorizationUserVoteInfo) {
+      return NextResponse.json(
+        {
+          error: "User doesnt have access to this poll",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+
     const poll = await Polls.findById(pollsId)
       .populate("voters", "email")
       .lean();
