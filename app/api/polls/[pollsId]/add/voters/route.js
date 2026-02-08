@@ -157,7 +157,7 @@ export async function PUT(req, { params }) {
     // if success
     return NextResponse.json(
       {
-        message: "ADD voters",
+        message: "Users Added Successfully",
         newVoters,
         updatedUsersInfo,
       },
