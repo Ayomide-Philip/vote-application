@@ -76,7 +76,7 @@ export async function PUT(req, { params }) {
     );
     console.log("Not in Poll:", votersNotInPollCurrentVoters);
     // check if the department code to check exist
-    let voterWhoPassedDepartmentCodeCheck;
+    let voterWhoPassedDepartmentCodeCheck = [];
     if (
       departmentCodeComplusory &&
       pollRule?.departmentCodes?.length > 0 &&
@@ -93,16 +93,28 @@ export async function PUT(req, { params }) {
           });
         },
       );
-      // voterWhoPassedDepartmentCodeCheck = votersNotInPollCurrentVoters?.filter(
-      //   (v) => {
-      //     return v;
-      //   },
-      // );
-      console.log(voterWhoPassedDepartmentCodeCheck);
+    }
+    // if voter who passed departement code check is empty then do this
+    if (voterWhoPassedDepartmentCodeCheck?.length === 0) {
+      voterWhoPassedDepartmentCodeCheck = votersNotInPollCurrentVoters;
+    }
+    // if voter remainig is empty then return an error
+    if (voterWhoPassedDepartmentCodeCheck?.length === 0) {
+      return NextResponse.json(
+        {
+          error: "No Voters passed the required citeria",
+        },
+        {
+          status: 400,
+        },
+      );
     }
     // if success
     return NextResponse.json(
-      { message: "ADD voters" },
+      {
+        message: "ADD voters",
+        voterWhoPassedDepartmentCodeCheck,
+      },
       {
         status: 200,
       },
