@@ -118,6 +118,19 @@ export async function PUT(req, { params }) {
     const voterIds = users.map((u) => u._id.toString());
 
     console.log("voterIds", voterIds);
+    // check if the voters remainig exist as a user in the database
+    if (voterIds?.length === 0) {
+      return NextResponse.json(
+        {
+          error: "No Voters passed the required citeria",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+    // add the voters to the poll
+
     // if success
     return NextResponse.json(
       {
