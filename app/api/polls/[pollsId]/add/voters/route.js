@@ -68,7 +68,6 @@ export async function PUT(req, { params }) {
     const voterWhoPassedEmailCheck = voters?.filter((v) => {
       return v.includes(pollRule?.emailPrefix);
     });
-    console.log("Voters who passed email check", voterWhoPassedEmailCheck);
     // check if the voters email which passed the email check are not already a voters
     const votersNotInPollCurrentVoters = voterWhoPassedEmailCheck?.filter(
       (v) => {
@@ -76,6 +75,31 @@ export async function PUT(req, { params }) {
       },
     );
     console.log("Not in Poll:", votersNotInPollCurrentVoters);
+    // check if the department code to check exist
+    let voterWhoPassedDepartmentCodeCheck;
+    if (
+      departmentCodeComplusory &&
+      pollRule?.departmentCodes?.length > 0 &&
+      pollRule?.emailPrefix.trim()
+    ) {
+      voterWhoPassedDepartmentCodeCheck = votersNotInPollCurrentVoters?.filter(
+        (v) => {
+          return pollRule?.departmentCodes?.some((cv) => {
+            console.log(v, cv);
+            const emailRegex = new RegExp(
+              `^[a-zA-Z0-9_.]+\\.${cv}\\d+${pollRule?.emailPrefix.replace(/\./g, "\\.")}$`,
+            );
+            return emailRegex.test(v) ? v : null;
+          });
+        },
+      );
+      // voterWhoPassedDepartmentCodeCheck = votersNotInPollCurrentVoters?.filter(
+      //   (v) => {
+      //     return v;
+      //   },
+      // );
+      console.log(voterWhoPassedDepartmentCodeCheck);
+    }
     // if success
     return NextResponse.json(
       { message: "ADD voters" },
