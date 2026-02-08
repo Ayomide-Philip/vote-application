@@ -83,7 +83,20 @@ export async function PUT(req, { params }) {
         },
       );
     }
-
+    // if user is not the owner of the poll
+    if (
+      authorizationUserVoteInfo?.role !== "Owner" &&
+      authorizationUserVoteInfo?.role !== "Admin"
+    ) {
+      return NextResponse.json(
+        {
+          error: "You don't have permission to add voters to this poll",
+        },
+        {
+          status: 403,
+        },
+      );
+    }
     const poll = await Polls.findById(pollsId)
       .populate("voters", "email")
       .lean();
