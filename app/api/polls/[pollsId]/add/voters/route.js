@@ -95,7 +95,10 @@ export async function PUT(req, { params }) {
       );
     }
     // if voter who passed departement code check is empty then do this
-    if (voterWhoPassedDepartmentCodeCheck?.length === 0) {
+    if (
+      voterWhoPassedDepartmentCodeCheck?.length === 0 &&
+      !departmentCodeComplusory
+    ) {
       voterWhoPassedDepartmentCodeCheck = votersNotInPollCurrentVoters;
     }
     // if voter remainig is empty then return an error
