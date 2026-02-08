@@ -8,7 +8,6 @@ import { Mongoose } from "mongoose";
 export async function PUT(req, { params }) {
   const { pollsId } = await params;
   const { voters, departmentCodeComplusory } = await req.json();
-  console.log(pollsId, voters);
   // if polls id is not defined
   if (!pollsId) {
     return NextResponse.json(
@@ -69,13 +68,13 @@ export async function PUT(req, { params }) {
     const voterWhoPassedEmailCheck = voters?.filter((v) => {
       return v.includes(pollRule?.emailPrefix);
     });
-    console.log("Voters who passed Check:", voterWhoPassedEmailCheck);
+    console.log("Voters who passed email check", voterWhoPassedEmailCheck);
     // check if the voters email which passed the email check are not already a voters
-    const votersNotInPollCurrentVoters = voters?.filter((v) => {
-      return !currentVoters?.filter((cv) => {
-        return cv?.email === v;
-      });
-    });
+    const votersNotInPollCurrentVoters = voterWhoPassedEmailCheck?.filter(
+      (v) => {
+        return !currentVoters.some((a) => a.email === v);
+      },
+    );
     console.log("Not in Poll:", votersNotInPollCurrentVoters);
     // if success
     return NextResponse.json(
