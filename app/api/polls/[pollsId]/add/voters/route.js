@@ -3,7 +3,7 @@ import { connectDatabase } from "@/libs/connectdatabase";
 import User from "@/libs/models/user.models";
 import Polls from "@/libs/models/polls.models";
 import { auth } from "@/auth";
-import { Mongoose } from "mongoose";
+import mongoose from "mongoose";
 
 export async function PUT(req, { params }) {
   const { pollsId } = await params;
@@ -114,10 +114,7 @@ export async function PUT(req, { params }) {
     const users = await User.find({
       email: { $in: voterWhoPassedDepartmentCodeCheck },
     }).select("_id");
-
     const voterIds = users.map((u) => u._id.toString());
-
-    console.log("voterIds", voterIds);
     // check if the voters remainig exist as a user in the database
     if (voterIds?.length === 0) {
       return NextResponse.json(
@@ -130,18 +127,46 @@ export async function PUT(req, { params }) {
       );
     }
     // add the voters to the poll
+    const newVoters = await Polls.findByIdAndUpdate(
+      pollsId,
+      {
+        $addToSet: {
+          voters: { $each: voterIds },
+        },
+      },
+      { new: true },
+    );
+    // create a poll object id to add to the voters information
+    const pollObjectId = new mongoose.Types.ObjectId(pollsId);
+    // add the poll to the voters information
+    const updatedUsersInfo = await User.updateMany(
+      {
+        _id: { $in: voterIds },
+        "voteInformation.pollId": { $ne: pollObjectId }, // prevent duplicates
+      },
+      {
+        $addToSet: {
+          voteInformation: {
+            pollId: pollObjectId,
+            role: "Voters",
+          },
+        },
+      },
+    );
 
     // if success
     return NextResponse.json(
       {
         message: "ADD voters",
-        voterWhoPassedDepartmentCodeCheck,
+        newVoters,
+        updatedUsersInfo,
       },
       {
         status: 200,
       },
     );
   } catch (err) {
+    console.log(err);
     return NextResponse.json(
       {
         error: "Unable to add voters",
