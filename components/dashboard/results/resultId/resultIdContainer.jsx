@@ -67,10 +67,14 @@ export default function ResultIdContainer({ poll: polls, pollId }) {
               </button>
             </div>
           </div>
-          <ResultPosition poll={poll} />
+          {poll?.contestants?.length === 0 ? (
+            <>No Contestant </>
+          ) : (
+            <ResultPosition poll={poll} />
+          )}
         </div>
       </div>
-      <PrintTemplate poll={poll} />
+      {poll?.contestants?.length === 0 ? null : <PrintTemplate poll={poll} />}
       <style jsx>{`
         @media print {
           .no-print {
