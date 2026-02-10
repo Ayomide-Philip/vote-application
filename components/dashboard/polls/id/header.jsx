@@ -54,7 +54,7 @@ export default function PollsIdHeader({ pollData }) {
     endDate,
     _id,
   } = pollData;
-  const [overlay, setOverlay] = useState(false);
+  // const [overlay, setOverlay] = useState(false);
   const timingStatus = getPollTimingStatus(startDate, endDate);
 
   function calculateCandidate(contestants) {
@@ -68,16 +68,17 @@ export default function PollsIdHeader({ pollData }) {
     return totalCandidate;
   }
 
-  const handleCopyLink = async () => {
-    try {
-      await navigator.clipboard.writeText(
-        `${window.location.origin}/polls/invite/${pollData?._id}`,
-      );
-      toast.success("Link copied to clipboard");
-    } catch (error) {
-      toast.error("Unable to copy link");
-    }
-  };
+  // const handleCopyLink = async () => {
+  //   try {
+  //     await navigator.clipboard.writeText(
+  //       `${window.location.origin}/polls/invite/${pollData?._id}`,
+  //     );
+  //     toast.success("Link copied to clipboard");
+  //   } catch (error) {
+  //     toast.error("Unable to copy link");
+  //   }
+  // };
+
   return (
     <div className="bg-linear-to-r from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800 border-b border-gray-200 dark:border-slate-700 px-4 sm:px-6 py-6 sm:py-8">
       <div className="max-w-7xl mx-auto">
