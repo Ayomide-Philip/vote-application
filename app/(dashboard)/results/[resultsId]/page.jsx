@@ -13,8 +13,7 @@ export default async function Page({ params }) {
     },
   });
   const response = await request.json();
-  if (!request?.ok || response?.error) return redirect("/polls/results");
-  // Static sample poll data
+  if (!request?.ok || response?.error) return redirect("/results");
   const { poll } = response;
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-slate-950">
