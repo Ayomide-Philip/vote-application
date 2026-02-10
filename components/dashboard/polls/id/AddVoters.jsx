@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { UserPlus, Upload, X } from "lucide-react";
 import Papa from "papaparse";
+import * as XLSX from "xlsx";
 import { toast } from "react-toastify";
 
 export default function AddVoters({ voters }) {
@@ -25,32 +26,38 @@ export default function AddVoters({ voters }) {
       });
     } else if (
       file.type ===
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+      file.name.toLowerCase().endsWith(".xlsx")
     ) {
-      // Handle Excel file
+      // Handle Excel file and convert to CSV-like data
       const reader = new FileReader();
       reader.onload = (e) => {
         try {
-          const data = e.target.result;
-          // Convert Excel binary to base64
-          const arr = new Uint8Array(data);
-          let binaryString = "";
-          for (let i = 0; i < arr.length; i++) {
-            binaryString += String.fromCharCode(arr[i]);
-          }
-          const base64 = btoa(binaryString);
+          const data = new Uint8Array(e.target.result);
+          const workbook = XLSX.read(data, { type: "array" });
+          const sheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[sheetName];
 
-          console.log("File ready for processing:", {
-            name: file.name,
-            size: file.size,
+          if (!worksheet) {
+            toast.error("No worksheet found in the Excel file.");
+            return;
+          }
+
+          const jsonData = XLSX.utils.sheet_to_json(worksheet, {
+            defval: "",
           });
 
-          toast.error(
-            "Excel files work best when converted to CSV format. Please convert and upload again.",
-          );
-          setParsedData(null);
+          if (!jsonData.length) {
+            toast.error("Excel file is empty.");
+            return;
+          }
+
+          console.log("Excel Data:", jsonData);
+          setParsedData(jsonData);
         } catch (error) {
           console.error("Error processing Excel:", error);
+          toast.error("Error processing Excel file.");
+          setParsedData(null);
         }
       };
       reader.readAsArrayBuffer(file);
@@ -101,7 +108,12 @@ export default function AddVoters({ voters }) {
   }
 
   function handleAddVoters() {
-    console.log("Parsed Data:", parsedData);
+    const emailData = parsedData
+      .filter((e) => {
+        if (e?.email) return e.email;
+      })
+      .map((e) => e.email);
+    console.log("Extracted Emails:", emailData);
     // setShowAddModal(false);
     // setNewVoterEmail("");
   }
