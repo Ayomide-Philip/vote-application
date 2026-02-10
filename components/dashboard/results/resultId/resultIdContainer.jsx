@@ -3,7 +3,7 @@ import ResultHeader from "@/components/dashboard/results/resultId/header";
 import ResultPosition from "@/components/dashboard/results/resultId/position";
 import PrintTemplate from "@/components/dashboard/results/resultId/printTemplate";
 import { useState, useEffect } from "react";
-import { Printer, Download } from "lucide-react";
+import { Printer, Download, Users } from "lucide-react";
 
 export default function ResultIdContainer({ poll: polls, pollId }) {
   const [poll, setPoll] = useState(polls || {});
@@ -68,7 +68,17 @@ export default function ResultIdContainer({ poll: polls, pollId }) {
             </div>
           </div>
           {poll?.contestants?.length === 0 ? (
-            <>No Contestant </>
+            <div className="rounded-xl border border-dashed border-slate-200 bg-slate-50 px-6 py-10 text-center dark:border-slate-700 dark:bg-slate-800/40">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white text-slate-700 shadow-sm dark:bg-slate-700 dark:text-slate-100">
+                <Users className="h-6 w-6" />
+              </div>
+              <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
+                No contestants yet
+              </h3>
+              <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+                Add contestants to this poll to generate position results here.
+              </p>
+            </div>
           ) : (
             <ResultPosition poll={poll} />
           )}
