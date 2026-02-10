@@ -5,9 +5,20 @@ import Polls from "@/libs/models/polls.models";
 import { auth } from "@/auth";
 import mongoose from "mongoose";
 
-export async function PUT(req, { params }) {
+export const PUT = auth(async function PUT(req, { params }) {
   const { pollsId } = await params;
-  const { voters, departmentCodeComplusory, userId } = await req.json();
+  const { voters, departmentCodeComplusory } = await req.json();
+  if (!req?.auth || !req?.auth?.user) {
+    return NextResponse.json(
+      {
+        error: "Unauthorized",
+      },
+      {
+        status: 401,
+      },
+    );
+  }
+  const userId = req?.auth?.user?.id;
   // if polls id is not defined
   if (!pollsId) {
     return NextResponse.json(
@@ -229,4 +240,4 @@ export async function PUT(req, { params }) {
       },
     );
   }
-}
+});
