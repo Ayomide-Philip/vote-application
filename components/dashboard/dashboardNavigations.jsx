@@ -2,7 +2,7 @@
 "use client";
 
 import { useState } from "react";
-import { Bell, Menu, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { Menu, X, ChevronLeft, ChevronRight } from "lucide-react";
 import Toggle from "@/components/toggle";
 import SideBar from "@/components/dashboard/sideBar";
 export default function DashboardNavigations({ children, session }) {
@@ -59,11 +59,6 @@ export default function DashboardNavigations({ children, session }) {
 
             <div className="flex gap-3">
               <Toggle />
-
-              <button className="relative rounded-lg p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                <Bell className="h-5 w-5" />
-                <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-red-500"></span>
-              </button>
 
               <div
                 className="flex max-w-45 items-center gap-3 rounded-lg border border-gray-200 dark:border-gray-600 py-1.5 pl-1.5 pr-2 hover:bg-gray-50 dark:hover:bg-gray-700"
