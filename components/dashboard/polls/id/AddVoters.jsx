@@ -115,9 +115,26 @@ export default function AddVoters({ voters }) {
           if (e?.email) return e.email;
         })
         ?.map((e) => e.email) || [];
-    console.log("Extracted Emails:", extractedEmail);
+    // if both extracted email and new voter email is empty return an error
     if (extractedEmail?.length === 0 && !newVoterEmail) {
       toast.error("Please provide at least one email address.");
+      return;
+    }
+    // if new voter email is not empty  validate it
+    if (newVoterEmail && !/\S+@\S+\.\S+/.test(newVoterEmail)) {
+      toast.error("Please provide a valid email address.");
+      return;
+    }
+    // combine the extracted email and new voter email
+    if (newVoterEmail && extractedEmail?.length == 0) {
+      extractedEmail.push(newVoterEmail);
+    }
+    // remove duplicate email
+    const uniqueEmails = [...new Set(extractedEmail)];
+    console.log("Extracted Emails:", uniqueEmails);
+
+    if (uniqueEmails?.length === 0) {
+      toast.error("No valid email addresses found.");
       return;
     }
     // setShowAddModal(false);
@@ -237,7 +254,7 @@ export default function AddVoters({ voters }) {
                   type="checkbox"
                   checked={departmentCodeRequired}
                   onChange={(e) => setDepartmentCodeRequired(e.target.checked)}
-                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 dark:border-slate-600 dark:bg-slate-700"
+                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 cursor-pointer focus:ring-indigo-500 dark:border-slate-600 dark:bg-slate-700"
                 />
                 <label
                   htmlFor="department-code-required"
