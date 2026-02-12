@@ -10,6 +10,7 @@ export default function AddVoters({ voters }) {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [dragActive, setDragActive] = useState(false);
   const [parsedData, setParsedData] = useState(null);
+  const [departmentCodeRequired, setDepartmentCodeRequired] = useState(false);
 
   const processFile = (file) => {
     if (file.type === "text/csv") {
@@ -229,6 +230,21 @@ export default function AddVoters({ voters }) {
                     onChange={handleFileChange}
                   />
                 </div>
+              </div>
+              <div className="flex items-center gap-3 pt-2">
+                <input
+                  id="department-code-required"
+                  type="checkbox"
+                  checked={departmentCodeRequired}
+                  onChange={(e) => setDepartmentCodeRequired(e.target.checked)}
+                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 dark:border-slate-600 dark:bg-slate-700"
+                />
+                <label
+                  htmlFor="department-code-required"
+                  className="text-sm font-semibold text-gray-700 dark:text-slate-300"
+                >
+                  Department code compulsory
+                </label>
               </div>
             </div>
             <div className="p-6 border-t border-gray-200 dark:border-slate-700 flex gap-3 justify-end">
