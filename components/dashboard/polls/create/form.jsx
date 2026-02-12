@@ -26,6 +26,22 @@ export default function CreatePollForm() {
     }));
   };
 
+  const formatTimeFirst = (value) => {
+    if (!value) return "";
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "";
+    const time = date.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    const datePart = date.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+    return `${time} • ${datePart}`;
+  };
+
   async function handleSubmit(e) {
     e.preventDefault();
     const {
@@ -191,6 +207,14 @@ export default function CreatePollForm() {
               onChange={handleChange}
               className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-700/50 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600 focus:border-transparent transition-all"
             />
+            <p className="text-xs text-gray-500 dark:text-slate-500 mt-2">
+              Format: time first (e.g., 10:30 AM • 12 Feb 2026)
+            </p>
+            {formData.startDate && (
+              <p className="text-xs text-gray-600 dark:text-slate-400 mt-1">
+                Preview: {formatTimeFirst(formData.startDate)}
+              </p>
+            )}
           </div>
 
           <div>
@@ -204,6 +228,14 @@ export default function CreatePollForm() {
               onChange={handleChange}
               className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-700/50 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600 focus:border-transparent transition-all"
             />
+            <p className="text-xs text-gray-500 dark:text-slate-500 mt-2">
+              Format: time first (e.g., 10:30 AM • 12 Feb 2026)
+            </p>
+            {formData.endDate && (
+              <p className="text-xs text-gray-600 dark:text-slate-400 mt-1">
+                Preview: {formatTimeFirst(formData.endDate)}
+              </p>
+            )}
           </div>
         </div>
       </div>
