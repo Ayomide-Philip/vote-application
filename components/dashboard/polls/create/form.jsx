@@ -207,16 +207,12 @@ export default function CreatePollForm() {
               onChange={handleChange}
               className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-700/50 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600 focus:border-transparent transition-all"
             />
-            <p className="text-xs text-gray-500 dark:text-slate-500 mt-2">
-              Format: time first (e.g., 10:30 AM • 12 Feb 2026)
-            </p>
             {formData.startDate && (
               <p className="text-xs text-gray-600 dark:text-slate-400 mt-1">
                 Preview: {formatTimeFirst(formData.startDate)}
               </p>
             )}
           </div>
-
           <div>
             <label className="block text-sm font-semibold text-gray-800 dark:text-slate-200 mb-3">
               End Date & Time <span className="text-red-500">*</span>
@@ -228,9 +224,6 @@ export default function CreatePollForm() {
               onChange={handleChange}
               className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-700/50 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600 focus:border-transparent transition-all"
             />
-            <p className="text-xs text-gray-500 dark:text-slate-500 mt-2">
-              Format: time first (e.g., 10:30 AM • 12 Feb 2026)
-            </p>
             {formData.endDate && (
               <p className="text-xs text-gray-600 dark:text-slate-400 mt-1">
                 Preview: {formatTimeFirst(formData.endDate)}
