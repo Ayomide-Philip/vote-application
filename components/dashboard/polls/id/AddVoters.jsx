@@ -108,12 +108,17 @@ export default function AddVoters({ voters }) {
   }
 
   function handleAddVoters() {
-    const emailData = parsedData
-      .filter((e) => {
-        if (e?.email) return e.email;
-      })
-      .map((e) => e.email);
-    console.log("Extracted Emails:", emailData);
+    const extractedEmail =
+      parsedData
+        ?.filter((e) => {
+          if (e?.email) return e.email;
+        })
+        ?.map((e) => e.email) || [];
+    console.log("Extracted Emails:", extractedEmail);
+    if (extractedEmail?.length === 0 && !newVoterEmail) {
+      toast.error("Please provide at least one email address.");
+      return;
+    }
     // setShowAddModal(false);
     // setNewVoterEmail("");
   }
@@ -138,7 +143,7 @@ export default function AddVoters({ voters }) {
             <div className="p-6 space-y-4">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 dark:text-slate-300 mb-2">
-                  Email Address
+                  Email Address(Optional)
                 </label>
                 <input
                   type="email"
