@@ -4,7 +4,7 @@ import Papa from "papaparse";
 import * as XLSX from "xlsx";
 import { toast } from "react-toastify";
 
-export default function AddVoters({ voters }) {
+export default function AddVoters({ voters, pollId }) {
   const [showAddModal, setShowAddModal] = useState(false);
   const [newVoterEmail, setNewVoterEmail] = useState("");
   const [uploadedFile, setUploadedFile] = useState(null);
@@ -108,7 +108,7 @@ export default function AddVoters({ voters }) {
     setParsedData(null);
   }
 
-  function handleAddVoters() {
+  async function handleAddVoters() {
     const extractedEmail =
       parsedData
         ?.filter((e) => {
@@ -142,8 +142,33 @@ export default function AddVoters({ voters }) {
       );
       return;
     }
-    console.log("Unique Emails to Add:", uniqueEmails);
-    console.log("Non-existing Voters:", nonExistingVoters);
+
+    // make a request to the server to add the voters to the poll
+    try {
+      const request = await fetch(`/api/polls/${pollId}/add/voters`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          voters: uniqueEmails,
+          departmentCodeComplusory: departmentCodeRequired,
+        }),
+      });
+      const response = await request.json();
+      if (!request.ok || response?.error) {
+        return toast.error(
+          response?.error || "An error occurred while adding voters.",
+        );
+      }
+      console.log("Add Voters Response:", response);
+      toast.success(response?.message || "Voters added successfully.");
+      window.location.reload();
+    } catch (err) {
+      console.log(err);
+      return toast.error("Network Error. Please try again.");
+    }
     // setShowAddModal(false);
     // setNewVoterEmail("");
   }
