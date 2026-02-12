@@ -155,7 +155,7 @@ export default function AddVoters({ voters }) {
               </div>
               <div className="border-t border-gray-200 dark:border-slate-700 pt-4">
                 <label className="block text-sm font-semibold text-gray-700 dark:text-slate-300 mb-2">
-                  Upload CSV(Optional)
+                  Upload CSV or Excel(Optional)
                 </label>
                 <div
                   onDragEnter={handleDrag}
@@ -216,7 +216,7 @@ export default function AddVoters({ voters }) {
                           </p>
                         </div>
                         <p className="text-xs text-gray-500 dark:text-slate-400 mt-1">
-                          CSV
+                          CSV, XLSX
                         </p>
                       </div>
                     </label>
