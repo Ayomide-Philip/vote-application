@@ -114,7 +114,7 @@ export default function AddVoters({ voters, pollId }) {
         ?.filter((e) => {
           if (e?.email) return e.email;
         })
-        ?.map((e) => e.email) || [];
+        ?.map((e) => e.email.trim()) || [];
     // if both extracted email and new voter email is empty return an error
     if (extractedEmail?.length === 0 && !newVoterEmail) {
       toast.error("Please provide at least one email address.");
@@ -162,7 +162,6 @@ export default function AddVoters({ voters, pollId }) {
           response?.error || "An error occurred while adding voters.",
         );
       }
-      console.log("Add Voters Response:", response);
       toast.success(response?.message || "Voters added successfully.");
       window.location.reload();
     } catch (err) {
