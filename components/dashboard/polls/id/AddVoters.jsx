@@ -121,7 +121,11 @@ export default function AddVoters({ voters, pollId }) {
       return;
     }
     // if new voter email is not empty  validate it
-    if (newVoterEmail && !/\S+@\S+\.\S+/.test(newVoterEmail)) {
+    if (
+      newVoterEmail &&
+      !/\S+@\S+\.\S+/.test(newVoterEmail) &&
+      extractedEmail?.length === 0
+    ) {
       toast.error("Please provide a valid email address.");
       return;
     }

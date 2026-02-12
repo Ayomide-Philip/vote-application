@@ -138,6 +138,8 @@ export const PUT = auth(async function PUT(req, { params }) {
         return !currentVoters.some((a) => a.email === v);
       },
     );
+
+    console.log(votersNotInPollCurrentVoters);
     // check if the department code to check exist
     let voterWhoPassedDepartmentCodeCheck = [];
     if (
@@ -163,8 +165,12 @@ export const PUT = auth(async function PUT(req, { params }) {
     ) {
       voterWhoPassedDepartmentCodeCheck = votersNotInPollCurrentVoters;
     }
-    // if voter remainig is empty then return an error
+    // check if the email prefix does not exist while departement code check is true or false
+    if (!pollRule?.emailPrefix.trim()) {
+      voterWhoPassedDepartmentCodeCheck = votersNotInPollCurrentVoters;
+    }
     if (voterWhoPassedDepartmentCodeCheck?.length === 0) {
+      // if voter remainig is empty then return an error
       return NextResponse.json(
         {
           error: "No Voters passed the required citeria",
