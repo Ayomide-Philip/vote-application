@@ -130,13 +130,20 @@ export default function AddVoters({ voters }) {
       extractedEmail.push(newVoterEmail);
     }
     // remove duplicate email
-    const uniqueEmails = [...new Set(extractedEmail)];
-    console.log("Extracted Emails:", uniqueEmails);
-
+    let uniqueEmails = [...new Set(extractedEmail)];
+    // check if the unique email exist in the voters list
+    uniqueEmails = uniqueEmails.filter((email) => {
+      return !voters?.some((voter) => voter?.email === email);
+    });
+    // if the unique email is empty return an error
     if (uniqueEmails?.length === 0) {
-      toast.error("No valid email addresses found.");
+      toast.error(
+        "No valid email addresses found or email addresses already exist.",
+      );
       return;
     }
+    console.log("Unique Emails to Add:", uniqueEmails);
+    console.log("Non-existing Voters:", nonExistingVoters);
     // setShowAddModal(false);
     // setNewVoterEmail("");
   }
