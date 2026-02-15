@@ -15,15 +15,15 @@ export default function CreatePollForm() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleChange = (e) => {
+  function handleChange(e) {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
-  };
+  }
 
-  const formatTimeFirst = (value) => {
+  function formatTimeFirst(value) {
     if (!value) return "";
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) return "";
@@ -37,7 +37,7 @@ export default function CreatePollForm() {
       year: "numeric",
     });
     return `${time} • ${datePart}`;
-  };
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -139,7 +139,7 @@ export default function CreatePollForm() {
             <input
               type="text"
               name="title"
-              value={formData.title}
+              value={formData?.title}
               onChange={handleChange}
               placeholder="What should be our Q1 priority?"
               className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-700/50 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600 focus:border-transparent transition-all"
@@ -152,7 +152,7 @@ export default function CreatePollForm() {
             </label>
             <textarea
               name="description"
-              value={formData.description}
+              value={formData?.description}
               onChange={handleChange}
               placeholder="Provide context and details about this poll..."
               rows="5"
@@ -180,13 +180,13 @@ export default function CreatePollForm() {
             <input
               type="datetime-local"
               name="startDate"
-              value={formData.startDate}
+              value={formData?.startDate}
               onChange={handleChange}
               className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-700/50 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600 focus:border-transparent transition-all"
             />
-            {formData.startDate && (
+            {formData?.startDate && (
               <p className="text-xs text-gray-600 dark:text-slate-400 mt-1">
-                Preview: {formatTimeFirst(formData.startDate)}
+                Preview: {formatTimeFirst(formData?.startDate)}
               </p>
             )}
           </div>
@@ -197,13 +197,13 @@ export default function CreatePollForm() {
             <input
               type="datetime-local"
               name="endDate"
-              value={formData.endDate}
+              value={formData?.endDate}
               onChange={handleChange}
               className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-700/50 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600 focus:border-transparent transition-all"
             />
-            {formData.endDate && (
+            {formData?.endDate && (
               <p className="text-xs text-gray-600 dark:text-slate-400 mt-1">
-                Preview: {formatTimeFirst(formData.endDate)}
+                Preview: {formatTimeFirst(formData?.endDate)}
               </p>
             )}
           </div>
@@ -231,7 +231,7 @@ export default function CreatePollForm() {
             <input
               type="text"
               name="emailPrefix"
-              value={formData.emailPrefix}
+              value={formData?.emailPrefix}
               onChange={handleChange}
               placeholder="e.g., @company.com"
               className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-700/50 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600 focus:border-transparent transition-all"
@@ -251,7 +251,7 @@ export default function CreatePollForm() {
             <input
               type="text"
               name="departmentCodes"
-              value={formData.departmentCodes}
+              value={formData?.departmentCodes}
               onChange={handleChange}
               placeholder="e.g., eng, product, sales"
               className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-700/50 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600 focus:border-transparent transition-all"
