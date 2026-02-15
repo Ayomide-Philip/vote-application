@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Calendar, Settings, Link2, Copy, X, Loader2 } from "lucide-react";
+import { Calendar, Settings, Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 
 export default function CreatePollForm() {
