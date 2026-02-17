@@ -172,8 +172,6 @@ export default function AddVoters({ voters, pollId }) {
       console.log(err);
       return toast.error("Network Error. Please try again.");
     }
-    // setShowAddModal(false);
-    // setNewVoterEmail("");
   }
 
   return (
