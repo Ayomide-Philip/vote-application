@@ -266,7 +266,7 @@ export default function CreatePollForm() {
       <div className="flex flex-col sm:flex-row gap-3 pt-6">
         <button
           type="button"
-          className="flex-1 px-6 py-3 border border-gray-300 dark:border-slate-600 rounded-xl text-gray-700 dark:text-slate-300 font-semibold hover:bg-gray-50 dark:hover:bg-slate-700/50 transition-all duration-200"
+          className="flex-1 cursor-pointer px-6 py-3 border border-gray-300 dark:border-slate-600 rounded-xl text-gray-700 dark:text-slate-300 font-semibold hover:bg-gray-50 dark:hover:bg-slate-700/50 transition-all duration-200"
         >
           Cancel
         </button>
