@@ -121,6 +121,7 @@ export default function CreatePollForm() {
       }
       setIsSubmitting(false);
       toast.success("Poll created successfully!");
+      window.location.href = "/polls";
     } catch (error) {
       console.log("Error creating poll:", error);
       setIsSubmitting(false);
