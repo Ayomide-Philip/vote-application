@@ -39,11 +39,22 @@ export async function DELETE(req, { params }) {
         },
       );
     }
-    // check if the voter exist in the database
-    const existingUser = poll?.voters?.find(
-      (v) => v.toString() === userId.toString(),
+    // check if the voter exist in the poll role
+    const existingUser = poll?.role?.find(
+      (v) => v?.userId?.toString() === userId.toString(),
     );
-    console.log(existingUser);
+    // return unauthorized access if the user does not have an access to edit
+    if (
+      !existingUser ||
+      (existingUser?.userRole !== "Owner" && existingUser?.userRole !== "Admin")
+    ) {
+      return NextResponse.json(
+        { error: "Unauthorized Access" },
+        {
+          status: 401,
+        },
+      );
+    }
     // return success
     return NextResponse.json(
       {
