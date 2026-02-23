@@ -11,7 +11,7 @@ export const PUT = auth(async function PUT(req, { params }) {
       { error: "Unauthorized Access" },
       {
         status: 400,
-      }
+      },
     );
   }
   const authorizationUserId = req?.auth?.user?.id;
@@ -21,7 +21,7 @@ export const PUT = auth(async function PUT(req, { params }) {
       { error: "User is not Authorized" },
       {
         status: 401,
-      }
+      },
     );
   }
   // validate pollsId, contestantId, userId
@@ -30,7 +30,7 @@ export const PUT = auth(async function PUT(req, { params }) {
       { error: "Poll ID is required" },
       {
         status: 400,
-      }
+      },
     );
   }
   if (!contestantId) {
@@ -38,7 +38,7 @@ export const PUT = auth(async function PUT(req, { params }) {
       { error: "Contestant ID is required" },
       {
         status: 400,
-      }
+      },
     );
   }
   if (!userId) {
@@ -46,7 +46,7 @@ export const PUT = auth(async function PUT(req, { params }) {
       { error: "User ID is required" },
       {
         status: 400,
-      }
+      },
     );
   }
 
@@ -60,7 +60,7 @@ export const PUT = auth(async function PUT(req, { params }) {
         { error: "User does not exist" },
         {
           status: 401,
-        }
+        },
       );
     }
     // check if the candidate belongs to the poll
@@ -73,7 +73,7 @@ export const PUT = auth(async function PUT(req, { params }) {
         { error: "Candidate does not belong to poll" },
         {
           status: 401,
-        }
+        },
       );
     }
     // check the role
@@ -85,7 +85,7 @@ export const PUT = auth(async function PUT(req, { params }) {
         { error: `Poll ${candidateBelongs?.role} cant be a candidate` },
         {
           status: 401,
-        }
+        },
       );
     }
     // check if the person who wants to authorize the addition of this new candidate exist
@@ -96,7 +96,7 @@ export const PUT = auth(async function PUT(req, { params }) {
         { error: "User does not exist" },
         {
           status: 401,
-        }
+        },
       );
     }
     // check if the poll exist
@@ -106,7 +106,7 @@ export const PUT = auth(async function PUT(req, { params }) {
         { error: "Poll does not exist" },
         {
           status: 401,
-        }
+        },
       );
     }
     // check if this user has the right to authorize
@@ -119,14 +119,14 @@ export const PUT = auth(async function PUT(req, { params }) {
         { error: "User does not belong to poll" },
         {
           status: 400,
-        }
+        },
       );
     }
     // check if the user has the right to update the poll
     if (userBelongs?.role !== "Admin" && userBelongs?.role !== "Owner") {
       return NextResponse.json(
         { error: "User does not have the right to authorize this action" },
-        { status: 400 }
+        { status: 400 },
       );
     }
     //find the contestant
@@ -140,7 +140,7 @@ export const PUT = auth(async function PUT(req, { params }) {
         { error: "Contestant does not exist" },
         {
           status: 400,
-        }
+        },
       );
     }
     // check if the candidate already exist
@@ -152,7 +152,7 @@ export const PUT = auth(async function PUT(req, { params }) {
         { error: "Candidate already exist" },
         {
           status: 400,
-        }
+        },
       );
     }
 
@@ -167,7 +167,7 @@ export const PUT = auth(async function PUT(req, { params }) {
         {
           error: `User is already a candidate for a position in this poll`,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -189,7 +189,7 @@ export const PUT = auth(async function PUT(req, { params }) {
       },
       {
         status: 200,
-      }
+      },
     );
   } catch (err) {
     console.log(err);
@@ -197,7 +197,7 @@ export const PUT = auth(async function PUT(req, { params }) {
       { error: "An error was encountered" },
       {
         status: 400,
-      }
+      },
     );
   }
 });
