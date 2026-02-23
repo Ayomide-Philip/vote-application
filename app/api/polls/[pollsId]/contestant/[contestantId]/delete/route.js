@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { connectDatabase } from "@/libs/connectdatabase";
 import User from "@/libs/models/user.models";
 import Polls from "@/libs/models/polls.models";
+import Contestant from "@/libs/models/contestant.models";
 
 export async function DELETE(req, { params }) {
   const { pollsId, contestantId } = await params;
@@ -52,6 +53,17 @@ export async function DELETE(req, { params }) {
         { error: "Unauthorized Access" },
         {
           status: 401,
+        },
+      );
+    }
+    // check if the contestant exist
+    const contestant = await Contestant.findById(contestantId);
+    // if it does not exist return an error
+    if (!contestant) {
+      return NextResponse.json(
+        { error: "Contestant Position not Found" },
+        {
+          status: 400,
         },
       );
     }
