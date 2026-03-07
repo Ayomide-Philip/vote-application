@@ -57,7 +57,11 @@ export async function DELETE(req, { params }) {
       );
     }
     // check if the contestant exist
-    const contestant = await Contestant.findById(contestantId);
+    const contestant = await Contestant.findOne({
+      pollId: pollsId,
+      _id: contestantId,
+    });
+
     // if it does not exist return an error
     if (!contestant) {
       return NextResponse.json(
@@ -67,12 +71,40 @@ export async function DELETE(req, { params }) {
         },
       );
     }
+    //  check if there are candidates in the contestant position
+    if (contestant?.candidates?.length > 0) {
+      const candidateIds = contestant.candidates.map((c) => c.userId);
+      console.log(candidateIds);
+      const candidates = await User.updateMany(
+        {
+          _id: { $in: candidateIds },
+          "voteInformation.pollId": pollsId,
+          "voteInformation.role": "Candidate",
+        },
+        {
+          $set: {
+            "voteInformation.$.role": "Voters",
+          },
+        },
+      );
+
+      console.log(candidates);
+      if (!candidates.acknowledged) {
+        return NextResponse.json(
+          { error: "Unable to update candidate role" },
+          {
+            status: 400,
+          },
+        );
+      }
+    }
     // return success
     return NextResponse.json(
       {
         message: "DELETING my contestant",
         authorizationUser,
         voters: poll?.voters,
+        contestant,
       },
       {
         status: 200,
