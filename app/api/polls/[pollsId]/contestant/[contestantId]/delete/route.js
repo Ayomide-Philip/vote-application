@@ -3,8 +3,9 @@ import { connectDatabase } from "@/libs/connectdatabase";
 import User from "@/libs/models/user.models";
 import Polls from "@/libs/models/polls.models";
 import Contestant from "@/libs/models/contestant.models";
+import { auth } from "@/auth";
 
-export async function DELETE(req, { params }) {
+export const DELETE = auth(async function DELETE(req, { params }) {
   const { pollsId, contestantId } = await params;
   const { userId } = await req.json();
   if (!pollsId || !contestantId || !userId) {
@@ -111,6 +112,23 @@ export async function DELETE(req, { params }) {
         },
       );
     }
+    // remove the contestant position from the poll
+    const updatedPoll = await Polls.updateOne(
+      { _id: pollsId },
+      { $pull: { contestants: contestantId } },
+    );
+    // if the contestant position was not removed from the poll return an error
+    console.log(updatedPoll);
+    if (!updatedPoll.acknowledged) {
+      return NextResponse.json(
+        {
+          error: "Unable to delete contestant position from poll",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
     // return success
     return NextResponse.json(
       {
@@ -129,4 +147,4 @@ export async function DELETE(req, { params }) {
       },
     );
   }
-}
+});
