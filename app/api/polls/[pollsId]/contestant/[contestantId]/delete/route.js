@@ -74,7 +74,6 @@ export async function DELETE(req, { params }) {
     //  check if there are candidates in the contestant position
     if (contestant?.candidates?.length > 0) {
       const candidateIds = contestant.candidates.map((c) => c.userId);
-      console.log(candidateIds);
       const candidates = await User.updateMany(
         {
           _id: { $in: candidateIds },
@@ -87,8 +86,6 @@ export async function DELETE(req, { params }) {
           },
         },
       );
-
-      console.log(candidates);
       if (!candidates.acknowledged) {
         return NextResponse.json(
           { error: "Unable to update candidate role" },
@@ -98,13 +95,27 @@ export async function DELETE(req, { params }) {
         );
       }
     }
+    // delete the contestant position
+    const deletedContestant = await Contestant.deleteOne({
+      _id: contestantId,
+      pollId: pollsId,
+    });
+    // if delete was not successful return an error
+    if (!deletedContestant.acknowledged) {
+      return NextResponse.json(
+        {
+          error: "Unable to delete contestant position",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
     // return success
     return NextResponse.json(
       {
-        message: "DELETING my contestant",
-        authorizationUser,
-        voters: poll?.voters,
-        contestant,
+        message: "Contestant Position Deleted Successfully",
+        deletedContestant,
       },
       {
         status: 200,
