@@ -1,0 +1,150 @@
+import { NextResponse } from "next/server";
+import { connectDatabase } from "@/libs/connectdatabase";
+import User from "@/libs/models/user.models";
+import Polls from "@/libs/models/polls.models";
+import Contestant from "@/libs/models/contestant.models";
+import { auth } from "@/auth";
+
+export const DELETE = auth(async function DELETE(req, { params }) {
+  const { pollsId, contestantId } = await params;
+  const { userId } = await req.json();
+  if (!pollsId || !contestantId || !userId) {
+    return NextResponse.json(
+      { error: "Invalid Parameters" },
+      {
+        status: 400,
+      },
+    );
+  }
+  try {
+    // connect to database
+    await connectDatabase();
+    // check if the userId exist
+    const authorizationUser = await User.findById(userId);
+    // if auth user does not exist in database return error
+    if (!authorizationUser) {
+      return NextResponse.json(
+        { error: "User does not exist" },
+        {
+          status: 400,
+        },
+      );
+    }
+    // check if the poll exist
+    const poll = await Polls.findById(pollsId);
+    // if the poll does not exist return an error
+    if (!poll) {
+      return NextResponse.json(
+        { error: "Poll does not exist" },
+        {
+          status: 400,
+        },
+      );
+    }
+    // check if the voter exist in the poll role
+    const existingUser = poll?.role?.find(
+      (v) => v?.userId?.toString() === userId.toString(),
+    );
+    // return unauthorized access if the user does not have an access to edit
+    if (
+      !existingUser ||
+      (existingUser?.userRole !== "Owner" && existingUser?.userRole !== "Admin")
+    ) {
+      return NextResponse.json(
+        { error: "Unauthorized Access" },
+        {
+          status: 401,
+        },
+      );
+    }
+    // check if the contestant exist
+    const contestant = await Contestant.findOne({
+      pollId: pollsId,
+      _id: contestantId,
+    });
+
+    // if it does not exist return an error
+    if (!contestant) {
+      return NextResponse.json(
+        { error: "Contestant Position not Found" },
+        {
+          status: 400,
+        },
+      );
+    }
+    //  check if there are candidates in the contestant position
+    if (contestant?.candidates?.length > 0) {
+      const candidateIds = contestant.candidates.map((c) => c.userId);
+      const candidates = await User.updateMany(
+        {
+          _id: { $in: candidateIds },
+          "voteInformation.pollId": pollsId,
+          "voteInformation.role": "Candidate",
+        },
+        {
+          $set: {
+            "voteInformation.$.role": "Voters",
+          },
+        },
+      );
+      if (!candidates.acknowledged) {
+        return NextResponse.json(
+          { error: "Unable to update candidate role" },
+          {
+            status: 400,
+          },
+        );
+      }
+    }
+    // delete the contestant position
+    const deletedContestant = await Contestant.deleteOne({
+      _id: contestantId,
+      pollId: pollsId,
+    });
+    // if delete was not successful return an error
+    if (!deletedContestant.acknowledged) {
+      return NextResponse.json(
+        {
+          error: "Unable to delete contestant position",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+    // remove the contestant position from the poll
+    const updatedPoll = await Polls.updateOne(
+      { _id: pollsId },
+      { $pull: { contestants: contestantId } },
+    );
+    // if the contestant position was not removed from the poll return an error
+    console.log(updatedPoll);
+    if (!updatedPoll.acknowledged) {
+      return NextResponse.json(
+        {
+          error: "Unable to delete contestant position from poll",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+    // return success
+    return NextResponse.json(
+      {
+        message: "Contestant Position Deleted Successfully",
+        deletedContestant,
+      },
+      {
+        status: 200,
+      },
+    );
+  } catch (err) {
+    return NextResponse.json(
+      { error: "Unable to delete contestant position" },
+      {
+        status: 400,
+      },
+    );
+  }
+});
