@@ -6,8 +6,17 @@ import Contestant from "@/libs/models/contestant.models";
 import { auth } from "@/auth";
 
 export const DELETE = auth(async function DELETE(req, { params }) {
+  if (!req.auth || !req.auth.user) {
+    return NextResponse.json(
+      { error: "Unauthorized Access" },
+      {
+        status: 400,
+      },
+    );
+  }
   const { pollsId, contestantId } = await params;
-  const { userId } = await req.json();
+  const userId = req?.auth?.user?.id;
+
   if (!pollsId || !contestantId || !userId) {
     return NextResponse.json(
       { error: "Invalid Parameters" },
@@ -74,7 +83,7 @@ export const DELETE = auth(async function DELETE(req, { params }) {
     }
     //  check if there are candidates in the contestant position
     if (contestant?.candidates?.length > 0) {
-      const candidateIds = contestant.candidates.map((c) => c.userId);
+      const candidateIds = contestant.candidates.map((c) => c?.userId);
       const candidates = await User.updateMany(
         {
           _id: { $in: candidateIds },
