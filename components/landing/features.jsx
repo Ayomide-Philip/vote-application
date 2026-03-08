@@ -1,11 +1,12 @@
 import {
-  Globe,
-  Users,
   BarChart3,
+  Calendar,
+  Globe,
   Shield,
   TrendingUp,
-  Heart,
+  Users,
 } from "lucide-react";
+
 export default function FeatureSection() {
   return (
     <section id="features" className="py-5">
@@ -25,34 +26,40 @@ export default function FeatureSection() {
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {[
           {
-            icon: TrendingUp,
-            title: "Real-time Analytics",
+            icon: Shield,
+            title: "Google Sign-In Security",
             description:
-              "Watch votes update live with beautiful, interactive charts and detailed breakdowns",
+              "Authenticate with Google and protect every voting board with verified user sessions and role checks.",
           },
           {
-            icon: Shield,
-            title: "Google-level Security",
+            icon: Calendar,
+            title: "Scheduled Voting Windows",
             description:
-              "Google-grade encryption ensures every vote stays private and authentic",
+              "Set start and end times with guardrails so polls only run during the exact election window you define.",
           },
           {
             icon: Users,
-            title: "Easy Collaboration",
+            title: "Smart Voter Enrollment",
             description:
-              "Share polls instantly via link, QR code, or email to get responses fast",
+              "Add voters manually or via CSV, prevent duplicates, and keep poll voter lists synchronized automatically.",
           },
           {
             icon: Globe,
-            title: "Mobile First",
+            title: "Rule-Based Eligibility",
             description:
-              "Responsive design works perfectly on desktop, tablet, and smartphone",
+              "Restrict participation by email domain and department code, then let eligible users join with a secure invite link.",
           },
           {
-            icon: Heart,
-            title: "User Friendly",
+            icon: TrendingUp,
+            title: "Position-Based Ballots",
             description:
-              "Intuitive interface that anyone can use with zero learning curve",
+              "Create positions, assign candidates, and support one vote per position with clear not-started and closed states.",
+          },
+          {
+            icon: BarChart3,
+            title: "Live Results and Reports",
+            description:
+              "Track outcomes with live board updates, turnout stats, and printable result reports for transparent decisions.",
           },
         ].map((feature, idx) => {
           const Icon = feature.icon;
