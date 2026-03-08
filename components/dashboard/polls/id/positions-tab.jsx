@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Plus, Trash2, Award, Users, BarChart3, X } from "lucide-react";
+import { Plus, Award, Shredder, X } from "lucide-react";
 import { toast } from "react-toastify";
 import LoadingSpinner from "@/components/loadingspinner";
 
@@ -250,7 +250,7 @@ export default function PositionsTab({ pollId, user }) {
               >
                 <div className="px-6 py-4 border-b border-gray-200 dark:border-slate-700">
                   <div className="flex items-start gap-4">
-                    <div className="h-14 w-14 rounded-full bg-linear-to-br from-indigo-500 to-blue-600 flex items-center justify-center text-white font-bold shrink-0 text-lg">
+                    <div className="h-14 w-14 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold shrink-0 text-sm">
                       {position.position
                         ?.split(" ")
                         .map((n) => n[0])
@@ -266,6 +266,12 @@ export default function PositionsTab({ pollId, user }) {
                         {position?.candidates?.length !== 1 ? "s" : ""}
                       </p>
                     </div>
+                    <button
+                      onClick={() => handleDeletePosition(position._id)}
+                      className="p-2 cursor-pointer hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors text-red-600 dark:text-red-400 shrink-0"
+                    >
+                      <Shredder className="h-5 w-5" />
+                    </button>
                   </div>
                 </div>
 
@@ -284,21 +290,15 @@ export default function PositionsTab({ pollId, user }) {
 
                   <div className="bg-gray-50 dark:bg-slate-700/50 rounded-lg p-3">
                     <p className="text-xs text-gray-600 dark:text-slate-400 font-semibold uppercase mb-1">
-                      Total Candidates
+                      Total Position Votes
                     </p>
                     <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                      {position?.candidates?.length || 0}
+                      {(position?.candidates || []).reduce(
+                        (total, c) => total + (c?.votes || 0),
+                        0,
+                      )}
                     </p>
                   </div>
-                </div>
-
-                <div className="px-6 py-4 border-t border-gray-200 dark:border-slate-700 flex items-center justify-end">
-                  <button
-                    onClick={() => handleDeletePosition(position._id)}
-                    className="p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors text-red-600 dark:text-red-400"
-                  >
-                    <Trash2 className="h-5 w-5" />
-                  </button>
                 </div>
               </div>
             ))}
