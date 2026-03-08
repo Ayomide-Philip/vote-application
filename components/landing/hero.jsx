@@ -2,8 +2,65 @@
 import { ArrowRight, TrendingUp, Shield, Users } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { signIn } from "next-auth/react";
+import { useEffect, useMemo, useState } from "react";
+
+const DEMO_CANDIDATES = [
+  {
+    option: "Candidate 1",
+    votes: 5,
+    color: "bg-blue-500",
+    maxVotes: 30,
+  },
+  {
+    option: "Candidate 2",
+    votes: 2,
+    color: "bg-cyan-500",
+    maxVotes: 22,
+  },
+  {
+    option: "Candidate 3",
+    votes: 1,
+    color: "bg-purple-500",
+    maxVotes: 16,
+  },
+];
 
 export default function HeroSection() {
+  const [candidateVotes, setCandidateVotes] = useState(DEMO_CANDIDATES);
+  const totalVotes = useMemo(
+    () => candidateVotes.reduce((sum, item) => sum + item.votes, 0),
+    [candidateVotes],
+  );
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCandidateVotes((previousVotes) => {
+        const candidatesThatCanGrow = previousVotes
+          .map((candidate, idx) =>
+            candidate.votes < candidate.maxVotes ? idx : null,
+          )
+          .filter((idx) => idx !== null);
+
+        if (candidatesThatCanGrow.length === 0) {
+          return previousVotes;
+        }
+
+        const randomCandidateIndex =
+          candidatesThatCanGrow[
+            Math.floor(Math.random() * candidatesThatCanGrow.length)
+          ];
+
+        return previousVotes.map((candidate, idx) =>
+          idx === randomCandidateIndex
+            ? { ...candidate, votes: candidate.votes + 1 }
+            : candidate,
+        );
+      });
+    }, 1200);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <>
       <section className="relative min-h-screen bg-linear-to-br from-white via-blue-50/30 to-white dark:from-zinc-900 dark:via-blue-950/20 dark:to-zinc-900 pt-17 sm:pt-20 lg:pt-5 pb-10 sm:pb-16 lg:pb-20 px-4 sm:px-6 overflow-hidden">
@@ -67,30 +124,14 @@ export default function HeroSection() {
                           President
                         </h3>
                         <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">
-                          8 votes • Live results
+                          {totalVotes} votes • Live results
                         </p>
                       </div>
                       <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
                     </div>
 
                     <div className="space-y-3">
-                      {[
-                        {
-                          option: "Candidate 1",
-                          votes: 5,
-                          color: "bg-blue-500",
-                        },
-                        {
-                          option: "Candidate 2",
-                          votes: 2,
-                          color: "bg-cyan-500",
-                        },
-                        {
-                          option: "Candidate 3",
-                          votes: 1,
-                          color: "bg-purple-500",
-                        },
-                      ].map((item, idx) => (
+                      {candidateVotes.map((item, idx) => (
                         <div key={idx} className="space-y-2">
                           <div className="flex justify-between text-sm">
                             <span className="font-medium text-zinc-700 dark:text-zinc-300">
@@ -103,7 +144,9 @@ export default function HeroSection() {
                           <div className="h-3 bg-zinc-100 dark:bg-zinc-700 rounded-full overflow-hidden">
                             <div
                               className={`h-full ${item.color} rounded-full transition-all duration-1000`}
-                              style={{ width: `${(item.votes / 8) * 100}%` }}
+                              style={{
+                                width: `${(item.votes / Math.max(totalVotes, 1)) * 100}%`,
+                              }}
                             ></div>
                           </div>
                         </div>
