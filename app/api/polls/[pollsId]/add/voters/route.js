@@ -122,6 +122,28 @@ export const PUT = auth(async function PUT(req, { params }) {
         },
       );
     }
+    // check if voteing has not started
+    if (new Date(poll.startDate) < new Date()) {
+      return NextResponse.json(
+        {
+          error: "Voting has already started, you cannot add voters",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+    // check if the voteing has ended
+    if (new Date(poll.endDate) < new Date()) {
+      return NextResponse.json(
+        {
+          error: "Voting has already ended, you cannot add voters",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
     // get all the voters in the poll
     const currentVoters = poll?.voters || [];
     const pollRule = poll?.rule || {
