@@ -64,7 +64,7 @@ export default function HeroSection() {
                     <div className="flex items-start justify-between">
                       <div>
                         <h3 className="text-lg sm:text-xl font-bold text-zinc-900 dark:text-zinc-100">
-                          Team Lunch Choice
+                          President
                         </h3>
                         <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">
                           8 votes • Live results
@@ -75,9 +75,21 @@ export default function HeroSection() {
 
                     <div className="space-y-3">
                       {[
-                        { option: "Pizza", votes: 5, color: "bg-blue-500" },
-                        { option: "Sushi", votes: 2, color: "bg-cyan-500" },
-                        { option: "Burgers", votes: 1, color: "bg-purple-500" },
+                        {
+                          option: "Candidate 1",
+                          votes: 5,
+                          color: "bg-blue-500",
+                        },
+                        {
+                          option: "Candidate 2",
+                          votes: 2,
+                          color: "bg-cyan-500",
+                        },
+                        {
+                          option: "Candidate 3",
+                          votes: 1,
+                          color: "bg-purple-500",
+                        },
                       ].map((item, idx) => (
                         <div key={idx} className="space-y-2">
                           <div className="flex justify-between text-sm">
