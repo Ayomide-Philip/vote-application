@@ -11,8 +11,6 @@ export default function VoteCandidate({
   pollId,
   voteId,
 }) {
-  console.log(candidates);
-
   const [selectedCandidate, setSelectedCandidate] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
