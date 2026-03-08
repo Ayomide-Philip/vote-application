@@ -90,6 +90,33 @@ export default function PositionsTab({ pollId, user }) {
     }
   }
 
+  async function handleDeletePosition(contestantId) {
+    if (!contestantId) {
+      return toast.error("Invalid contestant position");
+    }
+    try {
+      const request = await fetch(
+        `/api/polls/${pollId}/contestant/${contestantId}/delete`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        },
+      );
+      const response = await request.json();
+      if (!request?.ok || response?.error) {
+        return toast.error(response?.error || "An unexcepted error occurred");
+      }
+      toast.success(response?.message || "Position Deleted Successfully");
+      window.location.reload();
+    } catch (err) {
+      console.log(err);
+      return toast.error("Network Error");
+    }
+  }
+
   return (
     <div className="space-y-6">
       <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-700 rounded-2xl p-4 sm:p-6 border border-blue-100 dark:border-slate-600">
@@ -263,7 +290,10 @@ export default function PositionsTab({ pollId, user }) {
                     <Edit className="h-4 w-4" />
                     Edit
                   </button>
-                  <button className="flex-1 px-3 py-2 rounded-lg font-medium text-sm flex items-center justify-center gap-2 text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors border border-gray-300 dark:border-slate-600">
+                  <button
+                    onClick={() => handleDeletePosition(position._id)}
+                    className="flex-1 cursor-pointer px-3 py-2 rounded-lg font-medium text-sm flex items-center justify-center gap-2 text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors border border-gray-300 dark:border-slate-600"
+                  >
                     <Trash2 className="h-4 w-4" />
                     Delete
                   </button>
