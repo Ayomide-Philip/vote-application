@@ -1,5 +1,5 @@
 import { Users, UserPlus, CheckCircle, Clock, Share2 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -13,7 +13,21 @@ const formatDate = (dateString) => {
 };
 
 const calculateDaysUntil = (targetDate) => {
-  return Math.ceil((new Date(targetDate) - new Date()) / (1000 * 60 * 60 * 24));
+  const now = new Date();
+  const target = new Date(targetDate);
+  const diffMs = target - now;
+
+  if (diffMs <= 0) {
+    return "0d 0h 0m 0s";
+  }
+
+  const totalSeconds = Math.floor(diffMs / 1000);
+  const days = Math.floor(totalSeconds / (24 * 3600));
+  const hours = Math.floor((totalSeconds % (24 * 3600)) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  return `${days}d ${hours}h ${minutes}m ${seconds}s`;
 };
 
 const getPollTimingStatus = (startDate, endDate) => {
@@ -55,7 +69,17 @@ export default function PollsIdHeader({ pollData }) {
     _id,
   } = pollData;
   // const [overlay, setOverlay] = useState(false);
-  const timingStatus = getPollTimingStatus(startDate, endDate);
+  const [timingStatus, setTimingStatus] = useState(
+    getPollTimingStatus(startDate, endDate),
+  );
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimingStatus(getPollTimingStatus(startDate, endDate));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [startDate, endDate]);
 
   function calculateCandidate(contestants) {
     let totalCandidate = 0;
@@ -186,7 +210,7 @@ export default function PollsIdHeader({ pollData }) {
                 <p className="text-xs font-semibold text-gray-600 dark:text-slate-400">
                   {timingStatus.label}
                 </p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                <p className="text-lg font-bold text-gray-900 dark:text-white">
                   {timingStatus.value}
                 </p>
               </div>
