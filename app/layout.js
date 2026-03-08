@@ -1,7 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ThemesProvider from "@/libs/themeprovider";
-import { ToastContainer } from "react-toastify";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,17 +29,16 @@ export default async function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100`}
       >
-        <ToastContainer
+        <Toaster
           position="top-center"
-          autoClose={4000}
-          hideProgressBar
-          closeOnClick
-          pauseOnHover
-          draggable
-          theme="colored"
-          toastClassName="!rounded-xl !px-4 !py-3 !shadow-lg !border !border-slate-200 !bg-white !text-slate-900 dark:!bg-slate-900 dark:!text-white dark:!border-slate-700 !text-sm !font-semibold !leading-relaxed"
-          bodyClassName="!flex !items-center !gap-2"
-          className="w-full! max-w-md!"
+          duration={4000}
+          theme="system"
+          richColors
+          closeButton
+          toastOptions={{
+            className:
+              "!w-[94vw] sm:!w-auto sm:!max-w-[700px] !rounded-xl !px-3 sm:!px-4 !py-2.5 sm:!py-3 !text-xs sm:!text-sm !font-semibold !leading-relaxed !shadow-lg !border !border-slate-200 dark:!border-slate-700 !break-words sm:!whitespace-nowrap",
+          }}
         />
         <ThemesProvider>{children}</ThemesProvider>
       </body>

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Calendar, Settings, Loader2 } from "lucide-react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 export default function CreatePollForm() {
   const [formData, setFormData] = useState({

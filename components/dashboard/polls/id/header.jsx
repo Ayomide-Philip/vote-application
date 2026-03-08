@@ -1,6 +1,6 @@
 import { Users, UserPlus, CheckCircle, Clock, Share2 } from "lucide-react";
 import { useState, useEffect } from "react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 const formatDate = (dateString) => {
   const date = new Date(dateString);
   return date.toLocaleDateString("en-US", {

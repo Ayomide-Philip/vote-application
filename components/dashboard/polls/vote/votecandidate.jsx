@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import { ArrowRight, CheckCircle, Loader } from "lucide-react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 export default function VoteCandidate({
   candidates,

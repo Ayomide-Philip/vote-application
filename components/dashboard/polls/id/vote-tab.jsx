@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Clock, Users } from "lucide-react";
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import LoadingSpinner from "@/components/loadingspinner";
 
 export default function VoteTab({ poll, pollId }) {

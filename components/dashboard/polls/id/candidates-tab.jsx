@@ -2,7 +2,7 @@
 import LoadingSpinner from "@/components/loadingspinner";
 import { Plus, Users, Mail, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 export default function CandidatesTab({ poll, pollId, user }) {
   const voters = poll?.voters || [];

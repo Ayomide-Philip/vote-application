@@ -2,7 +2,7 @@
 "use client";
 
 import { useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 export default function InvitationDetails({ pollData }) {
   const [loading, setLoading] = useState(false);

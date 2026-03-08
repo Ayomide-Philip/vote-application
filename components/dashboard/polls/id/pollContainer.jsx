@@ -2,7 +2,7 @@
 import PollsIdHeader from "@/components/dashboard/polls/id/header";
 import PollsIdBody from "@/components/dashboard/polls/id/body";
 import { useState, useEffect } from "react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 export default function PollIdContainer({ polls, pollsId, user }) {
   const [poll, setPoll] = useState(polls || {});
   useEffect(() => {

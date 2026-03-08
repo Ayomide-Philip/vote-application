@@ -2,7 +2,7 @@
 import LoadingSpinner from "@/components/loadingspinner";
 import { CheckCircle, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import AddVoters from "./AddVoters";
 
 export default function VotersTab({ poll, pollId, user }) {

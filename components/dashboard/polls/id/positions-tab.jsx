@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Plus, Award, Shredder, X } from "lucide-react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import LoadingSpinner from "@/components/loadingspinner";
 
 export default function PositionsTab({ pollId, user }) {

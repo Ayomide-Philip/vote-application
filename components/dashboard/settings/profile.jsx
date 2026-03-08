@@ -2,7 +2,7 @@
 "use client";
 import { UserRound } from "lucide-react";
 import { useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 export default function SettingsProfilePage({ user }) {
   const [isEditing, setIsEditing] = useState(false);

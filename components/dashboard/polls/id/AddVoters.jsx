@@ -2,7 +2,7 @@ import { useState } from "react";
 import { UserPlus, Upload, X } from "lucide-react";
 import Papa from "papaparse";
 import * as XLSX from "xlsx";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 export default function AddVoters({ voters, pollId }) {
   const [showAddModal, setShowAddModal] = useState(false);
@@ -22,7 +22,9 @@ export default function AddVoters({ voters, pollId }) {
           setParsedData(results.data);
         },
         error: (error) => {
-          toast.error("Error parsing CSV:", error);
+          toast.error("Error parsing CSV", {
+            description: error?.message || "Unable to parse the CSV file.",
+          });
         },
       });
     } else if (
