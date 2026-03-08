@@ -69,16 +69,26 @@ export default function PollsIdHeader({ pollData }) {
     _id,
   } = pollData;
   // const [overlay, setOverlay] = useState(false);
-  const [timingStatus, setTimingStatus] = useState(
-    getPollTimingStatus(startDate, endDate),
-  );
+  const [timingStatus, setTimingStatus] = useState({
+    label: "",
+    value: "Loading...",
+    status: "upcoming",
+  });
 
   useEffect(() => {
+    // Defer state update to avoid hydration mismatch
+    const timer = setTimeout(() => {
+      setTimingStatus(getPollTimingStatus(startDate, endDate));
+    }, 0);
+
     const interval = setInterval(() => {
       setTimingStatus(getPollTimingStatus(startDate, endDate));
     }, 1000);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearTimeout(timer);
+      clearInterval(interval);
+    };
   }, [startDate, endDate]);
 
   function calculateCandidate(contestants) {

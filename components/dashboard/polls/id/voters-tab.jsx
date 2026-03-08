@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import LoadingSpinner from "@/components/loadingspinner";
 import { CheckCircle, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -11,7 +12,6 @@ export default function VotersTab({ poll, pollId, user }) {
   function checkIfUserHasVoted(userId) {
     return completedVoters.find((user) => user === userId);
   }
-
   useEffect(() => {
     if (user?.poll?.role !== "Owner" && user?.poll?.role !== "Admin") {
       window.location.href = `/polls/${pollId}`;
@@ -103,13 +103,25 @@ export default function VotersTab({ poll, pollId, user }) {
                     className="hover:bg-gray-50 dark:hover:bg-slate-700/30 transition-colors"
                   >
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div>
-                        <p className="font-semibold capitalize text-gray-900 dark:text-white">
-                          {voter?.name}
-                        </p>
-                        <p className="text-sm text-gray-600 dark:text-slate-400">
-                          {voter.email}
-                        </p>
+                      <div className="flex items-center gap-3">
+                        <img
+                          src={
+                            voter?.image ||
+                            "https://via.placeholder.com/40?text=User"
+                          }
+                          alt={voter?.name}
+                          width={40}
+                          height={40}
+                          className="rounded-full object-cover"
+                        />
+                        <div>
+                          <p className="font-semibold capitalize text-gray-900 dark:text-white">
+                            {voter?.name}
+                          </p>
+                          <p className="text-sm text-gray-600 dark:text-slate-400">
+                            {voter.email}
+                          </p>
+                        </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
