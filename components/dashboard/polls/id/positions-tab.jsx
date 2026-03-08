@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Plus, Trash2, Award, Users, BarChart3, Edit, X } from "lucide-react";
+import { Plus, Trash2, Award, Users, BarChart3, X } from "lucide-react";
 import { toast } from "react-toastify";
 import LoadingSpinner from "@/components/loadingspinner";
 
@@ -248,54 +248,56 @@ export default function PositionsTab({ pollId, user }) {
                 key={position._id}
                 className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl overflow-hidden hover:shadow-md transition-all duration-300 flex flex-col"
               >
-                {/* Header */}
                 <div className="px-6 py-4 border-b border-gray-200 dark:border-slate-700">
-                  <h4 className="text-lg font-semibold text-gray-900 dark:text-white capitalize">
-                    {position.position}
-                  </h4>
-                  {position.description && (
-                    <p className="text-sm text-gray-600 dark:text-slate-400 mt-1">
-                      {position.description}
-                    </p>
-                  )}
+                  <div className="flex items-start gap-4">
+                    <div className="h-14 w-14 rounded-full bg-linear-to-br from-indigo-500 to-blue-600 flex items-center justify-center text-white font-bold shrink-0 text-lg">
+                      {position.position
+                        ?.split(" ")
+                        .map((n) => n[0])
+                        .join("")
+                        .toUpperCase() || "P"}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-gray-900 dark:text-white truncate capitalize">
+                        {position.position}
+                      </h3>
+                      <p className="text-sm text-gray-600 dark:text-slate-400 capitalize truncate">
+                        {position?.candidates?.length || 0} candidate
+                        {position?.candidates?.length !== 1 ? "s" : ""}
+                      </p>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="px-6 py-4 space-y-3 flex-1">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <Users className="h-4 w-4 text-gray-500 dark:text-slate-400" />
-                      <span className="text-sm text-gray-600 dark:text-slate-400">
-                        Candidates
-                      </span>
+                  <div className="flex items-start gap-3">
+                    <Award className="h-4 w-4 text-gray-500 dark:text-slate-400 shrink-0 mt-0.5" />
+                    <div className="min-w-0">
+                      <p className="text-xs text-gray-500 dark:text-slate-500 uppercase font-semibold mb-1">
+                        Description
+                      </p>
+                      <p className="text-sm text-gray-700 dark:text-slate-300 line-clamp-2">
+                        {position?.description || "No description"}
+                      </p>
                     </div>
-                    <span className="text-lg font-semibold text-gray-900 dark:text-white">
-                      {position.candidates?.length || 0}
-                    </span>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <BarChart3 className="h-4 w-4 text-gray-500 dark:text-slate-400" />
-                      <span className="text-sm text-gray-600 dark:text-slate-400">
-                        Voters
-                      </span>
-                    </div>
-                    <span className="text-lg font-semibold text-gray-900 dark:text-white">
-                      {position.voters?.length || 0}
-                    </span>
+
+                  <div className="bg-gray-50 dark:bg-slate-700/50 rounded-lg p-3">
+                    <p className="text-xs text-gray-600 dark:text-slate-400 font-semibold uppercase mb-1">
+                      Total Candidates
+                    </p>
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                      {position?.candidates?.length || 0}
+                    </p>
                   </div>
                 </div>
 
-                <div className="px-6 py-4 border-t border-gray-200 dark:border-slate-700 flex gap-3">
-                  <button className="flex-1 px-3 py-2 rounded-lg font-medium text-sm flex items-center justify-center gap-2 text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors border border-gray-300 dark:border-slate-600">
-                    <Edit className="h-4 w-4" />
-                    Edit
-                  </button>
+                <div className="px-6 py-4 border-t border-gray-200 dark:border-slate-700 flex items-center justify-end">
                   <button
                     onClick={() => handleDeletePosition(position._id)}
-                    className="flex-1 cursor-pointer px-3 py-2 rounded-lg font-medium text-sm flex items-center justify-center gap-2 text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors border border-gray-300 dark:border-slate-600"
+                    className="p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors text-red-600 dark:text-red-400"
                   >
-                    <Trash2 className="h-4 w-4" />
-                    Delete
+                    <Trash2 className="h-5 w-5" />
                   </button>
                 </div>
               </div>

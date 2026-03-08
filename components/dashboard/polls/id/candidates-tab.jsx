@@ -30,7 +30,7 @@ export default function CandidatesTab({ poll, pollId, user }) {
               "Content-Type": "application/json",
             },
             credentials: "include",
-          }
+          },
         );
         const response = await request.json();
         if (!request.ok || response?.error) {
@@ -69,7 +69,7 @@ export default function CandidatesTab({ poll, pollId, user }) {
             "Content-Type": "application/json",
           },
           credentials: "include",
-        }
+        },
       );
       const response = await request.json();
       console.log(response);
