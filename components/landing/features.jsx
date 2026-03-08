@@ -6,11 +6,18 @@ import {
   TrendingUp,
   Users,
 } from "lucide-react";
+import { motion } from "motion/react";
 
 export default function FeatureSection() {
   return (
     <section id="features" className="py-5">
-      <div className="text-center mb-20">
+      <motion.div
+        className="text-center mb-20"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
         <span className="inline-block text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-4">
           → Features
         </span>
@@ -21,7 +28,7 @@ export default function FeatureSection() {
           Powerful, intuitive tools built for teams that value clarity and trust
           in their decision-making process.
         </p>
-      </div>
+      </motion.div>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {[
@@ -64,9 +71,14 @@ export default function FeatureSection() {
         ].map((feature, idx) => {
           const Icon = feature.icon;
           return (
-            <div
+            <motion.div
               key={idx}
               className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-7 hover:border-blue-300 dark:hover:border-blue-600 hover:shadow-lg transition group"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              whileHover={{ y: -5 }}
             >
               <div className="w-11 h-11 rounded-lg bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center mb-4 group-hover:bg-blue-600 transition">
                 <Icon className="w-5 h-5 text-blue-600 dark:text-blue-300 group-hover:text-white transition" />
@@ -77,7 +89,7 @@ export default function FeatureSection() {
               <p className="text-zinc-600 dark:text-zinc-300 leading-relaxed text-sm">
                 {feature.description}
               </p>
-            </div>
+            </motion.div>
           );
         })}
       </div>

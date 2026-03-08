@@ -2,6 +2,7 @@
 import { ArrowRight, TrendingUp, Shield, Users } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { signIn } from "next-auth/react";
+import { motion } from "motion/react";
 import { useEffect, useMemo, useState } from "react";
 
 const DEMO_CANDIDATES = [
@@ -74,15 +75,30 @@ export default function HeroSection() {
 
         <div className="relative mx-auto max-w-7xl pt-8 sm:pt-12 lg:pt-20">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            <div className="space-y-6 lg:space-y-8">
-              <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-linear-to-r from-blue-50 to-cyan-50 dark:from-blue-950/50 dark:to-cyan-950/50 border border-blue-200/50 dark:border-blue-800/50 backdrop-blur-sm">
+            <motion.div
+              className="space-y-6 lg:space-y-8"
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            >
+              <motion.div
+                className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-linear-to-r from-blue-50 to-cyan-50 dark:from-blue-950/50 dark:to-cyan-950/50 border border-blue-200/50 dark:border-blue-800/50 backdrop-blur-sm"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
                 <Shield className="w-3.5 sm:w-4 h-3.5 sm:h-4 text-blue-600 dark:text-blue-400" />
                 <span className="text-xs sm:text-sm font-semibold text-blue-700 dark:text-blue-300">
                   Trusted by Students
                 </span>
-              </div>
+              </motion.div>
 
-              <div className="space-y-3 sm:space-y-4">
+              <motion.div
+                className="space-y-3 sm:space-y-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
                 <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-zinc-900 dark:text-zinc-100 leading-tight">
                   Make Every Voice{" "}
                   <span className="bg-linear-to-r from-blue-600 via-cyan-500 to-blue-600 dark:from-blue-400 dark:via-cyan-300 dark:to-blue-400 bg-clip-text text-transparent">
@@ -94,9 +110,14 @@ export default function HeroSection() {
                   seconds, get instant results, and make confident decisions
                   together.
                 </p>
-              </div>
+              </motion.div>
 
-              <div className="space-y-4 sm:space-y-6">
+              <motion.div
+                className="space-y-4 sm:space-y-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+              >
                 <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                   <button
                     onClick={() => {
@@ -111,10 +132,15 @@ export default function HeroSection() {
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
                   </button>
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
-            <div className="relative mt-12 lg:mt-0 lg:h-150 flex items-center justify-center">
+            <motion.div
+              className="relative mt-12 lg:mt-0 lg:h-150 flex items-center justify-center"
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
+            >
               <div className="relative w-full max-w-md mx-auto">
                 <div className="relative bg-white/90 dark:bg-zinc-800/90 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl border border-zinc-200 dark:border-zinc-700 p-6 sm:p-8 hover:scale-105 transition-transform duration-500">
                   <div className="space-y-4 sm:space-y-6">
@@ -197,7 +223,7 @@ export default function HeroSection() {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
