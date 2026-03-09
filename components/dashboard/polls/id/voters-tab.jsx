@@ -12,7 +12,6 @@ export default function VotersTab({ poll, pollId, user }) {
   function checkIfUserHasVoted(userId) {
     return completedVoters.find((user) => user === userId);
   }
-  console.log(voters);
   useEffect(() => {
     if (user?.poll?.role !== "Owner" && user?.poll?.role !== "Admin") {
       window.location.href = `/polls/${pollId}`;
@@ -66,6 +65,17 @@ export default function VotersTab({ poll, pollId, user }) {
       console.log(err);
       return toast.error("Network Error");
     }
+  }
+
+  function checkIfUserIsAdmin(voterId) {
+    const voter = voters
+      ?.find((voter) => voter._id === voterId)
+      ?.voteInformation.find((info) => info.pollId === pollId);
+
+    if (voter?.role === "Admin" || voter?.role === "Owner") {
+      return true;
+    }
+    return false;
   }
   return (
     <div className="space-y-6">
@@ -150,7 +160,7 @@ export default function VotersTab({ poll, pollId, user }) {
 
                     <td className="px-6 py-4 whitespace-nowrap text-right">
                       <div className="flex items-center justify-end gap-3">
-                        {voter?.role !== "Admin" && (
+                        {!checkIfUserIsAdmin(voter?._id) && (
                           <div className="p-2.5 rounded-lg bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-800/30 transition-colors cursor-pointer">
                             <Shield className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                           </div>
