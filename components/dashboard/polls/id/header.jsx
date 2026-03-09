@@ -226,7 +226,7 @@ export default function PollsIdHeader({ pollData }) {
                   {timingStatus.label}
                 </p>
                 <p
-                  className={`text-lg font-extrabold transition-colors ${
+                  className={`text-sm font-bold transition-colors ${
                     timingStatus.status === "upcoming"
                       ? "text-gray-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400"
                       : timingStatus.status === "active"
