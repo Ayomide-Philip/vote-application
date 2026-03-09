@@ -16,7 +16,7 @@ export default async function Page({ params }) {
   if (!request?.ok || response?.error) return redirect("/results");
   const { poll } = response;
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-slate-950">
+    <main className="min-h-screen bg-gray-50 dark:bg-slate-900">
       <ResultIdContainer poll={poll} pollId={resultsId} />
     </main>
   );
