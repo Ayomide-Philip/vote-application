@@ -82,79 +82,81 @@ export default function VotersTab({ poll, pollId, user }) {
             <table className="w-full">
               <thead className="bg-gray-50 dark:bg-slate-700/50 border-b border-gray-200 dark:border-slate-700">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-bold text-gray-600 dark:text-slate-400 uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 dark:text-slate-300 uppercase tracking-wider">
                     Voter
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-bold text-gray-600 dark:text-slate-400 uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 dark:text-slate-300 uppercase tracking-wider">
                     Department
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-bold text-gray-600 dark:text-slate-400 uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 dark:text-slate-300 uppercase tracking-wider">
                     Status
                   </th>
 
-                  <th className="px-6 py-3 text-right text-xs font-bold text-gray-600 dark:text-slate-400 uppercase tracking-wider">
+                  <th className="px-6 py-4 text-right text-xs font-bold text-gray-700 dark:text-slate-300 uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200 dark:divide-slate-700">
+              <tbody className="divide-y divide-gray-200 dark:divide-slate-700 bg-white dark:bg-slate-800">
                 {voters.map((voter) => (
                   <tr
                     key={voter._id}
-                    className="hover:bg-gray-50 dark:hover:bg-slate-700/30 transition-colors"
+                    className="hover:bg-blue-50 dark:hover:bg-slate-700/50 transition-colors duration-200"
                   >
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center gap-3">
-                        <img
-                          src={
-                            voter?.image ||
-                            "https://via.placeholder.com/40?text=User"
-                          }
-                          alt={voter?.name}
-                          width={40}
-                          height={40}
-                          className="rounded-full object-cover"
-                        />
+                      <div className="flex items-center gap-4">
+                        <div className="relative">
+                          <img
+                            src={
+                              voter?.image ||
+                              "https://via.placeholder.com/40?text=User"
+                            }
+                            alt={voter?.name}
+                            width={48}
+                            height={48}
+                            className="rounded-full object-cover ring-2 ring-blue-200 dark:ring-blue-800"
+                          />
+                        </div>
                         <div>
-                          <p className="font-semibold capitalize text-gray-900 dark:text-white">
+                          <p className="font-bold capitalize text-gray-900 dark:text-white">
                             {voter?.name}
                           </p>
-                          <p className="text-sm text-gray-600 dark:text-slate-400">
+                          <p className="text-sm text-gray-500 dark:text-slate-400">
                             {voter.email}
                           </p>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="px-2.5 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 text-xs font-semibold rounded-full uppercase">
+                      <span className="px-3 py-1.5 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-xs font-bold rounded-full uppercase tracking-wider">
                         {voter?.department || "No Department Yet"}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {checkIfUserHasVoted(voter._id) ? (
-                        <span className="px-2.5 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-semibold rounded-full flex items-center gap-1 w-fit">
-                          <CheckCircle className="h-3 w-3" />
+                        <span className="px-3 py-1.5 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-bold rounded-full flex items-center gap-2 w-fit">
+                          <CheckCircle className="h-4 w-4" />
                           Voted
                         </span>
                       ) : (
-                        <span className="px-2.5 py-1 bg-gray-100 dark:bg-gray-900/30 text-gray-700 dark:text-gray-400 text-xs font-semibold rounded-full">
+                        <span className="px-3 py-1.5 bg-gray-100 dark:bg-slate-700/50 text-gray-700 dark:text-slate-300 text-xs font-bold rounded-full">
                           Pending
                         </span>
                       )}
                     </td>
 
                     <td className="px-6 py-4 whitespace-nowrap text-right">
-                      <div className="flex items-center justify-end gap-2">
+                      <div className="flex items-center justify-end gap-3">
                         {voter?.role !== "Admin" && (
-                          <div className="p-2 rounded-lg">
-                            <Shield className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                          <div className="p-2.5 rounded-lg bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-800/30 transition-colors cursor-pointer">
+                            <Shield className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                           </div>
                         )}
                         <button
                           onClick={() => handleRemoveVoter(voter._id)}
-                          className="p-2 hover:bg-gray-100 cursor-pointer dark:hover:bg-slate-700 rounded-lg transition-colors"
+                          className="p-2.5 hover:bg-red-100 dark:hover:bg-red-900/30 cursor-pointer rounded-lg transition-colors group"
                         >
-                          <Trash2 className="h-4 w-4 text-gray-600 dark:text-slate-400" />
+                          <Trash2 className="h-5 w-5 text-gray-600 dark:text-slate-400 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors" />
                         </button>
                       </div>
                     </td>
