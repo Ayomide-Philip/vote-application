@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import LoadingSpinner from "@/components/loadingspinner";
-import { CheckCircle, Trash2, Shield, ShieldOff, Shredder } from "lucide-react";
+import { CheckCircle, Shield, ShieldOff, Shredder } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import AddVoters from "./AddVoters";

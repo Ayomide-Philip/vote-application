@@ -1,6 +1,6 @@
-import { Users, UserPlus, CheckCircle, Clock, Share2 } from "lucide-react";
+import { Users, UserPlus, CheckCircle, Clock } from "lucide-react";
 import { useState, useEffect } from "react";
-import { toast } from "sonner";
+
 const formatDate = (dateString) => {
   const date = new Date(dateString);
   return date.toLocaleDateString("en-US", {
@@ -68,7 +68,6 @@ export default function PollsIdHeader({ pollData }) {
     endDate,
     _id,
   } = pollData;
-  // const [overlay, setOverlay] = useState(false);
   const [timingStatus, setTimingStatus] = useState({
     label: "",
     value: "Loading...",
@@ -114,7 +113,7 @@ export default function PollsIdHeader({ pollData }) {
   // };
 
   return (
-    <div className="bg-linear-to-r from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800 border-b border-gray-200 dark:border-slate-700 px-4 sm:px-6 py-6 sm:py-8">
+    <div className="bg-white dark:bg-slate-800 border-b border-gray-200 dark:border-slate-700 px-4 sm:px-6 py-6 sm:py-8">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col sm:flex-row items-start justify-between gap-4 mb-4">
           <div className="flex-1">
@@ -145,69 +144,75 @@ export default function PollsIdHeader({ pollData }) {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-          <div className="bg-white dark:bg-slate-800 rounded-xl p-4 border border-gray-200 dark:border-slate-700">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mt-6">
+          <div className="group bg-white dark:bg-slate-900 rounded-xl p-5 border border-gray-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer">
             <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
-                <Users className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+              <div className="h-12 w-12 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center group-hover:bg-blue-200 dark:group-hover:bg-blue-800/40 group-hover:scale-110 transition-all duration-300">
+                <Users className="h-6 w-6 text-blue-600 dark:text-blue-400" />
               </div>
               <div>
-                <p className="text-xs font-semibold text-gray-600 dark:text-slate-400">
+                <p className="text-xs font-bold text-gray-500 dark:text-slate-400 uppercase tracking-wider">
                   Total Voters
                 </p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                <p className="text-2xl font-extrabold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                   {voters?.length || 0}
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white dark:bg-slate-800 rounded-xl p-4 border border-gray-200 dark:border-slate-700">
+          <div className="group bg-white dark:bg-slate-900 rounded-xl p-5 border border-gray-200 dark:border-slate-700 hover:border-green-300 dark:hover:border-green-700 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer">
             <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
-                <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400" />
+              <div className="h-12 w-12 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center group-hover:bg-green-200 dark:group-hover:bg-green-800/40 group-hover:scale-110 transition-all duration-300">
+                <CheckCircle className="h-6 w-6 text-green-600 dark:text-green-400" />
               </div>
               <div>
-                <p className="text-xs font-semibold text-gray-600 dark:text-slate-400">
+                <p className="text-xs font-bold text-gray-500 dark:text-slate-400 uppercase tracking-wider">
                   Votes Cast
                 </p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                <p className="text-2xl font-extrabold text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
                   {completedVoters?.length}
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white dark:bg-slate-800 rounded-xl p-4 border border-gray-200 dark:border-slate-700">
+          <div className="group bg-white dark:bg-slate-900 rounded-xl p-5 border border-gray-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer">
             <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
-                <UserPlus className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+              <div className="h-12 w-12 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center group-hover:bg-blue-200 dark:group-hover:bg-blue-800/40 group-hover:scale-110 transition-all duration-300">
+                <UserPlus className="h-6 w-6 text-blue-600 dark:text-blue-400" />
               </div>
               <div>
-                <p className="text-xs font-semibold text-gray-600 dark:text-slate-400">
+                <p className="text-xs font-bold text-gray-500 dark:text-slate-400 uppercase tracking-wider">
                   Candidates
                 </p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                <p className="text-2xl font-extrabold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                   {calculateCandidate(contestants) || 0}
                 </p>
               </div>
             </div>
           </div>
           <div
-            className={`bg-white dark:bg-slate-800 rounded-xl p-4 border ${"border-gray-200 dark:border-slate-700 "}`}
+            className={`group bg-white dark:bg-slate-900 rounded-xl p-5 border transition-all duration-300 hover:-translate-y-1 cursor-pointer hover:shadow-lg ${
+              timingStatus.status === "upcoming"
+                ? "border-gray-200 dark:border-slate-700 hover:border-amber-300 dark:hover:border-amber-700"
+                : timingStatus.status === "active"
+                  ? "border-gray-200 dark:border-slate-700 hover:border-green-300 dark:hover:border-green-700"
+                  : "border-gray-200 dark:border-slate-700 hover:border-red-300 dark:hover:border-red-700"
+            }`}
           >
             <div className="flex items-center gap-3">
               <div
-                className={`h-10 w-10 rounded-lg flex items-center justify-center ${
+                className={`h-12 w-12 rounded-xl flex items-center justify-center group-hover:scale-110 transition-all duration-300 ${
                   timingStatus.status === "upcoming"
-                    ? "bg-amber-100 dark:bg-amber-900/30"
+                    ? "bg-amber-100 dark:bg-amber-900/30 group-hover:bg-amber-200 dark:group-hover:bg-amber-800/40"
                     : timingStatus.status === "active"
-                      ? "bg-green-100 dark:bg-green-900/30"
-                      : "bg-red-100 dark:bg-red-900/30"
+                      ? "bg-green-100 dark:bg-green-900/30 group-hover:bg-green-200 dark:group-hover:bg-green-800/40"
+                      : "bg-red-100 dark:bg-red-900/30 group-hover:bg-red-200 dark:group-hover:bg-red-800/40"
                 }`}
               >
                 <Clock
-                  className={`h-5 w-5 ${
+                  className={`h-6 w-6 ${
                     timingStatus.status === "upcoming"
                       ? "text-amber-600 dark:text-amber-400"
                       : timingStatus.status === "active"
@@ -217,10 +222,18 @@ export default function PollsIdHeader({ pollData }) {
                 />
               </div>
               <div>
-                <p className="text-xs font-semibold text-gray-600 dark:text-slate-400">
+                <p className="text-xs font-bold text-gray-500 dark:text-slate-400 uppercase tracking-wider">
                   {timingStatus.label}
                 </p>
-                <p className="text-lg font-bold text-gray-900 dark:text-white">
+                <p
+                  className={`text-lg font-extrabold transition-colors ${
+                    timingStatus.status === "upcoming"
+                      ? "text-gray-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400"
+                      : timingStatus.status === "active"
+                        ? "text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400"
+                        : "text-gray-900 dark:text-white group-hover:text-red-600 dark:group-hover:text-red-400"
+                  }`}
+                >
                   {timingStatus.value}
                 </p>
               </div>
