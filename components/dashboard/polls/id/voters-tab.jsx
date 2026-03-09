@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import LoadingSpinner from "@/components/loadingspinner";
-import { CheckCircle, Trash2, Shield, ShieldOff } from "lucide-react";
+import { CheckCircle, Trash2, Shield, ShieldOff, Shredder } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import AddVoters from "./AddVoters";
@@ -111,7 +111,7 @@ export default function VotersTab({ poll, pollId, user }) {
                 {voters.map((voter) => (
                   <tr
                     key={voter?._id}
-                    className="hover:bg-blue-50 dark:hover:bg-slate-700/50 transition-colors duration-200"
+                    className="transition-colors duration-200"
                   >
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-4">
@@ -173,7 +173,7 @@ export default function VotersTab({ poll, pollId, user }) {
                           onClick={() => handleRemoveVoter(voter._id)}
                           className="p-2.5 hover:bg-red-100 dark:hover:bg-red-900/30 cursor-pointer rounded-lg transition-colors group"
                         >
-                          <Trash2 className="h-5 w-5 text-gray-600 dark:text-slate-400 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors" />
+                          <Shredder className="h-5 w-5 text-gray-600 dark:text-slate-400 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors" />
                         </button>
                       </div>
                     </td>
