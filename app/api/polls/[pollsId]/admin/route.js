@@ -23,6 +23,14 @@ export async function PUT(req, { params }) {
     }
 
     const authorizingUser = await User.findById(authorizationId);
+    if (!authorizingUser) {
+      return NextResponse.json(
+        { error: "Invalid Admin" },
+        {
+          status: 400,
+        },
+      );
+    }
 
     return NextResponse.json(
       { pollsId, newAdminUser },
