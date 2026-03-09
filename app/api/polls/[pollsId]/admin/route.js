@@ -1,3 +1,5 @@
+import { connectDatabase } from "@/libs/connectdatabase";
+import User from "@/libs/models/user.models";
 import { NextResponse } from "next/server";
 
 export async function PUT(req, { params }) {
@@ -13,13 +15,23 @@ export async function PUT(req, { params }) {
     );
   }
   try {
+    await connectDatabase();
+    // checking if the user and authorizing user exist
+    const newAdminUser = await User.findById(newAdminId);
+    if (!newAdminUser) {
+      return NextResponse.json({ error: "User doesn't exist" });
+    }
+
+    const authorizingUser = await User.findById(authorizationId);
+
     return NextResponse.json(
-      { pollsId },
+      { pollsId, newAdminUser },
       {
         status: 200,
       },
     );
   } catch (err) {
+    console.log(err);
     return NextResponse.json(
       { error: "Unable to update role" },
       {
