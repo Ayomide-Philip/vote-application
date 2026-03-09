@@ -79,7 +79,7 @@ export default function VotersTab({ poll, pollId, user }) {
       <div className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 overflow-hidden">
         <div className="overflow-x-auto -mx-4 sm:mx-0">
           <div className="inline-block min-w-full align-middle">
-            <table className="w-full">
+            <table className="w-full table-fixed">
               <thead className="bg-gray-50 dark:bg-slate-700/50 border-b border-gray-200 dark:border-slate-700">
                 <tr>
                   <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 dark:text-slate-300 uppercase tracking-wider">
@@ -100,7 +100,7 @@ export default function VotersTab({ poll, pollId, user }) {
               <tbody className="divide-y divide-gray-200 dark:divide-slate-700 bg-white dark:bg-slate-800">
                 {voters.map((voter) => (
                   <tr
-                    key={voter._id}
+                    key={voter?._id}
                     className="hover:bg-blue-50 dark:hover:bg-slate-700/50 transition-colors duration-200"
                   >
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -117,12 +117,15 @@ export default function VotersTab({ poll, pollId, user }) {
                             className="rounded-full object-cover ring-2 ring-blue-200 dark:ring-blue-800"
                           />
                         </div>
-                        <div>
+                        <div className="min-w-0">
                           <p className="font-bold capitalize text-gray-900 dark:text-white">
                             {voter?.name}
                           </p>
-                          <p className="text-sm text-gray-500 dark:text-slate-400">
-                            {voter.email}
+                          <p
+                            className="max-w-45 sm:max-w-65 truncate text-sm text-gray-500 dark:text-slate-400"
+                            title={voter?.email}
+                          >
+                            {voter?.email}
                           </p>
                         </div>
                       </div>
@@ -133,7 +136,7 @@ export default function VotersTab({ poll, pollId, user }) {
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {checkIfUserHasVoted(voter._id) ? (
+                      {checkIfUserHasVoted(voter?._id) ? (
                         <span className="px-3 py-1.5 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-bold rounded-full flex items-center gap-2 w-fit">
                           <CheckCircle className="h-4 w-4" />
                           Voted
