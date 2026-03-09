@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import LoadingSpinner from "@/components/loadingspinner";
-import { CheckCircle, Trash2 } from "lucide-react";
+import { CheckCircle, Trash2, Shield } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import AddVoters from "./AddVoters";
@@ -12,6 +12,7 @@ export default function VotersTab({ poll, pollId, user }) {
   function checkIfUserHasVoted(userId) {
     return completedVoters.find((user) => user === userId);
   }
+  console.log(voters)
   useEffect(() => {
     if (user?.poll?.role !== "Owner" && user?.poll?.role !== "Admin") {
       window.location.href = `/polls/${pollId}`;
@@ -45,6 +46,27 @@ export default function VotersTab({ poll, pollId, user }) {
   }, [pollId, user]);
 
   if (loading) return <LoadingSpinner />;
+
+  async function handleMakeAdmin(voterId) {
+    try {
+      const request = await fetch(`/api/polls/${pollId}/voters/${voterId}/make-admin`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+      const response = await request.json();
+      if (!request.ok || response?.error) {
+        return toast.error(response?.error || "An error occurred");
+      }
+      toast.success(response?.message || "Voter promoted to admin");
+      window.location.reload();
+    } catch (err) {
+      console.log(err);
+      return toast.error("Network Error");
+    }
+  }
 
   async function handleRemoveVoter(voterId) {
     try {
@@ -144,6 +166,15 @@ export default function VotersTab({ poll, pollId, user }) {
 
                     <td className="px-6 py-4 whitespace-nowrap text-right">
                       <div className="flex items-center justify-end gap-2">
+                        {voter?.role !== "Admin" && (
+                          <button
+                            onClick={() => handleMakeAdmin(voter._id)}
+                            className="p-2 hover:bg-blue-100 cursor-pointer dark:hover:bg-blue-700/30 rounded-lg transition-colors"
+                            title="Make Admin"
+                          >
+                            <Shield className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                          </button>
+                        )}
                         <button
                           onClick={() => handleRemoveVoter(voter._id)}
                           className="p-2 hover:bg-gray-100 cursor-pointer dark:hover:bg-slate-700 rounded-lg transition-colors"
