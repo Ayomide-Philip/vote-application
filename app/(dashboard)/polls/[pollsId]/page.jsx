@@ -20,7 +20,7 @@ export default async function PollDetailsPage({ params }) {
   const getUserInfo = await getUserInformation(pollsId);
   if (!getUserInfo) return redirect("/polls");
   return (
-    <main className="min-h-screen bg-white dark:bg-slate-950 transition-colors">
+    <main className="min-h-screen bg-white dark:bg-slate-900 transition-colors">
       <PollIdContainer user={getUserInfo} polls={poll} pollsId={pollsId} />
     </main>
   );
