@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import LoadingSpinner from "@/components/loadingspinner";
-import { CheckCircle, Trash2, Shield } from "lucide-react";
+import { CheckCircle, Trash2, Shield, ShieldOff } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import AddVoters from "./AddVoters";
@@ -160,9 +160,13 @@ export default function VotersTab({ poll, pollId, user }) {
 
                     <td className="px-6 py-4 whitespace-nowrap text-right">
                       <div className="flex items-center justify-end gap-3">
-                        {!checkIfUserIsAdmin(voter?._id) && (
+                        {!checkIfUserIsAdmin(voter?._id) ? (
                           <div className="p-2.5 rounded-lg bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-800/30 transition-colors cursor-pointer">
                             <Shield className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                          </div>
+                        ) : (
+                          <div className="p-2.5 rounded-lg bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-800/30 transition-colors cursor-pointer">
+                            <ShieldOff className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                           </div>
                         )}
                         <button
