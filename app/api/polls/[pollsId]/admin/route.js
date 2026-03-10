@@ -57,6 +57,21 @@ export async function PUT(req, { params }) {
         },
       );
     }
+    // check if the authorizing user is an admin or owner of the poll
+    const authorizingUserInPoll = poll?.role?.find(
+      (r) => r?.userId?.toString() === authorizationId?.toString(),
+    );
+    // if the authorizing user does not exist in the poll or is not an admin or owner, we would return an error
+    if (!authorizingUserInPoll) {
+      return NextResponse.json(
+        {
+          error: "User is not an Admin or Owner",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
 
     // success
     return NextResponse.json(
