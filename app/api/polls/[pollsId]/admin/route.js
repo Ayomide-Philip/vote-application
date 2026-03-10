@@ -1,4 +1,5 @@
 import { connectDatabase } from "@/libs/connectdatabase";
+import Polls from "@/libs/models/polls.models";
 import User from "@/libs/models/user.models";
 import { NextResponse } from "next/server";
 
@@ -26,6 +27,16 @@ export async function PUT(req, { params }) {
     if (!authorizingUser) {
       return NextResponse.json(
         { error: "Invalid Admin" },
+        {
+          status: 400,
+        },
+      );
+    }
+    // checking if the poll exist
+    const poll = await Polls.findById(pollsId);
+    if (!poll) {
+      return NextResponse.json(
+        { error: "Poll doesn't exist" },
         {
           status: 400,
         },
