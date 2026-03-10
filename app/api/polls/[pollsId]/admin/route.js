@@ -154,3 +154,10 @@ export const PUT = auth(async function PUT(req, { params }) {
     );
   }
 });
+
+export const DELETE = async function DELETE(req, { params }) {
+  return NextResponse.json(
+    { message: "Successfully Removed Admin Priviledge" },
+    { status: 200 },
+  );
+};
