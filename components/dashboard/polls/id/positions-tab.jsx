@@ -119,7 +119,7 @@ export default function PositionsTab({ pollId, user }) {
 
   return (
     <div className="space-y-6">
-      <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-700 rounded-2xl p-4 sm:p-6 border border-blue-100 dark:border-slate-600">
+      <div className="bg-white dark:bg-slate-800 rounded-2xl p-4 sm:p-6 border border-gray-200 dark:border-slate-700">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-1">
@@ -131,7 +131,7 @@ export default function PositionsTab({ pollId, user }) {
           </div>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="w-full sm:w-auto px-6 py-3 cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 shadow-lg hover:shadow-xl shrink-0"
+            className="w-full sm:w-auto px-6 py-3 cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 shrink-0"
           >
             <Plus className="h-5 w-5" />
             <span>New Position</span>
@@ -217,7 +217,7 @@ export default function PositionsTab({ pollId, user }) {
 
       <div>
         <div className="flex items-center gap-3 mb-6">
-          <div className="h-10 w-10 rounded-lg bg-linear-to-br from-indigo-500 to-indigo-600 flex items-center justify-center">
+          <div className="h-10 w-10 rounded-lg bg-blue-600 flex items-center justify-center">
             <Award className="h-5 w-5 text-white" />
           </div>
           <div>
