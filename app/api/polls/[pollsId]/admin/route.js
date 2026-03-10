@@ -3,8 +3,9 @@ import Polls from "@/libs/models/polls.models";
 import User from "@/libs/models/user.models";
 import { NextResponse } from "next/server";
 import mongoose from "mongoose";
+import { auth } from "@/auth";
 
-export async function PUT(req, { params }) {
+export const PUT = auth(async function PUT(req, { params }) {
   const { pollsId } = await params;
   const { newAdminId, authorizationId } = await req.json();
   // check if pollsId exist and newAdminId exist
@@ -141,4 +142,4 @@ export async function PUT(req, { params }) {
       },
     );
   }
-}
+});
