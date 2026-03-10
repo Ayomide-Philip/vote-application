@@ -61,7 +61,10 @@ export async function PUT(req, { params }) {
       (r) => r?.userId?.toString() === authorizationId?.toString(),
     );
     // if the authorizing user does not exist in the poll or is not an admin or owner, we would return an error
-    if (!authorizingUserInPoll?.userRole || authorizingUserInPoll?.userRole !== "Owner") {
+    if (
+      !authorizingUserInPoll?.userRole ||
+      authorizingUserInPoll?.userRole !== "Owner"
+    ) {
       return NextResponse.json(
         {
           error: "Unauthorized Action, Only Owner can update role",
@@ -84,10 +87,27 @@ export async function PUT(req, { params }) {
         },
       );
     }
+    // check if the user is a contestant
+    const checkIfNewUserIsAContestant = newAdminUser?.voteInformation?.find(
+      (info) => info?.pollId?.toString() === pollsId?.toString(),
+    );
+    // if the user is a contestant, we would return an error
+    if (checkIfNewUserIsAContestant?.role === "Candidate") {
+      return NextResponse.json(
+        { error: "Contestants cannot be promoted to admin" },
+        {
+          status: 400,
+        },
+      );
+    }
 
     // success
     return NextResponse.json(
-      { pollsId, newAdminUser },
+      {
+        pollsId,
+        checkIfNewUserIsAContestant,
+        message: `User Successfully Updated to Admin`,
+      },
       {
         status: 200,
       },
