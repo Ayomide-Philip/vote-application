@@ -42,7 +42,23 @@ export async function PUT(req, { params }) {
         },
       );
     }
+    // check if the admin and user belong to the poll
+    // we would first check for the new admin
+    const newAdminInPoll = poll?.voters?.find(
+      (voter) => voter?.toString() === newAdminId?.toString(),
+    );
+    console.log(newAdminInPoll);
+    // if the new admin does not exist in the poll, we would return an error
+    if (!newAdminInPoll) {
+      return NextResponse.json(
+        { error: "User dosen't belong to the poll" },
+        {
+          status: 400,
+        },
+      );
+    }
 
+    // success
     return NextResponse.json(
       { pollsId, newAdminUser },
       {
