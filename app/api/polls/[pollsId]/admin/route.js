@@ -47,7 +47,6 @@ export async function PUT(req, { params }) {
     const newAdminInPoll = poll?.voters?.find(
       (voter) => voter?.toString() === newAdminId?.toString(),
     );
-    console.log(newAdminInPoll);
     // if the new admin does not exist in the poll, we would return an error
     if (!newAdminInPoll) {
       return NextResponse.json(
@@ -77,7 +76,7 @@ export async function PUT(req, { params }) {
       poll?.role?.find((r) => r?.userId?.toString() === newAdminId.toString())
     ) {
       return NextResponse.json(
-        { error: "User is Already an " },
+        { error: "User is Already an Admin or Owner" },
         {
           status: 400,
         },
