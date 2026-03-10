@@ -43,12 +43,12 @@ export async function PUT(req, { params }) {
       );
     }
     // check if the admin and user belong to the poll
-    // we would first check for the new admin
-    const newAdminInPoll = poll?.voters?.find(
-      (voter) => voter?.toString() === newAdminId?.toString(),
-    );
     // if the new admin does not exist in the poll, we would return an error
-    if (!newAdminInPoll) {
+    if (
+      !poll?.voters?.find(
+        (voter) => voter?.toString() === newAdminId?.toString(),
+      )
+    ) {
       return NextResponse.json(
         { error: "User dosen't belong to the poll" },
         {
@@ -61,10 +61,10 @@ export async function PUT(req, { params }) {
       (r) => r?.userId?.toString() === authorizationId?.toString(),
     );
     // if the authorizing user does not exist in the poll or is not an admin or owner, we would return an error
-    if (!authorizingUserInPoll) {
+    if (!authorizingUserInPoll?.userRole || authorizingUserInPoll?.userRole !== "Owner") {
       return NextResponse.json(
         {
-          error: "User is not an Admin or Owner",
+          error: "Unauthorized Action, Only Owner can update role",
         },
         {
           status: 400,
@@ -76,7 +76,9 @@ export async function PUT(req, { params }) {
       poll?.role?.find((r) => r?.userId?.toString() === newAdminId.toString())
     ) {
       return NextResponse.json(
-        { error: "User is Already an Admin or Owner" },
+        {
+          error: `User is Already an ${poll?.role?.find((r) => r?.userId?.toString() === newAdminId.toString())?.userRole}`,
+        },
         {
           status: 400,
         },
