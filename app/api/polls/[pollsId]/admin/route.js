@@ -72,6 +72,17 @@ export async function PUT(req, { params }) {
         },
       );
     }
+    // check if the user that want to be an admin is already an admin
+    if (
+      poll?.role?.find((r) => r?.userId?.toString() === newAdminId.toString())
+    ) {
+      return NextResponse.json(
+        { error: "User is Already an " },
+        {
+          status: 400,
+        },
+      );
+    }
 
     // success
     return NextResponse.json(
