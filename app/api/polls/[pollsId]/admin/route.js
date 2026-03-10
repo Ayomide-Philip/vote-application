@@ -6,8 +6,19 @@ import mongoose from "mongoose";
 import { auth } from "@/auth";
 
 export const PUT = auth(async function PUT(req, { params }) {
+  if (!req?.auth || !req?.auth?.user) {
+    return NextResponse.json(
+      {
+        error: "Unauthorized Access",
+      },
+      {
+        status: 401,
+      },
+    );
+  }
   const { pollsId } = await params;
-  const { newAdminId, authorizationId } = await req.json();
+  const { newAdminId } = await req.json();
+  const authorizationId = req?.auth?.user?.id;
   // check if pollsId exist and newAdminId exist
   if (!pollsId || !newAdminId) {
     return NextResponse.json(
