@@ -2,6 +2,7 @@ import { connectDatabase } from "@/libs/connectdatabase";
 import Polls from "@/libs/models/polls.models";
 import User from "@/libs/models/user.models";
 import { NextResponse } from "next/server";
+import mongoose from "mongoose";
 
 export async function PUT(req, { params }) {
   const { pollsId } = await params;
@@ -50,7 +51,7 @@ export async function PUT(req, { params }) {
       )
     ) {
       return NextResponse.json(
-        { error: "User dosen't belong to the poll" },
+        { error: "User doesn't belong to the poll" },
         {
           status: 400,
         },
@@ -100,12 +101,31 @@ export async function PUT(req, { params }) {
         },
       );
     }
-
+    // update the role of the user to admin
+    const updatingUserToAdmin = await User.updateOne(
+      {
+        _id: new mongoose.Types.ObjectId(newAdminId),
+        "voteInformation.pollId": new mongoose.Types.ObjectId(pollsId),
+      },
+      { $set: { "voteInformation.$.role": "Admin" } },
+    );
+    // adding the user to the list of admin of the poll
+    const updatingPoll = await Polls.updateOne(
+      { _id: new mongoose.Types.ObjectId(pollsId) },
+      {
+        $push: {
+          role: {
+            userRole: "Admin",
+            userId: new mongoose.Types.ObjectId(newAdminId),
+          },
+        },
+      },
+    );
     // success
     return NextResponse.json(
       {
-        pollsId,
-        checkIfNewUserIsAContestant,
+        updatingUserToAdmin,
+        updatingPoll,
         message: `User Successfully Updated to Admin`,
       },
       {
