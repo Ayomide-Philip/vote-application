@@ -34,22 +34,18 @@ export default function OverviewTab({ poll }) {
 
       <div className="space-y-6">
         {positionsData.length === 0 ? (
-          <div className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm p-12">
-            <div className="text-center space-y-4">
-              <div className="flex justify-center">
-                <div className="h-20 w-20 rounded-full bg-gray-100 dark:bg-slate-700 flex items-center justify-center">
-                  <Award className="h-10 w-10 text-gray-400 dark:text-slate-500" />
-                </div>
+          <div className="rounded-2xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-6 py-12 sm:px-8 sm:py-14">
+            <div className="mx-auto max-w-md text-center">
+              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-gray-100 dark:bg-slate-700">
+                <Award className="h-6 w-6 text-gray-500 dark:text-slate-300" />
               </div>
-              <div className="space-y-2">
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                  No Positions Added Yet
-                </h3>
-                <p className="text-gray-600 dark:text-slate-400 max-w-md mx-auto">
-                  Create positions for this poll to start adding candidates and
-                  collecting votes.
-                </p>
-              </div>
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">
+                No positions yet
+              </h3>
+              <p className="mt-2 text-sm text-gray-600 dark:text-slate-400 leading-relaxed">
+                Create positions for this poll to start adding candidates and
+                collecting votes.
+              </p>
             </div>
           </div>
         ) : (
@@ -79,14 +75,19 @@ export default function OverviewTab({ poll }) {
 
                 <div className="p-6 bg-gray-50/50 dark:bg-slate-900/30 space-y-4">
                   {position.candidates.length === 0 ? (
-                    <div className="py-10 text-center bg-white dark:bg-slate-800 rounded-xl border-2 border-dashed border-gray-300 dark:border-slate-600">
-                      <Users className="h-12 w-12 text-gray-300 dark:text-slate-600 mx-auto mb-3" />
-                      <p className="text-gray-700 dark:text-slate-200 font-semibold text-base">
-                        No candidates added yet
-                      </p>
-                      <p className="text-gray-500 dark:text-slate-400 text-sm mt-1">
-                        Add candidates to see them here.
-                      </p>
+                    <div className="rounded-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-6 py-10 sm:px-8 sm:py-12">
+                      <div className="mx-auto max-w-md text-center">
+                        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-gray-100 dark:bg-slate-700">
+                          <Users className="h-6 w-6 text-gray-500 dark:text-slate-300" />
+                        </div>
+                        <h4 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">
+                          No candidates yet
+                        </h4>
+                        <p className="mt-2 text-sm text-gray-600 dark:text-slate-400 leading-relaxed">
+                          This position is ready, but no candidates have been
+                          added. Add candidates to start tracking votes here.
+                        </p>
+                      </div>
                     </div>
                   ) : (
                     <>
