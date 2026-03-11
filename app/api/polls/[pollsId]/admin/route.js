@@ -199,7 +199,21 @@ export const DELETE = async function DELETE(req, { params }) {
         { status: 400 },
       );
     }
-
+    // if the admin does not exist in the poll, we would return an error
+    const doesAdminBelongToThePoll = poll?.role?.find(
+      (r) => r?.userId?.toString() === adminId.toString(),
+    );
+    // if the admin does not exist in the poll, we would return an error
+    if (!doesAdminBelongToThePoll) {
+      return NextResponse.json(
+        {
+          error: "User doesn't belong to the poll",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
     // success
     return NextResponse.json(
       { message: "Successfully Removed Admin Priviledge" },
