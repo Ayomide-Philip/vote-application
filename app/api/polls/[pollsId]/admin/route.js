@@ -156,6 +156,8 @@ export const PUT = auth(async function PUT(req, { params }) {
 });
 
 export const DELETE = async function DELETE(req, { params }) {
+  const { pollsId } = await params;
+  const { adminId, authorizationId } = await req.json();
   try {
     return NextResponse.json(
       { message: "Successfully Removed Admin Priviledge" },
