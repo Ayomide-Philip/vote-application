@@ -158,6 +158,15 @@ export const PUT = auth(async function PUT(req, { params }) {
 export const DELETE = async function DELETE(req, { params }) {
   const { pollsId } = await params;
   const { adminId, authorizationId } = await req.json();
+  // check if pollsId exist and adminId exist
+  if (!pollsId || !adminId || !authorizationId) {
+    return NextResponse.json(
+      { error: "Invalid Parameters" },
+      {
+        status: 400,
+      },
+    );
+  }
   try {
     return NextResponse.json(
       { message: "Successfully Removed Admin Priviledge" },
