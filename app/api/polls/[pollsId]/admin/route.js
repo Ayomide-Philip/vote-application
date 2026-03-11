@@ -185,6 +185,17 @@ export const DELETE = async function DELETE(req, { params }) {
     if (!authorizingUser) {
       return NextResponse.json(
         { error: "Invalid Admin or Owner" },
+        {
+          status: 400,
+        },
+      );
+    }
+    // checking if the poll exist
+    const poll = await Polls.findById(pollsId);
+    // if poll does not exist, we would return an error
+    if (!poll) {
+      return NextResponse.json(
+        { error: "Poll doesn't exist" },
         { status: 400 },
       );
     }
