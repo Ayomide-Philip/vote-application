@@ -226,6 +226,21 @@ export const DELETE = async function DELETE(req, { params }) {
         },
       );
     }
+    // check if the authorizing user is an  owner of the poll
+    const authorizingUserInPoll = poll?.role?.find(
+      (r) => r?.userId?.toString() === authorizationId?.toString(),
+    );
+    // if the authorizing user does not exist in the poll or is not an owner, we would return an error
+    if (!authorizingUserInPoll || authorizingUserInPoll?.userRole !== "Owner") {
+      return NextResponse.json(
+        {
+          error: "Unauthorized Action, Only Owner can update role",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
     // success
     return NextResponse.json(
       { message: "Successfully Removed Admin Priviledge" },
