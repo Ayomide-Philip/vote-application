@@ -127,7 +127,6 @@ export const DELETE = auth(async function DELETE(req, { params }) {
       { $pull: { contestants: contestantId } },
     );
     // if the contestant position was not removed from the poll return an error
-    console.log(updatedPoll);
     if (!updatedPoll.acknowledged) {
       return NextResponse.json(
         {
