@@ -156,8 +156,16 @@ export const PUT = auth(async function PUT(req, { params }) {
 });
 
 export const DELETE = async function DELETE(req, { params }) {
-  return NextResponse.json(
-    { message: "Successfully Removed Admin Priviledge" },
-    { status: 200 },
-  );
+  try {
+    return NextResponse.json(
+      { message: "Successfully Removed Admin Priviledge" },
+      { status: 200 },
+    );
+  } catch (err) {
+    console.log(err);
+    return NextResponse.json(
+      { error: "Unable to remove admin priviledge" },
+      { status: 500 },
+    );
+  }
 };
