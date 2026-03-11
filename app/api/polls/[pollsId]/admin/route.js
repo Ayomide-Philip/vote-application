@@ -168,6 +168,9 @@ export const DELETE = async function DELETE(req, { params }) {
     );
   }
   try {
+    await connectDatabase();
+
+    // success
     return NextResponse.json(
       { message: "Successfully Removed Admin Priviledge" },
       { status: 200 },
