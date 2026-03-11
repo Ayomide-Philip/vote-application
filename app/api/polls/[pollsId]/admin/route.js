@@ -169,6 +169,25 @@ export const DELETE = async function DELETE(req, { params }) {
   }
   try {
     await connectDatabase();
+    // checking if the user and authorizing user exist
+    const adminUser = await User.findById(adminId);
+    // if user does not exist, we would return an error
+    if (!adminUser) {
+      return NextResponse.json(
+        { error: "User doesn't exist" },
+        {
+          status: 400,
+        },
+      );
+    }
+    const authorizingUser = await User.findById(authorizationId);
+    // if authorizing user does not exist, we would return an error
+    if (!authorizingUser) {
+      return NextResponse.json(
+        { error: "Invalid Admin or Owner" },
+        { status: 400 },
+      );
+    }
 
     // success
     return NextResponse.json(
