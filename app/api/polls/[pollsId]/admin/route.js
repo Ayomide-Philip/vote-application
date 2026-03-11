@@ -241,9 +241,63 @@ export const DELETE = async function DELETE(req, { params }) {
         },
       );
     }
+    // update the role of the admin back to user
+
+    const updatingAdminToUser = await User.updateOne(
+      {
+        _id: new mongoose.Types.ObjectId(adminId),
+        "voteInformation.pollId": new mongoose.Types.ObjectId(pollsId),
+      },
+      {
+        $set: {
+          "voteInformation.$.role": "Voters",
+        },
+      },
+    );
+    if (
+      !updatingAdminToUser?.acknowledged ||
+      updatingAdminToUser?.modifiedCount === 0
+    ) {
+      return NextResponse.json(
+        {
+          error: "Unable to remove admin priviledge from user",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+    // removing the user from the list of admin of the poll
+    const updatingPoll = await Polls.updateOne(
+      {
+        _id: new mongoose.Types.ObjectId(pollsId),
+      },
+      {
+        $pull: {
+          role: {
+            userId: new mongoose.Types.ObjectId(adminId),
+            userRole: "Admin",
+          },
+        },
+      },
+    );
+    if (!updatingPoll?.acknowledged || updatingPoll?.modifiedCount === 0) {
+      return NextResponse.json(
+        {
+          error: "Unable to remove admin priviledge from poll",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
     // success
     return NextResponse.json(
-      { message: "Successfully Removed Admin Priviledge" },
+      {
+        message: "Successfully Removed Admin Priviledge",
+        updatingAdminToUser,
+        updatingPoll,
+      },
       { status: 200 },
     );
   } catch (err) {
