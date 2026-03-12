@@ -3,8 +3,9 @@ import { connectDatabase } from "@/libs/connectdatabase";
 import Polls from "@/libs/models/polls.models";
 import Contestant from "@/libs/models/contestant.models";
 import User from "@/libs/models/user.models";
+import { auth } from "@/auth";
 
-export async function GET(req, { params }) {
+export const GET = auth(async function GET(req, { params }) {
   const { pollsId } = await params;
   //if polls id is not present
   if (!pollsId) {
@@ -67,4 +68,4 @@ export async function GET(req, { params }) {
       },
     );
   }
-}
+});
