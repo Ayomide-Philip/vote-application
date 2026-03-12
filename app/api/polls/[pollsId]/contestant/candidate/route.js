@@ -6,7 +6,18 @@ import User from "@/libs/models/user.models";
 import { auth } from "@/auth";
 
 export const GET = auth(async function GET(req, { params }) {
+  if (!req?.auth || !req?.auth?.user) {
+    return NextResponse.json(
+      {
+        error: "Unauthorized Access",
+      },
+      {
+        status: 401,
+      },
+    );
+  }
   const { pollsId } = await params;
+  const userId = req?.auth?.user?.id;
   //if polls id is not present
   if (!pollsId) {
     return NextResponse.json(
