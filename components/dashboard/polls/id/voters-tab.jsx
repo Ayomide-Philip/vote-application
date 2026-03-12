@@ -77,6 +77,18 @@ export default function VotersTab({ poll, pollId, user }) {
     }
     return false;
   }
+
+  async function handlePromoteToAdmin(voterId) {
+    if (!voterId) return toast.error("Invalid Voter ID");
+    try {
+      const request = await fetch(`/api/polls/${pollId}/admin`, {
+        method: "PUT",
+      });
+    } catch (err) {
+      console.log(err);
+      return toast.error("Network Error");
+    }
+  }
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
@@ -161,7 +173,12 @@ export default function VotersTab({ poll, pollId, user }) {
                     <td className="px-6 py-4 whitespace-nowrap text-right">
                       <div className="flex items-center justify-end gap-3">
                         {!checkIfUserIsAdmin(voter?._id) ? (
-                          <div className="p-2.5 rounded-lg bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-800/30 transition-colors cursor-pointer">
+                          <div
+                            onClick={() => {
+                              handlePromoteToAdmin(voter?._id);
+                            }}
+                            className="p-2.5 rounded-lg bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-800/30 transition-colors cursor-pointer"
+                          >
                             <Shield className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                           </div>
                         ) : (
@@ -169,10 +186,7 @@ export default function VotersTab({ poll, pollId, user }) {
                             <ShieldOff className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                           </div>
                         )}
-                        <button
-                          onClick={() => handleRemoveVoter(voter._id)}
-                          className="p-2.5 hover:bg-red-100 dark:hover:bg-red-900/30 cursor-pointer rounded-lg transition-colors group"
-                        >
+                        <button className="p-2.5 hover:bg-red-100 dark:hover:bg-red-900/30 cursor-pointer rounded-lg transition-colors group">
                           <Shredder className="h-5 w-5 text-gray-600 dark:text-slate-400 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors" />
                         </button>
                       </div>
