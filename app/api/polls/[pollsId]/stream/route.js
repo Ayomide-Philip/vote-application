@@ -1,43 +1,100 @@
 import { NextResponse } from "next/server";
 import { connectDatabase } from "@/libs/connectdatabase";
 import Polls from "@/libs/models/polls.models";
-import User from "@/libs/models/user.models";
-import Contestant from "@/libs/models/contestant.models";
 import { auth } from "@/auth";
 
 const channels = new Map();
-function getChannel(pollId) {
-  let channel = channels.get(pollId);
+const encoder = new TextEncoder();
+const STREAM_INTERVAL_MS = 10000;
+
+function getOrCreateChannel(pollsId) {
+  let channel = channels.get(pollsId);
+
   if (!channel) {
     channel = {
       clients: new Set(),
       intervalId: null,
-      lastPayload: null,
+      lastPayload: "",
       polling: false,
     };
-    channels.set(pollId, channel);
+    channels.set(pollsId, channel);
   }
+
   return channel;
 }
 
-function cleanupChannel(pollId, channel) {
-  if (channel.clients.size === 0) {
-    if (channel.intervalId) clearInterval(channel.intervalId);
-    channels.delete(pollsId);
+function cleanupChannelIfEmpty(pollsId, channel) {
+  if (channel.clients.size > 0) return;
+
+  if (channel.intervalId) {
+    clearInterval(channel.intervalId);
+    channel.intervalId = null;
   }
+
+  channels.delete(pollsId);
+}
+
+async function buildPayload(pollsId) {
+  const poll = await Polls.findById(pollsId)
+    .populate("userId", "name email image")
+    .populate("contestants", " position description candidates voters")
+    .populate("voters", "name email image department faculty");
+
+  if (!poll) return null;
+
+  return JSON.stringify({ poll });
+}
+
+function startSharedPoller(pollsId, channel) {
+  if (channel.intervalId) return;
+
+  channel.intervalId = setInterval(async () => {
+    if (channel.polling) return;
+
+    channel.polling = true;
+    try {
+      const currentPayload = await buildPayload(pollsId);
+
+      if (!currentPayload) {
+        cleanupChannelIfEmpty(pollsId, channel);
+        return;
+      }
+
+      if (currentPayload !== channel.lastPayload) {
+        channel.lastPayload = currentPayload;
+        const message = encoder.encode(`data: ${currentPayload}\n\n`);
+
+        for (const client of channel.clients) {
+          try {
+            client.enqueue(message);
+          } catch {
+            channel.clients.delete(client);
+          }
+        }
+      }
+
+      cleanupChannelIfEmpty(pollsId, channel);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      channel.polling = false;
+    }
+  }, STREAM_INTERVAL_MS);
 }
 
 export const GET = auth(async function GET(req, { params }) {
-  if (!req.auth || !req.auth.user) {
+  if (!req.auth?.user?.id) {
     return NextResponse.json(
       { error: "Unauthorized Access" },
       {
-        status: 400,
+        status: 401,
       },
     );
   }
-  const userId = req?.auth?.user?.id;
+
+  const userId = req.auth.user.id;
   const { pollsId } = await params;
+
   if (!pollsId) {
     return NextResponse.json(
       { error: "Poll ID is required" },
@@ -46,15 +103,14 @@ export const GET = auth(async function GET(req, { params }) {
       },
     );
   }
-  let interval;
+
   try {
     await connectDatabase();
-    // check if the poll  exist
+
     const poll = await Polls.findById(pollsId)
-      .populate("userId", "name email image")
-      .populate("contestants", " position description candidates voters")
-      .populate("voters", "name email image department faculty");
-    // if no poll return an error
+      .select("voters")
+      .populate("voters", "_id");
+
     if (!poll) {
       return NextResponse.json(
         { error: "Poll not found" },
@@ -64,8 +120,8 @@ export const GET = auth(async function GET(req, { params }) {
       );
     }
 
-    const userExist = poll?.voters.find(
-      (v) => v._id.toString() === userId.toString(),
+    const userExist = poll.voters.find(
+      (voter) => voter._id.toString() === userId.toString(),
     );
 
     if (!userExist) {
@@ -77,41 +133,41 @@ export const GET = auth(async function GET(req, { params }) {
       );
     }
 
+    const channel = getOrCreateChannel(pollsId);
+    startSharedPoller(pollsId, channel);
+
+    let streamController;
+
     const stream = new ReadableStream({
-      start(controller) {
-        // Send initial message
-        const initial = JSON.stringify({ poll });
-        controller.enqueue(new TextEncoder().encode(`data: ${initial}\n\n`));
-        let lastPayload = initial;
+      async start(controller) {
+        streamController = controller;
+        channel.clients.add(controller);
 
-        // Send updates every second
-        interval = setInterval(async () => {
-          try {
-            const poll = await Polls.findById(pollsId)
-              .populate("userId", "name email image")
-              .populate(
-                "contestants",
-                " position description candidates voters",
-              )
-              .populate("voters", "name email image department faculty");
+        const initialPayload = await buildPayload(pollsId);
+        if (!initialPayload) {
+          channel.clients.delete(controller);
+          cleanupChannelIfEmpty(pollsId, channel);
+          controller.close();
+          return;
+        }
 
-            const current = JSON.stringify({ poll });
+        channel.lastPayload = initialPayload;
+        controller.enqueue(encoder.encode(`data: ${initialPayload}\n\n`));
 
-            if (current !== lastPayload) {
-              controller.enqueue(
-                new TextEncoder().encode(`data: ${current}\n\n`),
-              );
-              lastPayload = current;
-            }
-          } catch (err) {
-            // client disconnected, stop interval
-            clearInterval(interval);
-          }
-        }, 10000);
+        req.signal?.addEventListener(
+          "abort",
+          () => {
+            channel.clients.delete(controller);
+            cleanupChannelIfEmpty(pollsId, channel);
+          },
+          { once: true },
+        );
       },
       cancel() {
-        // Called when client disconnects
-        clearInterval(interval);
+        if (streamController) {
+          channel.clients.delete(streamController);
+        }
+        cleanupChannelIfEmpty(pollsId, channel);
       },
     });
 
