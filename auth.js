@@ -46,7 +46,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const existingUser = await User.findOne({ email: user.email });
         if (existingUser) {
           token.id = existingUser?._id.toString();
-          token.googleId = existingUser?.googleId;
         }
       }
       return token;
@@ -54,7 +53,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async session({ session, token }) {
       if (token) {
         session.user.id = token?.id;
-        session.user.googleId = token?.googleId;
       }
       return session;
     },
