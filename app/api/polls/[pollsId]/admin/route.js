@@ -155,9 +155,20 @@ export const PUT = auth(async function PUT(req, { params }) {
   }
 });
 
-export const DELETE = async function DELETE(req, { params }) {
+export const DELETE = auth(async function DELETE(req, { params }) {
+  if (!req?.auth || !req?.auth?.user) {
+    return NextResponse.json(
+      {
+        error: "Unauthorized Access",
+      },
+      {
+        status: 401,
+      },
+    );
+  }
   const { pollsId } = await params;
-  const { adminId, authorizationId } = await req.json();
+  const { adminId } = await req.json();
+  const authorizationId = req?.auth?.user?.id;
   // check if pollsId exist and adminId exist
   if (!pollsId || !adminId || !authorizationId) {
     return NextResponse.json(
@@ -306,4 +317,4 @@ export const DELETE = async function DELETE(req, { params }) {
       { status: 500 },
     );
   }
-};
+});

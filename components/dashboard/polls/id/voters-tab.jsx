@@ -249,10 +249,21 @@ export default function VotersTab({ poll, pollId, user }) {
                           </div>
                         ) : (
                           <div
-                            onClick={() => handleDemoteFromAdmin(voter?._id)}
-                            className="p-2.5 rounded-lg bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-800/30 transition-colors cursor-pointer"
+                            onClick={() => {
+                              if (demotingUserId) return;
+                              handleDemoteFromAdmin(voter?._id);
+                            }}
+                            className={`p-2.5 rounded-lg bg-blue-100 dark:bg-blue-900/30 transition-colors ${
+                              demotingUserId
+                                ? "opacity-70 cursor-not-allowed"
+                                : "hover:bg-blue-200 dark:hover:bg-blue-800/30 cursor-pointer"
+                            }`}
                           >
-                            <ShieldOff className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                            {demotingUserId === voter?._id ? (
+                              <LoaderCircle className="h-5 w-5 text-blue-600 dark:text-blue-400 animate-spin" />
+                            ) : (
+                              <ShieldOff className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                            )}
                           </div>
                         )}
                         <button
