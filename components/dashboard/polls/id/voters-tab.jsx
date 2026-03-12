@@ -15,6 +15,7 @@ export default function VotersTab({ poll, pollId, user }) {
   const [voters, setVoters] = useState([]);
   const [loading, setLoading] = useState(false);
   const [promotingUserId, setPromotingUserId] = useState(null);
+  const [removingUserId, setRemovingUserId] = useState(null);
   const completedVoters = poll?.completedVoters;
   function checkIfUserHasVoted(userId) {
     return completedVoters.find((user) => user === userId);
@@ -54,6 +55,8 @@ export default function VotersTab({ poll, pollId, user }) {
   if (loading) return <LoadingSpinner />;
 
   async function handleRemoveVoter(voterId) {
+    if (!voterId) return toast.error("Invalid Voter ID");
+    setRemovingUserId(voterId);
     try {
       const request = await fetch(`/api/polls/${pollId}/voters/${voterId}`, {
         method: "DELETE",
@@ -64,12 +67,14 @@ export default function VotersTab({ poll, pollId, user }) {
       });
       const response = await request.json();
       if (!request.ok || response?.error) {
+        setRemovingUserId(null);
         return toast.error(response?.error || "An error occurred");
       }
       toast.success(response?.message || "User Successfully Removed from Poll");
       window.location.reload();
     } catch (err) {
       console.log(err);
+      setRemovingUserId(null);
       return toast.error("Network Error");
     }
   }
@@ -221,10 +226,22 @@ export default function VotersTab({ poll, pollId, user }) {
                           </div>
                         )}
                         <button
-                          onClick={() => handleRemoveVoter(voter?._id)}
-                          className="p-2.5 hover:bg-red-100 dark:hover:bg-red-900/30 cursor-pointer rounded-lg transition-colors group"
+                          onClick={() => {
+                            if (removingUserId) return;
+                            handleRemoveVoter(voter?._id);
+                          }}
+                          disabled={Boolean(removingUserId)}
+                          className={`p-2.5 rounded-lg transition-colors group ${
+                            removingUserId
+                              ? "opacity-70 cursor-not-allowed"
+                              : "hover:bg-red-100 dark:hover:bg-red-900/30 cursor-pointer"
+                          }`}
                         >
-                          <Shredder className="h-5 w-5 text-gray-600 dark:text-slate-400 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors" />
+                          {removingUserId === voter?._id ? (
+                            <LoaderCircle className="h-5 w-5 text-red-600 dark:text-red-400 animate-spin" />
+                          ) : (
+                            <Shredder className="h-5 w-5 text-gray-600 dark:text-slate-400 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors" />
+                          )}
                         </button>
                       </div>
                     </td>
