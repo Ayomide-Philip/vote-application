@@ -3,8 +3,9 @@ import { connectDatabase } from "@/libs/connectdatabase";
 import Polls from "@/libs/models/polls.models";
 import Contestant from "@/libs/models/contestant.models";
 import User from "@/libs/models/user.models";
+import { auth } from "@/auth";
 
-export const GET = async function GET(req, { params }) {
+export const GET = auth(async function GET(req, { params }) {
   if (!req?.auth || !req?.auth?.user) {
     return NextResponse.json(
       {
@@ -70,10 +71,13 @@ export const GET = async function GET(req, { params }) {
       );
     }
     // check if the contestant exist
-    const contestants = await Contestant.findOne({
-      _id: contestantId,
-      pollId: pollsId,
-    })
+    const contestants = await Contestant.findOne(
+      {
+        _id: contestantId,
+        pollId: pollsId,
+      },
+      { "candidates.votes": 0 },
+    )
       .populate("candidates.userId", "name image department faculty email")
       .populate("pollId", "startDate endDate title description");
     return NextResponse.json(
@@ -91,4 +95,4 @@ export const GET = async function GET(req, { params }) {
       },
     );
   }
-};
+});
