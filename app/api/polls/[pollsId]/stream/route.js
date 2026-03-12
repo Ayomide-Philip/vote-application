@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { connectDatabase } from "@/libs/connectdatabase";
 import Polls from "@/libs/models/polls.models";
+import Contestant from "@/libs/models/contestant.models";
+import User from "@/libs/models/user.models";
 import { auth } from "@/auth";
 import {
   MAX_CONNECTIONS_PER_POLL,
