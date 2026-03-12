@@ -1,6 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 import LoadingSpinner from "@/components/loadingspinner";
-import { CheckCircle, Shield, ShieldOff, Shredder } from "lucide-react";
+import {
+  CheckCircle,
+  LoaderCircle,
+  Shield,
+  ShieldOff,
+  Shredder,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import AddVoters from "./AddVoters";
@@ -8,6 +14,7 @@ import AddVoters from "./AddVoters";
 export default function VotersTab({ poll, pollId, user }) {
   const [voters, setVoters] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [promotingUserId, setPromotingUserId] = useState(null);
   const completedVoters = poll?.completedVoters;
   function checkIfUserHasVoted(userId) {
     return completedVoters.find((user) => user === userId);
@@ -80,6 +87,7 @@ export default function VotersTab({ poll, pollId, user }) {
 
   async function handlePromoteToAdmin(voterId) {
     if (!voterId) return toast.error("Invalid Voter ID");
+    setPromotingUserId(voterId);
     try {
       const request = await fetch(`/api/polls/${pollId}/admin`, {
         method: "PUT",
@@ -93,6 +101,7 @@ export default function VotersTab({ poll, pollId, user }) {
       });
       const response = await request.json();
       if (!request.ok || response?.error) {
+        setPromotingUserId(null);
         return toast.error(
           response?.error || "Unable to promote user to admin",
         );
@@ -101,6 +110,7 @@ export default function VotersTab({ poll, pollId, user }) {
       window.location.reload();
     } catch (err) {
       console.log(err);
+      setPromotingUserId(null);
       return toast.error("Network Error");
     }
   }
@@ -190,18 +200,30 @@ export default function VotersTab({ poll, pollId, user }) {
                         {!checkIfUserIsAdmin(voter?._id) ? (
                           <div
                             onClick={() => {
+                              if (promotingUserId) return;
                               handlePromoteToAdmin(voter?._id);
                             }}
-                            className="p-2.5 rounded-lg bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-800/30 transition-colors cursor-pointer"
+                            className={`p-2.5 rounded-lg bg-blue-100 dark:bg-blue-900/30 transition-colors ${
+                              promotingUserId
+                                ? "opacity-70 cursor-not-allowed"
+                                : "hover:bg-blue-200 dark:hover:bg-blue-800/30 cursor-pointer"
+                            }`}
                           >
-                            <Shield className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                            {promotingUserId === voter?._id ? (
+                              <LoaderCircle className="h-5 w-5 text-blue-600 dark:text-blue-400 animate-spin" />
+                            ) : (
+                              <Shield className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                            )}
                           </div>
                         ) : (
                           <div className="p-2.5 rounded-lg bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-800/30 transition-colors cursor-pointer">
                             <ShieldOff className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                           </div>
                         )}
-                        <button className="p-2.5 hover:bg-red-100 dark:hover:bg-red-900/30 cursor-pointer rounded-lg transition-colors group">
+                        <button
+                          onClick={() => handleRemoveVoter(voter?._id)}
+                          className="p-2.5 hover:bg-red-100 dark:hover:bg-red-900/30 cursor-pointer rounded-lg transition-colors group"
+                        >
                           <Shredder className="h-5 w-5 text-gray-600 dark:text-slate-400 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors" />
                         </button>
                       </div>
