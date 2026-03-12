@@ -6,6 +6,7 @@ import { auth } from "@/auth";
 const channels = new Map();
 const encoder = new TextEncoder();
 const STREAM_INTERVAL_MS = 10000;
+const MAX_CONNECTIONS_PER_POLL = 100;
 
 function getOrCreateChannel(pollsId) {
   let channel = channels.get(pollsId);
@@ -134,6 +135,18 @@ export const GET = auth(async function GET(req, { params }) {
     }
 
     const channel = getOrCreateChannel(pollsId);
+    console.log(channel);
+    if (channel.clients.size >= MAX_CONNECTIONS_PER_POLL) {
+      return NextResponse.json(
+        {
+          error: `Live stream connection limit reached for this poll (${MAX_CONNECTIONS_PER_POLL})`,
+        },
+        {
+          status: 429,
+        },
+      );
+    }
+
     startSharedPoller(pollsId, channel);
 
     let streamController;
