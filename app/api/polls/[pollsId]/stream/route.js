@@ -30,8 +30,8 @@ export const GET = auth(async function GET(req, { params }) {
     // check if the poll  exist
     const poll = await Polls.findById(pollsId)
       .populate("userId", "name email image")
-      .populate("contestants")
-      .populate("voters");
+      .populate("contestants", " position description candidates voters")
+      .populate("voters", "name email image department faculty");
     // if no poll return an error
     if (!poll) {
       return NextResponse.json(
@@ -67,8 +67,11 @@ export const GET = auth(async function GET(req, { params }) {
           try {
             const poll = await Polls.findById(pollsId)
               .populate("userId", "name email image")
-              .populate("contestants")
-              .populate("voters");
+              .populate(
+                "contestants",
+                " position description candidates voters",
+              )
+              .populate("voters", "name email image department faculty");
 
             const current = JSON.stringify({ poll });
 
@@ -82,7 +85,7 @@ export const GET = auth(async function GET(req, { params }) {
             // client disconnected, stop interval
             clearInterval(interval);
           }
-        }, 600000);
+        }, 10000);
       },
       cancel() {
         // Called when client disconnects
@@ -97,13 +100,6 @@ export const GET = auth(async function GET(req, { params }) {
         Connection: "keep-alive",
       },
     });
-
-    // return NextResponse.json(
-    //   { poll: poll },
-    //   {
-    //     status: 200,
-    //   }
-    // );
   } catch (err) {
     console.log(err);
     return NextResponse.json(
