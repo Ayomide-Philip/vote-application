@@ -57,32 +57,29 @@ export const GET = auth(async function GET(req, { params }) {
     }
     // check if the contestant has any one with this poll id
     const contestant = await Contestant.find({ pollId: pollsId });
-    console.log(contestant);
+    const currentUserRole = poll?.role?.find(
+      (r) => r?.userId?.toString() === userId?.toString(),
+    )?.userRole;
     const isUserAdminOrOwner =
-      poll?.role?.find((r) => r?.userId?.toString() === userId?.toString())
-        ?.userRole === "Owner" ||
-      poll?.role?.find((r) => r?.userId?.toString() === userId?.toString())
-        ?.userRole === "Admin";
+      currentUserRole === "Owner" || currentUserRole === "Admin";
 
-    console.log(isUserAdminOrOwner);
-    const senitizedContestant = contestant.map((c) => {
+    const sanitizedContestant = contestant.map((c) => {
       return {
         _id: c?._id,
         pollId: c?.pollId,
         position: c?.position,
         description: c?.description,
-        creadtedAt: c?.createdAt,
+        createdAt: c?.createdAt,
         updatedAt: c?.updatedAt,
         candidates: c?.candidates?.map((candidate) => ({
           userId: candidate?.userId,
-          votes: isUserAdminOrOwner ? candidate?.votes : undefined,
+          ...(isUserAdminOrOwner ? { votes: candidate?.votes } : {}),
         })),
-        voters: isUserAdminOrOwner ? c?.voters : undefined,
+        ...(isUserAdminOrOwner ? { voters: c?.voters } : {}),
       };
     });
-    console.log(senitizedContestant);
     return NextResponse.json(
-      { contestant, senitizedContestant },
+      { contestant: sanitizedContestant },
       {
         status: 200,
       },
