@@ -139,8 +139,7 @@ export const GET = auth(async function GET(req, { params }) {
     }
 
     const channel = getOrCreateChannel(pollsId);
-    console.log(channel);
-    if (channel.clients.size >= MAX_CONNECTIONS_PER_POLL || 100) {
+    if (channel.clients.size >= MAX_CONNECTIONS_PER_POLL) {
       return NextResponse.json(
         {
           error: `Live stream connection limit reached for this poll (${MAX_CONNECTIONS_PER_POLL || 100} connections). Please try again later.`,
