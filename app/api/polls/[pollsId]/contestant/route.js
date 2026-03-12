@@ -5,12 +5,26 @@ import Contestant from "@/libs/models/contestant.models";
 import User from "@/libs/models/user.models";
 import { auth } from "@/auth";
 
-export async function GET(req, { params }) {
-  const { pollsId } = await params;
-  //if polls id is not present
-  if (!pollsId) {
+export const GET = auth(async function GET(req, { params }) {
+  if (!req?.auth || !req?.auth?.user) {
     return NextResponse.json(
-      { error: "No poll found." },
+      {
+        error: "Unauthorized Access",
+      },
+      {
+        status: 401,
+      },
+    );
+  }
+
+  const { pollsId } = await params;
+  const userId = req?.auth?.user?.id;
+  //if polls id is not present
+  if (!pollsId || !userId) {
+    return NextResponse.json(
+      {
+        error: "Invalid Parameters",
+      },
       {
         status: 400,
       },
@@ -46,7 +60,7 @@ export async function GET(req, { params }) {
       },
     );
   }
-}
+});
 
 export const POST = auth(async function POST(req, { params }) {
   if (!req.auth || !req.auth.user) {
