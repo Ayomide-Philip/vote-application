@@ -16,6 +16,7 @@ export default function VotersTab({ poll, pollId, user }) {
   const [loading, setLoading] = useState(false);
   const [promotingUserId, setPromotingUserId] = useState(null);
   const [removingUserId, setRemovingUserId] = useState(null);
+  const [demotingUserId, setDemotingUserId] = useState(null);
   const completedVoters = poll?.completedVoters;
   function checkIfUserHasVoted(userId) {
     return completedVoters.find((user) => user === userId);
@@ -116,6 +117,32 @@ export default function VotersTab({ poll, pollId, user }) {
     } catch (err) {
       console.log(err);
       setPromotingUserId(null);
+      return toast.error("Network Error");
+    }
+  }
+
+  async function handleDemoteFromAdmin(voterId) {
+    if (!voterId) return toast.error("Invalid Voter ID");
+    setDemotingUserId(voterId);
+    try {
+      const request = await fetch(`/api/polls/${pollId}/admin`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ adminId: voterId }),
+      });
+      const response = await request.json();
+      if (!request.ok || response?.error) {
+        setDemotingUserId(null);
+        return toast.error(response?.error || "Unable to demote admin to user");
+      }
+      toast.success(response?.message || "Admin Successfully Demoted to User");
+      window.location.reload();
+    } catch (err) {
+      console.log(err);
+      setDemotingUserId(null);
       return toast.error("Network Error");
     }
   }
