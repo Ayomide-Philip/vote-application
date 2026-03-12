@@ -30,7 +30,7 @@ export const GET = auth(async function GET(req, { params }) {
     const poll = await Polls.findById(pollsId)
       .populate("userId", "name email image voteInformation")
       .populate("contestants")
-      .populate("voters");
+      .populate("voters", "name email image voteInformation");
     // if no poll return an error
     if (!poll) {
       return NextResponse.json(

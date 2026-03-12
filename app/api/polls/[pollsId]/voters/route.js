@@ -1,15 +1,27 @@
 import { NextResponse } from "next/server";
 import { connectDatabase } from "@/libs/connectdatabase";
 import Polls from "@/libs/models/polls.models";
+import { auth } from "@/auth";
 
-export async function GET(req, { params }) {
-  const { pollsId } = await params;
-  if (!pollsId) {
+export const GET = auth(async function GET(req, { params }) {
+  if (!req?.auth || !req?.auth?.user) {
     return NextResponse.json(
-      { error: "Poll ID is required" },
+      {
+        error: "Unauthorized Access",
+      },
+      {
+        status: 401,
+      },
+    );
+  }
+  const { pollsId } = await params;
+  const userId = req?.auth?.user?.id;
+  if (!pollsId || !userId) {
+    return NextResponse.json(
+      { error: "Invalid Parameters" },
       {
         status: 400,
-      }
+      },
     );
   }
   try {
@@ -25,7 +37,7 @@ export async function GET(req, { params }) {
         { error: "Poll not found" },
         {
           status: 404,
-        }
+        },
       );
     }
 
@@ -33,7 +45,7 @@ export async function GET(req, { params }) {
       { voters: poll.voters },
       {
         status: 200,
-      }
+      },
     );
   } catch (err) {
     console.log(err);
@@ -41,7 +53,7 @@ export async function GET(req, { params }) {
       { error: "Unable to get Poll" },
       {
         status: 400,
-      }
+      },
     );
   }
-}
+});
