@@ -55,6 +55,24 @@ export const PUT = auth(async function PUT(req, { params }) {
         },
       );
     }
+    // check if the poll has started, if the poll has started, we would return an error because we cannot update role after the poll has started
+    if (new Date() >= new Date(poll?.startDate)) {
+      return NextResponse.json(
+        { error: "Voting has already started. Cannot update role." },
+        {
+          status: 400,
+        },
+      );
+    }
+    // if the poll has ended, we would return an error because we cannot update role after the poll has ended
+    if (new Date() > new Date(poll?.endDate)) {
+      return NextResponse.json(
+        { error: "Voting has already ended. Cannot update role." },
+        {
+          status: 400,
+        },
+      );
+    }
     // check if the admin and user belong to the poll
     // if the new admin does not exist in the poll, we would return an error
     if (
