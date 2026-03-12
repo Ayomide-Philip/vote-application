@@ -25,9 +25,20 @@ export const GET = auth(async function GET(req) {
         },
       );
     }
-    console.log(user);
     return NextResponse.json(
-      { user: { ...user, googleId: user?.googleId ? true : false } },
+      {
+        user: {
+          _id: user?._id,
+          googleId: user?.googleId ? true : false,
+          name: user?.name,
+          email: user?.email,
+          image: user?.image,
+          faculty: user?.faculty,
+          department: user?.department,
+          createdAt: user?.createdAt,
+          voteInformation: user?.voteInformation || [],
+        },
+      },
       {
         status: 200,
       },
@@ -110,7 +121,18 @@ export const PUT = auth(async function PUT(req) {
     }
     //success message
     return NextResponse.json(
-      { message: "Successfully updated user profile", user },
+      {
+        message: "Successfully updated user profile",
+        user: {
+          userId: user._id,
+          googleId: user?.googleId ? true : false,
+          name: user?.name,
+          email: user?.email,
+          image: user?.image,
+          faculty: user?.faculty,
+          department: user?.department,
+        },
+      },
       {
         status: 200,
       },
