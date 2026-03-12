@@ -44,7 +44,7 @@ export const GET = auth(async function GET(req, { params }) {
     const userExist = poll?.role?.find(
       (r) => r?.userId.toString() === userId.toString(),
     );
-    console.log(userExist);
+    // if user is not an admin or owner return an error
     if (
       !userExist ||
       (userExist?.userRole !== "Admin" && userExist?.userRole !== "Owner")
@@ -60,7 +60,7 @@ export const GET = auth(async function GET(req, { params }) {
     }
 
     return NextResponse.json(
-      { voters: poll.voters },
+      { voters: poll?.voters },
       {
         status: 200,
       },
@@ -68,7 +68,7 @@ export const GET = auth(async function GET(req, { params }) {
   } catch (err) {
     console.log(err);
     return NextResponse.json(
-      { error: "Unable to get Poll" },
+      { error: "An error occurred while fetching voters" },
       {
         status: 400,
       },
