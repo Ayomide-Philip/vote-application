@@ -2,11 +2,15 @@ import { NextResponse } from "next/server";
 import { connectDatabase } from "@/libs/connectdatabase";
 import Polls from "@/libs/models/polls.models";
 import { auth } from "@/auth";
+import {
+  MAX_CONNECTIONS_PER_POLL,
+  STREAM_INTERVAL_MS,
+} from "@/libs/config/configuration";
 
 const channels = new Map();
 const encoder = new TextEncoder();
-const STREAM_INTERVAL_MS = 10000;
-const MAX_CONNECTIONS_PER_POLL = 100;
+// const STREAM_INTERVAL_MS = 10000;
+// const MAX_CONNECTIONS_PER_POLL = 100;
 
 function getOrCreateChannel(pollsId) {
   let channel = channels.get(pollsId);
@@ -80,7 +84,7 @@ function startSharedPoller(pollsId, channel) {
     } finally {
       channel.polling = false;
     }
-  }, STREAM_INTERVAL_MS);
+  }, STREAM_INTERVAL_MS || 10000);
 }
 
 export const GET = auth(async function GET(req, { params }) {
@@ -136,10 +140,10 @@ export const GET = auth(async function GET(req, { params }) {
 
     const channel = getOrCreateChannel(pollsId);
     console.log(channel);
-    if (channel.clients.size >= MAX_CONNECTIONS_PER_POLL) {
+    if (channel.clients.size >= MAX_CONNECTIONS_PER_POLL || 100) {
       return NextResponse.json(
         {
-          error: `Live stream connection limit reached for this poll (${MAX_CONNECTIONS_PER_POLL})`,
+          error: `Live stream connection limit reached for this poll (${MAX_CONNECTIONS_PER_POLL || 100} connections). Please try again later.`,
         },
         {
           status: 429,

@@ -4,4 +4,6 @@ export const {
   AUTH_GOOGLE_ID,
   AUTH_GOOGLE_SECRET,
   BASE_URL,
+  STREAM_INTERVAL_MS,
+  MAX_CONNECTIONS_PER_POLL,
 } = process.env;
