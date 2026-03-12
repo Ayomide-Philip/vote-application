@@ -43,6 +43,18 @@ export const GET = auth(async function GET(req, { params }) {
         },
       );
     }
+
+    // if user doesnt belong to the poll return an error
+    if (!poll?.voters?.find((r) => r.toString() === userId?.toString())) {
+      return NextResponse.json(
+        {
+          error: "Unauthorized Access",
+        },
+        {
+          status: 401,
+        },
+      );
+    }
     // check if the contestant has any one with this poll id
     const contestant = await Contestant.find({ pollId: pollsId });
     return NextResponse.json(
