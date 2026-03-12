@@ -19,7 +19,7 @@ export default async function Page() {
   const { user } = response;
 
   return (
-    <main className="min-h-screen overflow-x-hidden bg-white text-slate-900 px-4 py-6 sm:px-6 sm:py-8 lg:px-8 dark:bg-slate-950 dark:text-slate-100">
+    <main className="min-h-screen overflow-x-hidden bg-white text-slate-900 px-4 py-6 sm:px-6 sm:py-8 lg:px-8 dark:bg-slate-900 dark:text-slate-100">
       <div className="mx-auto flex max-w-5xl flex-col gap-5 sm:gap-6">
         <header className="rounded-3xl border border-gray-200 bg-white px-4 py-4 shadow-md sm:px-6 sm:py-5 dark:border-slate-700 dark:bg-slate-800 dark:shadow-xl dark:shadow-black/40">
           <p className="text-xs uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">

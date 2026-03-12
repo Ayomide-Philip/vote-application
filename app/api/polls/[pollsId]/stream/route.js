@@ -9,8 +9,6 @@ import {
 
 const channels = new Map();
 const encoder = new TextEncoder();
-// const STREAM_INTERVAL_MS = 10000;
-// const MAX_CONNECTIONS_PER_POLL = 100;
 
 function getOrCreateChannel(pollsId) {
   let channel = channels.get(pollsId);
