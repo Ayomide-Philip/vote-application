@@ -29,12 +29,12 @@ export const GET = auth(async function GET(req, { params }) {
     // check if the poll  exist
     const poll = await Polls.findById(pollsId)
       .select("voters")
-      .populate("voters")
+      .populate("voters", "name voteInformation image email department")
       .lean();
     // if no poll return an error
     if (!poll) {
       return NextResponse.json(
-        { error: "Poll not found" },
+        { error: "Poll doesn't exist" },
         {
           status: 404,
         },
