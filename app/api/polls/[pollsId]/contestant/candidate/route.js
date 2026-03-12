@@ -12,7 +12,7 @@ export async function GET(req, { params }) {
       { error: "No poll found." },
       {
         status: 400,
-      }
+      },
     );
   }
   try {
@@ -25,7 +25,7 @@ export async function GET(req, { params }) {
         { error: "Polls not found." },
         {
           status: 400,
-        }
+        },
       );
     }
     // check if the contestant has any one with this poll id
@@ -40,7 +40,7 @@ export async function GET(req, { params }) {
         { candidate },
         {
           status: 200,
-        }
+        },
       );
     }
     // get all candidate if they exist
@@ -49,14 +49,14 @@ export async function GET(req, { params }) {
         ...contestant[i].candidates.map((c) => ({
           ...c.toObject(),
           position: contestant[i].position,
-        }))
+        })),
       );
     }
     return NextResponse.json(
       { candidate },
       {
         status: 200,
-      }
+      },
     );
   } catch (err) {
     console.log(err);
@@ -64,7 +64,7 @@ export async function GET(req, { params }) {
       { error: "An error occurred while getting all contestants." },
       {
         status: 400,
-      }
+      },
     );
   }
 }
