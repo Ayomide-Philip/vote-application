@@ -19,9 +19,11 @@ export const GET = auth(async function GET(req, { params }) {
   const { pollsId } = await params;
   const userId = req?.auth?.user?.id;
   //if polls id is not present
-  if (!pollsId) {
+  if (!pollsId || !userId) {
     return NextResponse.json(
-      { error: "No poll found." },
+      {
+        error: "Invalid Parameters",
+      },
       {
         status: 400,
       },
@@ -37,6 +39,24 @@ export const GET = auth(async function GET(req, { params }) {
         { error: "Polls not found." },
         {
           status: 400,
+        },
+      );
+    }
+    // check if he user is an admin or owner of the poll
+    const currentUserRole = poll?.role?.find(
+      (r) => r?.userId?.toString() === userId?.toString(),
+    );
+    if (
+      !currentUserRole ||
+      (currentUserRole?.userRole !== "Admin" &&
+        currentUserRole?.userRole !== "Owner")
+    ) {
+      return NextResponse.json(
+        {
+          error: "Unauthorized Access",
+        },
+        {
+          status: 401,
         },
       );
     }
