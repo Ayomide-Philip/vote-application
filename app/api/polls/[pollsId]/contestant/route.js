@@ -69,21 +69,6 @@ export const GET = auth(async function GET(req, { params }) {
         };
     const contestant = await Contestant.find({ pollId: pollsId }, projection);
 
-    // const sanitizedContestant = contestant.map((c) => {
-    //   return {
-    //     _id: c?._id,
-    //     pollId: c?.pollId,
-    //     position: c?.position,
-    //     description: c?.description,
-    //     createdAt: c?.createdAt,
-    //     updatedAt: c?.updatedAt,
-    //     candidates: c?.candidates?.map((candidate) => ({
-    //       userId: candidate?.userId,
-    //       ...(isUserAdminOrOwner ? { votes: candidate?.votes } : {}),
-    //     })),
-    //     ...(isUserAdminOrOwner ? { voters: c?.voters } : {}),
-    //   };
-    // });
     return NextResponse.json(
       { contestant: contestant },
       {
