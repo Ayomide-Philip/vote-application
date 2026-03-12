@@ -13,7 +13,7 @@ export async function GET(req, { params }) {
       { error: "No poll found." },
       {
         status: 400,
-      }
+      },
     );
   }
   try {
@@ -26,7 +26,7 @@ export async function GET(req, { params }) {
         { error: "No poll found." },
         {
           status: 400,
-        }
+        },
       );
     }
     // check if the contestant has any one with this poll id
@@ -35,7 +35,7 @@ export async function GET(req, { params }) {
       { contestant },
       {
         status: 200,
-      }
+      },
     );
   } catch (err) {
     console.log(err);
@@ -43,7 +43,7 @@ export async function GET(req, { params }) {
       { error: "An error occurred while getting all contestants." },
       {
         status: 400,
-      }
+      },
     );
   }
 }
@@ -54,7 +54,7 @@ export const POST = auth(async function POST(req, { params }) {
       { error: "Unauthorized Access" },
       {
         status: 400,
-      }
+      },
     );
   }
   const userId = req?.auth?.user?.id;
@@ -66,7 +66,7 @@ export const POST = auth(async function POST(req, { params }) {
       { error: "User is unauthorized" },
       {
         status: 400,
-      }
+      },
     );
   }
   // check if the polls id exist
@@ -75,7 +75,7 @@ export const POST = auth(async function POST(req, { params }) {
       { error: "Invalid Parameter" },
       {
         status: 400,
-      }
+      },
     );
   }
   // check the position
@@ -84,7 +84,7 @@ export const POST = auth(async function POST(req, { params }) {
       { error: "Position is missing" },
       {
         status: 400,
-      }
+      },
     );
   }
   // checking position length
@@ -93,7 +93,7 @@ export const POST = auth(async function POST(req, { params }) {
       { error: "Position cant be less than 5 characters" },
       {
         status: 400,
-      }
+      },
     );
   }
   // check for the position description
@@ -102,7 +102,7 @@ export const POST = auth(async function POST(req, { params }) {
       { error: "Description is missing" },
       {
         status: 400,
-      }
+      },
     );
   }
 
@@ -112,7 +112,7 @@ export const POST = auth(async function POST(req, { params }) {
       { error: "Description is less than 10 characters" },
       {
         status: 400,
-      }
+      },
     );
   }
 
@@ -125,7 +125,7 @@ export const POST = auth(async function POST(req, { params }) {
         { error: "User does not exist" },
         {
           status: 400,
-        }
+        },
       );
     }
     // check if the poll exist
@@ -135,7 +135,7 @@ export const POST = auth(async function POST(req, { params }) {
         { error: "Poll does not exist" },
         {
           status: 400,
-        }
+        },
       );
     }
     // check if user belong to the poll
@@ -148,7 +148,7 @@ export const POST = auth(async function POST(req, { params }) {
         { error: "User doesnt belong to this poll" },
         {
           status: 400,
-        }
+        },
       );
     }
     // check if the user has the correct authorization to create a contestant
@@ -157,7 +157,7 @@ export const POST = auth(async function POST(req, { params }) {
         { error: "You dont have permission to perform this action" },
         {
           status: 400,
-        }
+        },
       );
     }
     //after verifying all process then create a contestant
@@ -175,7 +175,7 @@ export const POST = auth(async function POST(req, { params }) {
       { message: "Successfully Created.", contestant: contestant },
       {
         status: 200,
-      }
+      },
     );
   } catch (err) {
     if (err?.code === 11000) {
@@ -183,7 +183,7 @@ export const POST = auth(async function POST(req, { params }) {
         { error: "You have created this position before" },
         {
           status: 400,
-        }
+        },
       );
     }
     console.log(err);
@@ -191,7 +191,7 @@ export const POST = auth(async function POST(req, { params }) {
       { error: "An error occurred while creating new contestant." },
       {
         status: 400,
-      }
+      },
     );
   }
 });
