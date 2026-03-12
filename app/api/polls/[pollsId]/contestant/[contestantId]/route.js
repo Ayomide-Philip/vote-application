@@ -58,6 +58,17 @@ export const GET = async function GET(req, { params }) {
         },
       );
     }
+    // check if the user belongs to the poll
+    if (!poll?.voters?.find((r) => r.toString() === userId?.toString())) {
+      return NextResponse.json(
+        {
+          error: "Unauthorized Access",
+        },
+        {
+          status: 401,
+        },
+      );
+    }
     // check if the contestant exist
     const contestants = await Contestant.findOne({
       _id: contestantId,
