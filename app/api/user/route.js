@@ -15,7 +15,7 @@ export const GET = auth(async function GET(req) {
   try {
     await connectDatabase();
     // check if the user exist in the database
-    const user = await User.findById(req?.auth?.user.id);
+    const user = await User.findById(req?.auth?.user.id).lean();
     // if no user exist
     if (!user) {
       return NextResponse.json(
@@ -25,8 +25,9 @@ export const GET = auth(async function GET(req) {
         },
       );
     }
+    console.log(user);
     return NextResponse.json(
-      { user },
+      { user: { ...user, googleId: user?.googleId ? true : false } },
       {
         status: 200,
       },
