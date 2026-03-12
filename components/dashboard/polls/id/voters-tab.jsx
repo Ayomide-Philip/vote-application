@@ -83,7 +83,22 @@ export default function VotersTab({ poll, pollId, user }) {
     try {
       const request = await fetch(`/api/polls/${pollId}/admin`, {
         method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          newAdminId: voterId,
+        }),
       });
+      const response = await request.json();
+      if (!request.ok || response?.error) {
+        return toast.error(
+          response?.error || "Unable to promote user to admin",
+        );
+      }
+      toast.success(response?.message || "User Successfully Promoted to Admin");
+      window.location.reload();
     } catch (err) {
       console.log(err);
       return toast.error("Network Error");
