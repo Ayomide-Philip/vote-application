@@ -5,6 +5,28 @@ import User from "@/libs/models/user.models";
 import Contestant from "@/libs/models/contestant.models";
 import { auth } from "@/auth";
 
+const channels = new Map();
+function getChannel(pollId) {
+  let channel = channels.get(pollId);
+  if (!channel) {
+    channel = {
+      clients: new Set(),
+      intervalId: null,
+      lastPayload: null,
+      polling: false,
+    };
+    channels.set(pollId, channel);
+  }
+  return channel;
+}
+
+function cleanupChannel(pollId, channel) {
+  if (channel.clients.size === 0) {
+    if (channel.intervalId) clearInterval(channel.intervalId);
+    channels.delete(pollsId);
+  }
+}
+
 export const GET = auth(async function GET(req, { params }) {
   if (!req.auth || !req.auth.user) {
     return NextResponse.json(
