@@ -55,31 +55,37 @@ export const GET = auth(async function GET(req, { params }) {
         },
       );
     }
-    // check if the contestant has any one with this poll id
-    const contestant = await Contestant.find({ pollId: pollsId });
     const currentUserRole = poll?.role?.find(
       (r) => r?.userId?.toString() === userId?.toString(),
     )?.userRole;
     const isUserAdminOrOwner =
       currentUserRole === "Owner" || currentUserRole === "Admin";
+    // check if the contestant has any one with this poll id
+    const projection = isUserAdminOrOwner
+      ? {}
+      : {
+          "candidates.votes": 0,
+          voters: 0,
+        };
+    const contestant = await Contestant.find({ pollId: pollsId }, projection);
 
-    const sanitizedContestant = contestant.map((c) => {
-      return {
-        _id: c?._id,
-        pollId: c?.pollId,
-        position: c?.position,
-        description: c?.description,
-        createdAt: c?.createdAt,
-        updatedAt: c?.updatedAt,
-        candidates: c?.candidates?.map((candidate) => ({
-          userId: candidate?.userId,
-          ...(isUserAdminOrOwner ? { votes: candidate?.votes } : {}),
-        })),
-        ...(isUserAdminOrOwner ? { voters: c?.voters } : {}),
-      };
-    });
+    // const sanitizedContestant = contestant.map((c) => {
+    //   return {
+    //     _id: c?._id,
+    //     pollId: c?.pollId,
+    //     position: c?.position,
+    //     description: c?.description,
+    //     createdAt: c?.createdAt,
+    //     updatedAt: c?.updatedAt,
+    //     candidates: c?.candidates?.map((candidate) => ({
+    //       userId: candidate?.userId,
+    //       ...(isUserAdminOrOwner ? { votes: candidate?.votes } : {}),
+    //     })),
+    //     ...(isUserAdminOrOwner ? { voters: c?.voters } : {}),
+    //   };
+    // });
     return NextResponse.json(
-      { contestant: sanitizedContestant },
+      { contestant: contestant },
       {
         status: 200,
       },

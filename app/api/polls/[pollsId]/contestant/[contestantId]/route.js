@@ -76,9 +76,12 @@ export const GET = auth(async function GET(req, { params }) {
         _id: contestantId,
         pollId: pollsId,
       },
-      { "candidates.votes": 0 },
+      {
+        "candidates.votes": 0,
+        voters: 0,
+      },
     )
-      .populate("candidates.userId", "name image department faculty email")
+      .populate("candidates.userId", "name image department email")
       .populate("pollId", "startDate endDate title description");
     return NextResponse.json(
       { contestant: contestants },
