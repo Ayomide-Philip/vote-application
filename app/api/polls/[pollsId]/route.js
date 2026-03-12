@@ -28,9 +28,9 @@ export const GET = auth(async function GET(req, { params }) {
     await connectDatabase();
     // check if the poll  exist
     const poll = await Polls.findById(pollsId)
-      .populate("userId", "name email image voteInformation")
-      .populate("contestants")
-      .populate("voters", "name email image voteInformation");
+      .populate("userId", "name email image ")
+      .populate("contestants", "position description candidates voters")
+      .populate("voters", "name email image department faculty");
     // if no poll return an error
     if (!poll) {
       return NextResponse.json(
