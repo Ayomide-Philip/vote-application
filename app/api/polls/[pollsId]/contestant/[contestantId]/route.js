@@ -4,24 +4,27 @@ import Polls from "@/libs/models/polls.models";
 import Contestant from "@/libs/models/contestant.models";
 import User from "@/libs/models/user.models";
 
-export async function GET(req, { params }) {
-  const { contestantId, pollsId } = await params;
-  // if there is no poll id
-  if (!pollsId) {
+export const GET = async function GET(req, { params }) {
+  if (!req?.auth || !req?.auth?.user) {
     return NextResponse.json(
-      { error: "Poll Id is not defined" },
       {
-        status: 400,
-      }
+        error: "Unauthorized Access",
+      },
+      {
+        status: 401,
+      },
     );
   }
-  // if there is no contestantId
-  if (!contestantId) {
+  const { contestantId, pollsId } = await params;
+  const userId = req?.auth?.user?.id;
+  if (!contestantId || !pollsId || !userId) {
     return NextResponse.json(
-      { error: "Contestant Id is not defined" },
+      {
+        error: "Invalid Parameters",
+      },
       {
         status: 400,
-      }
+      },
     );
   }
   // check the database
@@ -34,7 +37,7 @@ export async function GET(req, { params }) {
         { error: "Poll does not exist" },
         {
           status: 400,
-        }
+        },
       );
     }
     // if voting hasnt started
@@ -43,7 +46,7 @@ export async function GET(req, { params }) {
         { error: "Voting has not started" },
         {
           status: 400,
-        }
+        },
       );
     }
     // if voting has ended
@@ -52,7 +55,7 @@ export async function GET(req, { params }) {
         { error: "Voting has ended" },
         {
           status: 400,
-        }
+        },
       );
     }
     // check if the contestant exist
@@ -66,7 +69,7 @@ export async function GET(req, { params }) {
       { contestant: contestants },
       {
         status: 200,
-      }
+      },
     );
   } catch (err) {
     console.log(err);
@@ -74,7 +77,7 @@ export async function GET(req, { params }) {
       { error: "Network Error" },
       {
         status: 400,
-      }
+      },
     );
   }
-}
+};
