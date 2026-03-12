@@ -259,7 +259,7 @@ export default function PositionsTab({ pollId, user }) {
                     </div>
                     <div className="flex-1 min-w-0">
                       <h3 className="font-semibold text-gray-900 dark:text-white truncate capitalize">
-                        {position.position}
+                        {position?.position}
                       </h3>
                       <p className="text-sm text-gray-600 dark:text-slate-400 capitalize truncate">
                         {position?.candidates?.length || 0} candidate
@@ -293,10 +293,7 @@ export default function PositionsTab({ pollId, user }) {
                       Total Position Votes
                     </p>
                     <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                      {(position?.candidates || []).reduce(
-                        (total, c) => total + (c?.votes || 0),
-                        0,
-                      )}
+                      {position?.voters?.length || 0}
                     </p>
                   </div>
                 </div>
