@@ -28,7 +28,7 @@ export const GET = auth(async function GET(req, { params }) {
     await connectDatabase();
     // check if the poll  exist
     const poll = await Polls.findById(pollsId)
-      .select("voters")
+      .select("voters role")
       .populate("voters", "name voteInformation image email department")
       .lean();
     // if no poll return an error
@@ -37,6 +37,24 @@ export const GET = auth(async function GET(req, { params }) {
         { error: "Poll doesn't exist" },
         {
           status: 404,
+        },
+      );
+    }
+    // check if the user is an admin or owner of the poll
+    const userExist = poll?.role?.find(
+      (r) => r?.userId.toString() === userId.toString(),
+    );
+    console.log(userExist);
+    if (
+      !userExist ||
+      (userExist?.userRole !== "Admin" && userExist?.userRole !== "Owner")
+    ) {
+      return NextResponse.json(
+        {
+          error: "Unauthorized Access",
+        },
+        {
+          status: 401,
         },
       );
     }
