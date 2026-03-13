@@ -10,7 +10,7 @@ export const POST = auth(async function POST(req) {
       { error: "Unauthorized Access" },
       {
         status: 400,
-      }
+      },
     );
   }
   const userId = req?.auth?.user?.id;
@@ -28,7 +28,7 @@ export const POST = auth(async function POST(req) {
       { error: "User id is missing" },
       {
         status: 400,
-      }
+      },
     );
   }
   // check the title of the poll
@@ -37,7 +37,7 @@ export const POST = auth(async function POST(req) {
       { error: "Title is required" },
       {
         status: 400,
-      }
+      },
     );
   }
   // check if the title is less than 5 characters
@@ -46,7 +46,7 @@ export const POST = auth(async function POST(req) {
       { error: "Title should be at least 5 characters!" },
       {
         status: 400,
-      }
+      },
     );
   }
   // check if the description exist
@@ -55,7 +55,7 @@ export const POST = auth(async function POST(req) {
       { error: "Description is required" },
       {
         status: 400,
-      }
+      },
     );
   }
   // check if the description is less than 10 characters
@@ -64,7 +64,7 @@ export const POST = auth(async function POST(req) {
       { error: "Description should be at least 10 characters!" },
       {
         status: 400,
-      }
+      },
     );
   }
   // check startDate
@@ -73,7 +73,7 @@ export const POST = auth(async function POST(req) {
       { error: "StartDate is required" },
       {
         status: 400,
-      }
+      },
     );
   }
   // check if start date is less than the current time
@@ -82,7 +82,7 @@ export const POST = auth(async function POST(req) {
       { error: "Start date cant be in the past" },
       {
         status: 400,
-      }
+      },
     );
   }
   // one-hour difference before a voting session start
@@ -94,7 +94,7 @@ export const POST = auth(async function POST(req) {
       },
       {
         status: 400,
-      }
+      },
     );
   }
   // check endDate
@@ -103,7 +103,7 @@ export const POST = auth(async function POST(req) {
       { error: "End date is required" },
       {
         status: 400,
-      }
+      },
     );
   }
   //check if the end date is not in the past
@@ -112,7 +112,7 @@ export const POST = auth(async function POST(req) {
       { error: "End date should be in the future" },
       {
         status: 400,
-      }
+      },
     );
   }
   // check if there is 1hr difference between start date and end date
@@ -121,7 +121,7 @@ export const POST = auth(async function POST(req) {
       { error: "Poll duration must be at least 1 hour" },
       {
         status: 400,
-      }
+      },
     );
   }
   // check email prefix
@@ -130,7 +130,7 @@ export const POST = auth(async function POST(req) {
       { error: "Invalid syntax for email prefix." },
       {
         status: 400,
-      }
+      },
     );
   }
 
@@ -139,7 +139,7 @@ export const POST = auth(async function POST(req) {
       { error: "Start with an @ symbol" },
       {
         status: 400,
-      }
+      },
     );
   }
   // checking departmental codes
@@ -157,7 +157,7 @@ export const POST = auth(async function POST(req) {
         { error: "User not found" },
         {
           status: 400,
-        }
+        },
       );
     }
     // create a new poll
@@ -180,7 +180,7 @@ export const POST = auth(async function POST(req) {
       { message: "Successfully created", poll: poll },
       {
         status: 200,
-      }
+      },
     );
   } catch (err) {
     console.log(err);
@@ -188,7 +188,7 @@ export const POST = auth(async function POST(req) {
       { error: "An error occurred while creating a new Poll" },
       {
         status: 400,
-      }
+      },
     );
   }
 });
@@ -199,7 +199,7 @@ export const GET = auth(async function GET(req) {
       { error: "Unauthorized Access" },
       {
         status: 400,
-      }
+      },
     );
   }
   const userId = req?.auth?.user?.id;
@@ -210,13 +210,13 @@ export const GET = auth(async function GET(req) {
       voters: { $in: [userId] },
     })
       .select(
-        "title description status startDate endDate voters completedVoters userId"
+        "title description status startDate endDate voters completedVoters userId",
       )
       .sort({ createdAt: -1 })
       .populate("userId", "name");
     return NextResponse.json(
       { message: "Polls fetched successfully", polls: polls },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (err) {
     console.log(err);
@@ -224,7 +224,7 @@ export const GET = auth(async function GET(req) {
       { error: "An error occurred while fetching polls" },
       {
         status: 400,
-      }
+      },
     );
   }
 });
