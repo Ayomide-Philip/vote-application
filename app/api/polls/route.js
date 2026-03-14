@@ -187,6 +187,16 @@ export const POST = auth(async function POST(req) {
       },
     );
 
+    if (!updateUserInfo.acknowledged || updateUserInfo?.modifiedCount === 0) {
+      return NextResponse.json(
+        {
+          error: "Failed to update user information",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
     return NextResponse.json(
       { message: "Successfully created", poll: poll, updateUserInfo },
       {
