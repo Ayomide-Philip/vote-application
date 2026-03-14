@@ -26,7 +26,7 @@ export const POST = auth(async function POST(req) {
   // check if a userId exist
   if (!userId) {
     return NextResponse.json(
-      { error: "User id is missing" },
+      { error: "Invalid Parameters" },
       {
         status: 400,
       },
@@ -175,10 +175,20 @@ export const POST = auth(async function POST(req) {
       voters: [userId],
       role: [{ userRole: "Owner", userId: userId }],
     });
-    user.voteInformation.push({ pollId: poll._id, role: "Owner" });
-    await user.save();
+    //  add the user info using atomic update
+    const updateUserInfo = await User.updateOne(
+      {
+        _id: new mongoose.Types.ObjectId(userId),
+      },
+      {
+        $push: {
+          voteInformation: { pollId: poll?._id, role: "Owner" },
+        },
+      },
+    );
+
     return NextResponse.json(
-      { message: "Successfully created", poll: poll },
+      { message: "Successfully created", poll: poll, updateUserInfo },
       {
         status: 200,
       },
