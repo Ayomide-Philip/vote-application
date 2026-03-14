@@ -3,6 +3,7 @@ import { connectDatabase } from "@/libs/connectdatabase";
 import User from "@/libs/models/user.models";
 import Polls from "@/libs/models/polls.models";
 import { auth } from "@/auth";
+import mongoose from "mongoose";
 
 export const POST = auth(async function POST(req) {
   if (!req.auth || !req.auth.user) {
@@ -207,7 +208,7 @@ export const GET = auth(async function GET(req) {
     await connectDatabase();
     // get all polls from the database
     const polls = await Polls.find({
-      voters: { $in: [userId] },
+      voters: { $in: [new mongoose.Types.ObjectId(userId)] },
     })
       .select(
         "title description status startDate endDate voters completedVoters userId",
