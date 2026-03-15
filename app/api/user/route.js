@@ -48,6 +48,14 @@ export const GET = auth(async function GET(req) {
     );
   } catch (err) {
     console.log(err);
+    if (err instanceof mongoose.Error.CastError) {
+      return NextResponse.json(
+        { error: "Invalid Parameters" },
+        {
+          status: 400,
+        },
+      );
+    }
     return NextResponse.json(
       { error: "An error occurred while getting user information" },
       {
