@@ -151,7 +151,7 @@ export const POST = auth(async function POST(req) {
   try {
     await connectDatabase();
     // check if the user really exist in the database
-    const user = await User.findById(userId);
+    const user = await User.findById(new mongoose.Types.ObjectId(userId));
     // if no user return an error
     if (!user) {
       return NextResponse.json(
