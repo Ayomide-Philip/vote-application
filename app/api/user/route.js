@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { connectDatabase } from "@/libs/connectdatabase";
 import User from "@/libs/models/user.models";
+import mongoose from "mongoose";
 
 export const GET = auth(async function GET(req) {
   if (!req?.auth?.user || !req?.auth?.user?.id) {
@@ -96,7 +97,7 @@ export const PUT = auth(async function PUT(req) {
   try {
     await connectDatabase();
     // check if the user exist
-    const user = await User.findById(userId);
+    const user = await User.findById(new mongoose.Types.ObjectId(userId));
     // if the user doesn't exist
     if (!user) {
       return NextResponse.json(
