@@ -155,7 +155,7 @@ export const PUT = auth(async function PUT(req) {
     if (err instanceof mongoose.Error.ValidationError) {
       return NextResponse.json(
         {
-          error: " Validation Error",
+          error: " An error occurred while validating the data",
         },
         {
           status: 400,
@@ -165,7 +165,7 @@ export const PUT = auth(async function PUT(req) {
     if (err instanceof mongoose.Error) {
       return NextResponse.json(
         {
-          error: "Database Error",
+          error: "A minor error ocurred from our end, please try again later",
         },
         {
           status: 400,
