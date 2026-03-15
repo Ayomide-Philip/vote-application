@@ -140,6 +140,36 @@ export const PUT = auth(async function PUT(req) {
     );
   } catch (err) {
     console.log(err);
+    if (err instanceof mongoose.Error.CastError) {
+      return NextResponse.json(
+        {
+          error: "Invalid Parameters",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+    if (err instanceof mongoose.Error.ValidationError) {
+      return NextResponse.json(
+        {
+          error: " Validation Error",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+    if (err instanceof mongoose.Error) {
+      return NextResponse.json(
+        {
+          error: "Database Error",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
     return NextResponse.json(
       { error: "An error occurred while updating user information" },
       {
