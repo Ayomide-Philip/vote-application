@@ -1,4 +1,4 @@
-import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+import { Twitter, Instagram, Github } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -25,16 +25,13 @@ export default function Footer() {
         </p>
         <span className="inline-flex gap-5 sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
           <a className="text-zinc-500 dark:text-zinc-400">
-            <Facebook className="w-5 h-5" />
-          </a>
-          <a className="text-zinc-500 dark:text-zinc-400">
             <Twitter className="w-5 h-5" />
           </a>
           <a className="text-zinc-500 dark:text-zinc-400">
             <Instagram className="w-5 h-5" />
           </a>
           <a className="text-zinc-500 dark:text-zinc-400">
-            <Linkedin className="w-5 h-5" />
+            <Github className="w-5 h-5" />
           </a>
         </span>
       </div>
