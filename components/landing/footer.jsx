@@ -24,13 +24,28 @@ export default function Footer() {
           with precision.
         </p>
         <span className="inline-flex gap-5 sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
-          <a className="text-zinc-500 dark:text-zinc-400">
+          <a
+            href="https://x.com/ballot_right"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-zinc-500 dark:text-zinc-400"
+          >
             <Twitter className="w-5 h-5" />
           </a>
-          <a className="text-zinc-500 dark:text-zinc-400">
+          <a
+            href="https://www.instagram.com/ballotright/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-zinc-500 dark:text-zinc-400"
+          >
             <Instagram className="w-5 h-5" />
           </a>
-          <a className="text-zinc-500 dark:text-zinc-400">
+          <a
+            href="https://github.com/Ayomide-Philip"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-zinc-500 dark:text-zinc-400"
+          >
             <Github className="w-5 h-5" />
           </a>
         </span>
