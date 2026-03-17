@@ -17,30 +17,23 @@ export default function Footer() {
           >
             <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
           </svg>
-          <span className="ml-3 text-xl">Tailblocks</span>
+          <span className="ml-3 text-xl">Ballot Right</span>
         </a>
         <p className="text-sm text-zinc-500 dark:text-zinc-400 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-zinc-200 dark:sm:border-zinc-700 sm:py-2 sm:mt-0 mt-4">
-          © 2020 Tailblocks —
-          <a
-            href="https://twitter.com/knyttneve"
-            className="text-zinc-600 dark:text-zinc-300 ml-1"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            @knyttneve
-          </a>
+          © {new Date().getFullYear()} Ballot Right. All rights reserved. Made
+          with precision.
         </p>
-        <span className="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
+        <span className="inline-flex gap-5 sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
           <a className="text-zinc-500 dark:text-zinc-400">
             <Facebook className="w-5 h-5" />
           </a>
-          <a className="ml-3 text-zinc-500 dark:text-zinc-400">
+          <a className="text-zinc-500 dark:text-zinc-400">
             <Twitter className="w-5 h-5" />
           </a>
-          <a className="ml-3 text-zinc-500 dark:text-zinc-400">
+          <a className="text-zinc-500 dark:text-zinc-400">
             <Instagram className="w-5 h-5" />
           </a>
-          <a className="ml-3 text-zinc-500 dark:text-zinc-400">
+          <a className="text-zinc-500 dark:text-zinc-400">
             <Linkedin className="w-5 h-5" />
           </a>
         </span>
