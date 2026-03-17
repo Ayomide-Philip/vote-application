@@ -164,6 +164,48 @@ export const PUT = auth(async function PUT(req, { params }) {
     );
   } catch (err) {
     console.log(err);
+    if (err instanceof mongoose.Error.ValidationError) {
+      return NextResponse.json(
+        { error: "Please check your input fields" },
+        { status: 400 },
+      );
+    }
+
+    if (err instanceof mongoose.Error.CastError) {
+      return NextResponse.json(
+        { error: `Invalid ${err.path}` },
+        { status: 400 },
+      );
+    }
+    if (err.code === 11000) {
+      const field = Object.keys(err.keyValue || {})[0];
+
+      return NextResponse.json(
+        { error: `${field} already exists` },
+        { status: 409 },
+      );
+    }
+
+    if (err.name === "StrictModeError") {
+      return NextResponse.json(
+        { error: "Invalid field provided" },
+        { status: 400 },
+      );
+    }
+
+    if (err instanceof mongoose.Error.VersionError) {
+      return NextResponse.json(
+        { error: "This record was updated by another process" },
+        { status: 409 },
+      );
+    }
+
+    if (err instanceof mongoose.Error.DocumentNotFoundError) {
+      return NextResponse.json(
+        { error: "Resource not found" },
+        { status: 404 },
+      );
+    }
     return NextResponse.json(
       { error: "Unable to update role" },
       {
@@ -330,6 +372,48 @@ export const DELETE = auth(async function DELETE(req, { params }) {
     );
   } catch (err) {
     console.log(err);
+    if (err instanceof mongoose.Error.ValidationError) {
+      return NextResponse.json(
+        { error: "Please check your input fields" },
+        { status: 400 },
+      );
+    }
+
+    if (err instanceof mongoose.Error.CastError) {
+      return NextResponse.json(
+        { error: `Invalid ${err.path}` },
+        { status: 400 },
+      );
+    }
+    if (err.code === 11000) {
+      const field = Object.keys(err.keyValue || {})[0];
+
+      return NextResponse.json(
+        { error: `${field} already exists` },
+        { status: 409 },
+      );
+    }
+
+    if (err.name === "StrictModeError") {
+      return NextResponse.json(
+        { error: "Invalid field provided" },
+        { status: 400 },
+      );
+    }
+
+    if (err instanceof mongoose.Error.VersionError) {
+      return NextResponse.json(
+        { error: "This record was updated by another process" },
+        { status: 409 },
+      );
+    }
+
+    if (err instanceof mongoose.Error.DocumentNotFoundError) {
+      return NextResponse.json(
+        { error: "Resource not found" },
+        { status: 404 },
+      );
+    }
     return NextResponse.json(
       { error: "Unable to remove admin priviledge" },
       { status: 500 },
