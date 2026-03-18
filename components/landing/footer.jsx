@@ -15,11 +15,11 @@ export default function Footer() {
           <span className="ml-1 text-xl">Ballot Right</span>
         </a>
         <div className="text-center mt-4 md:mt-0 md:ml-4 md:pl-4 md:border-l-2 md:border-zinc-200 dark:md:border-zinc-700 md:py-2">
-          <p className="text-sm text-zinc-500 dark:text-zinc-400">
-            © {new Date().getFullYear()} Ballot Right. All rights reserved. Made
-            with precision.
-          </p>
-          <div className="mt-1 flex items-center justify-center gap-3 text-sm">
+          <p className="text-sm text-zinc-500 dark:text-zinc-400 inline-flex flex-wrap items-center justify-center gap-2">
+            <span>
+              © {new Date().getFullYear()} Ballot Right. All rights reserved.
+              Made with precision.
+            </span>
             <Link
               href="/terms-and-conditions"
               className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-zinc-100"
@@ -33,7 +33,7 @@ export default function Footer() {
             >
               Privacy Policy
             </Link>
-          </div>
+          </p>
         </div>
         <span className="inline-flex gap-5 mt-4 md:mt-0 md:ml-auto justify-center md:justify-start">
           <a
