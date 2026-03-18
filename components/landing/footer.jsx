@@ -1,10 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
+import Link from "next/link";
 import { Twitter, Instagram, Github } from "lucide-react";
 
 export default function Footer() {
   return (
     <footer className="relative text-zinc-500 bg-zinc-50 dark:bg-zinc-800 dark:text-zinc-400 border-t border-zinc-200 dark:border-zinc-700">
-      <div className="container px-5 py-8 mx-auto flex items-center sm:flex-row justify-between flex-col">
+      <div className="container px-5 py-8 mx-auto flex items-center flex-col md:flex-row md:justify-between">
         <a className="flex title-font font-medium items-center md:justify-start justify-center text-zinc-900 dark:text-zinc-100">
           <img
             src="/logo.png"
@@ -13,11 +14,28 @@ export default function Footer() {
           />
           <span className="ml-1 text-xl">Ballot Right</span>
         </a>
-        <p className="text-sm text-zinc-500 text-center dark:text-zinc-400 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-zinc-200 dark:sm:border-zinc-700 sm:py-2 sm:mt-0 mt-4">
-          © {new Date().getFullYear()} Ballot Right. All rights reserved. Made
-          with precision.
-        </p>
-        <span className="inline-flex gap-5 sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
+        <div className="text-center mt-4 md:mt-0 md:ml-4 md:pl-4 md:border-l-2 md:border-zinc-200 dark:md:border-zinc-700 md:py-2">
+          <p className="text-sm text-zinc-500 dark:text-zinc-400">
+            © {new Date().getFullYear()} Ballot Right. All rights reserved. Made
+            with precision.
+          </p>
+          <div className="mt-1 flex items-center justify-center gap-3 text-sm">
+            <Link
+              href="/terms-and-conditions"
+              className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-zinc-100"
+            >
+              Terms & Conditions
+            </Link>
+            <span className="text-zinc-400 dark:text-zinc-500">|</span>
+            <Link
+              href="/privacy-policy"
+              className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-zinc-100"
+            >
+              Privacy Policy
+            </Link>
+          </div>
+        </div>
+        <span className="inline-flex gap-5 mt-4 md:mt-0 md:ml-auto justify-center md:justify-start">
           <a
             href="https://x.com/ballot_right"
             target="_blank"
