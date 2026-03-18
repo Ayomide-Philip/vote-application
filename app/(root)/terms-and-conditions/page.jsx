@@ -133,7 +133,7 @@ export default function TermsAndConditionsPage() {
 
         <section className="space-y-3">
           <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">
-            9. Admin and Owner უფლებები (Permissions)
+            9. Admin and Owner Rights(Permissions)
           </h2>
           <ul className="list-disc space-y-2 pl-6">
             <li>Owners/Admins may add users to polls.</li>
