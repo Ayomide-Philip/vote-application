@@ -64,7 +64,7 @@ export default function HeroSection() {
 
   return (
     <>
-      <section className="relative min-h-screen bg-linear-to-br from-white via-blue-50/30 to-white dark:from-zinc-900 dark:via-blue-950/20 dark:to-zinc-900 pt-17 sm:pt-20 lg:pt-5 pb-10 sm:pb-16 lg:pb-20 px-4 sm:px-6 overflow-hidden">
+      <section className="relative bg-linear-to-br from-white via-blue-50/30 to-white dark:from-zinc-900 dark:via-blue-950/20 dark:to-zinc-900 pt-17 sm:pt-20 lg:pt-5 pb-10 sm:pb-10 lg:pb-15 px-4 sm:px-6 overflow-hidden">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px]"></div>
 
         <div className="absolute top-20 -left-20 w-96 h-96 bg-blue-500/20 dark:bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
