@@ -13,7 +13,7 @@ export default function Footer() {
           />
           <span className="ml-1 text-xl">Ballot Right</span>
         </a>
-        <p className="text-sm text-zinc-500 dark:text-zinc-400 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-zinc-200 dark:sm:border-zinc-700 sm:py-2 sm:mt-0 mt-4">
+        <p className="text-sm text-zinc-500 text-center dark:text-zinc-400 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-zinc-200 dark:sm:border-zinc-700 sm:py-2 sm:mt-0 mt-4">
           © {new Date().getFullYear()} Ballot Right. All rights reserved. Made
           with precision.
         </p>
