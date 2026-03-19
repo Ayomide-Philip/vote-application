@@ -60,7 +60,7 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="relative flex min-h-screen items-center justify-center px-4 sm:px-6">
+    <main className="relative flex min-h-screen items-center justify-center px-4 mt-10 md:mt-5 sm:px-6">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.12),transparent_48%),radial-gradient(circle_at_bottom,rgba(99,102,241,0.1),transparent_44%)]" />
 
       <div className="relative mx-auto w-full max-w-md">
@@ -120,7 +120,7 @@ export default function LoginPage() {
                 >
                   I agree to the{" "}
                   <Link
-                    href="/terms"
+                    href="/terms-and-conditions"
                     className="font-medium text-blue-600 underline-offset-4 transition-colors hover:text-blue-700 hover:underline focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
                   >
                     Terms and Conditions
@@ -143,14 +143,14 @@ export default function LoginPage() {
           <p className="mt-8 text-center text-xs leading-5 text-zinc-500 dark:text-zinc-400">
             By continuing, you agree to our{" "}
             <Link
-              href="/terms"
+              href="/terms-and-conditions"
               className="font-medium text-zinc-700 underline underline-offset-4 transition-colors hover:text-zinc-900 focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:text-zinc-200 dark:hover:text-white"
             >
-              Terms
+              Terms and Conditions
             </Link>{" "}
             and{" "}
             <Link
-              href="/privacy"
+              href="/privacy-policy"
               className="font-medium text-zinc-700 underline underline-offset-4 transition-colors hover:text-zinc-900 focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:text-zinc-200 dark:hover:text-white"
             >
               Privacy Policy
