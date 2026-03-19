@@ -60,105 +60,160 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="relative flex min-h-screen items-center justify-center px-4 mt-10 md:mt-5 sm:px-6">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.12),transparent_48%),radial-gradient(circle_at_bottom,rgba(99,102,241,0.1),transparent_44%)]" />
+    <main className="relative min-h-screen px-4 pb-12 pt-28 sm:px-6 lg:px-8">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.12),transparent_42%),radial-gradient(circle_at_bottom_right,rgba(99,102,241,0.12),transparent_45%)]" />
 
-      <div className="relative mx-auto w-full max-w-md">
-        <section className="rounded-2xl border border-zinc-200/70 bg-white/90 p-6 shadow-sm backdrop-blur-sm transition-all duration-300 sm:p-8 dark:border-zinc-700 dark:bg-zinc-900/80">
-          <div className="text-center">
-            <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+      <section className="relative mx-auto grid w-full max-w-6xl items-center gap-10 lg:min-h-[calc(100vh-14rem)] lg:grid-cols-12 lg:gap-14">
+        <div className="lg:col-span-7">
+          <div className="max-w-xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-600 dark:text-blue-400">
               Ballot Right
-            </h1>
-            <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
-              Secure and Transparent Voting Platform
             </p>
+            <h1 className="mt-4 text-4xl font-bold leading-tight tracking-tight text-zinc-900 sm:text-5xl dark:text-zinc-100">
+              Secure, Transparent, and Easy Voting
+            </h1>
+            <p className="mt-5 text-base leading-7 text-zinc-600 dark:text-zinc-300">
+              A professional voting platform that helps teams and institutions
+              create polls, manage elections, vote securely, and print trusted
+              results.
+            </p>
+
+            <ul className="mt-8 space-y-3 text-sm text-zinc-700 dark:text-zinc-300 sm:text-base">
+              {[
+                "Create and publish polls in minutes",
+                "Manage positions, candidates, and voters",
+                "Enable secure and transparent voting",
+                "Export and print clear election results",
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-3">
+                  <span className="mt-1 inline-block h-2.5 w-2.5 rounded-full bg-blue-500" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
           </div>
+        </div>
 
-          <div className="mt-8 space-y-4">
-            <button
-              type="button"
-              onClick={handleLoginClick}
-              aria-disabled={!agreed || isLoading}
-              disabled={isLoading}
-              className={`group inline-flex w-full items-center justify-center gap-3 rounded-xl border border-zinc-300 bg-white px-4 py-3 text-sm font-medium text-zinc-900 shadow-sm outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 active:scale-[0.99] dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100 dark:focus-visible:ring-offset-zinc-900 ${
-                !agreed
-                  ? "cursor-not-allowed opacity-65"
-                  : "hover:bg-zinc-50 hover:shadow-md dark:hover:bg-zinc-700"
-              }`}
-            >
-              {isLoading ? (
-                <>
-                  <LoadingSpinner />
-                  <span>Preparing secure sign-in...</span>
-                </>
-              ) : (
-                <>
-                  <GoogleIcon />
-                  <span>Continue with Google</span>
-                </>
-              )}
-            </button>
-
-            <div className="rounded-lg border border-transparent p-2 transition-colors duration-200 has-checked:border-blue-200/80 has-checked:bg-blue-50/60 dark:has-checked:border-blue-800 dark:has-checked:bg-blue-950/30">
-              <div className="flex items-start gap-3">
-                <input
-                  id="terms-consent"
-                  type="checkbox"
-                  checked={agreed}
-                  onChange={(event) => {
-                    setAgreed(event.target.checked);
-                    if (event.target.checked) {
-                      setError("");
-                    }
-                  }}
-                  className="mt-0.5 h-4 w-4 rounded border-zinc-300 text-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white dark:border-zinc-600 dark:bg-zinc-800 dark:focus:ring-offset-zinc-900"
-                />
-
-                <label
-                  htmlFor="terms-consent"
-                  className="text-sm leading-6 text-zinc-700 dark:text-zinc-300"
-                >
-                  I agree to the{" "}
-                  <Link
-                    href="/terms-and-conditions"
-                    className="font-medium text-blue-600 underline-offset-4 transition-colors hover:text-blue-700 hover:underline focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
-                  >
-                    Terms and Conditions
-                  </Link>
-                </label>
-              </div>
-            </div>
-
-            {error ? (
-              <p
-                role="alert"
-                aria-live="polite"
-                className="text-sm text-red-600 dark:text-red-400"
-              >
-                {error}
+        <div className="lg:col-span-5">
+          <div className="mx-auto w-full max-w-md">
+            <section className="rounded-2xl border border-zinc-200/70 bg-white p-6 shadow-xl shadow-zinc-900/5 transition-all duration-300 sm:p-8 dark:border-zinc-700 dark:bg-zinc-900">
+              <h2 className="text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">
+                Sign in to Ballot Right
+              </h2>
+              <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
+                Continue with your Google account to access your dashboard.
               </p>
-            ) : null}
-          </div>
 
-          <p className="mt-8 text-center text-xs leading-5 text-zinc-500 dark:text-zinc-400">
-            By continuing, you agree to our{" "}
-            <Link
-              href="/terms-and-conditions"
-              className="font-medium text-zinc-700 underline underline-offset-4 transition-colors hover:text-zinc-900 focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:text-zinc-200 dark:hover:text-white"
-            >
-              Terms and Conditions
-            </Link>{" "}
-            and{" "}
-            <Link
-              href="/privacy-policy"
-              className="font-medium text-zinc-700 underline underline-offset-4 transition-colors hover:text-zinc-900 focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:text-zinc-200 dark:hover:text-white"
-            >
-              Privacy Policy
-            </Link>
-            .
-          </p>
-        </section>
-      </div>
+              <div className="mt-6 space-y-4">
+                <div className="relative">
+                  <button
+                    type="button"
+                    onClick={handleLoginClick}
+                    aria-disabled={!agreed || isLoading}
+                    disabled={!agreed || isLoading}
+                    className={`inline-flex w-full items-center justify-center gap-3 rounded-xl border px-4 py-3 text-sm font-medium shadow-sm outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 active:scale-[0.99] dark:focus-visible:ring-offset-zinc-900 ${
+                      !agreed || isLoading
+                        ? "cursor-not-allowed border-zinc-300 bg-zinc-100 text-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-400"
+                        : "border-zinc-300 bg-white text-zinc-900 hover:bg-zinc-50 hover:shadow-md dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700"
+                    }`}
+                  >
+                    {isLoading ? (
+                      <>
+                        <LoadingSpinner />
+                        <span>Preparing secure sign-in...</span>
+                      </>
+                    ) : (
+                      <>
+                        <GoogleIcon />
+                        <span>Continue with Google</span>
+                      </>
+                    )}
+                  </button>
+
+                  {!agreed && !isLoading ? (
+                    <button
+                      type="button"
+                      aria-label="Agree to terms before continuing"
+                      onClick={() =>
+                        setError(
+                          "Please agree to the Terms and Conditions before continuing.",
+                        )
+                      }
+                      className="absolute inset-0 rounded-xl"
+                    />
+                  ) : null}
+                </div>
+
+                <div className="rounded-lg border border-transparent p-2 transition-colors duration-200 has-checked:border-blue-200/80 has-checked:bg-blue-50/60 dark:has-checked:border-blue-800 dark:has-checked:bg-blue-950/30">
+                  <div className="flex items-start gap-3">
+                    <input
+                      id="terms-consent"
+                      type="checkbox"
+                      checked={agreed}
+                      onChange={(event) => {
+                        setAgreed(event.target.checked);
+                        if (event.target.checked) {
+                          setError("");
+                        }
+                      }}
+                      className="mt-0.5 h-4 w-4 rounded border-zinc-300 text-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white dark:border-zinc-600 dark:bg-zinc-800 dark:focus:ring-offset-zinc-900"
+                    />
+
+                    <label
+                      htmlFor="terms-consent"
+                      className="text-sm leading-6 text-zinc-700 dark:text-zinc-300"
+                    >
+                      I agree to the{" "}
+                      <Link
+                        href="/terms-and-conditions"
+                        className="font-medium text-blue-600 underline underline-offset-4 transition-colors hover:text-blue-700 focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+                      >
+                        Terms and Conditions
+                      </Link>{" "}
+                      and{" "}
+                      <Link
+                        href="/privacy-policy"
+                        className="font-medium text-blue-600 underline underline-offset-4 transition-colors hover:text-blue-700 focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+                      >
+                        Privacy Policy
+                      </Link>
+                      .
+                    </label>
+                  </div>
+                </div>
+
+                {error ? (
+                  <p
+                    role="alert"
+                    aria-live="polite"
+                    className="text-sm text-red-600 dark:text-red-400"
+                  >
+                    {error}
+                  </p>
+                ) : null}
+              </div>
+
+              <p className="mt-6 text-center text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+                By continuing, you agree to our{" "}
+                <Link
+                  href="/terms-and-conditions"
+                  className="font-medium text-zinc-700 underline underline-offset-4 transition-colors hover:text-zinc-900 focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:text-zinc-200 dark:hover:text-white"
+                >
+                  Terms and Conditions
+                </Link>{" "}
+                and{" "}
+                <Link
+                  href="/privacy-policy"
+                  className="font-medium text-zinc-700 underline underline-offset-4 transition-colors hover:text-zinc-900 focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:text-zinc-200 dark:hover:text-white"
+                >
+                  Privacy Policy
+                </Link>
+                .
+              </p>
+            </section>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }
