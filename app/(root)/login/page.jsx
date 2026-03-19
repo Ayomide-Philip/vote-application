@@ -60,7 +60,7 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="relative min-h-[calc(100vh-8rem)] px-4 py-12 sm:px-6 sm:py-16">
+    <main className="relative flex min-h-screen items-center justify-center px-4 sm:px-6">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.12),transparent_48%),radial-gradient(circle_at_bottom,rgba(99,102,241,0.1),transparent_44%)]" />
 
       <div className="relative mx-auto w-full max-w-md">
