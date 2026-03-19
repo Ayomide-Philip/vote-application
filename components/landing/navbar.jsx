@@ -50,17 +50,13 @@ export default function Navbar() {
         </div>
         <div className="flex items-center gap-3">
           <Toggle />
-          <button
-            onClick={() => {
-              signIn("google", {
-                callbackUrl: "/polls",
-              });
-            }}
+          <Link
+            href="/login"
             className="rounded-lg cursor-pointer bg-zinc-900 dark:bg-white dark:text-black  px-5 py-2.5 text-sm font-semibold text-white hover:bg-zinc-800 dark:hover:bg-zinc-600 transition shadow-md hover:shadow-lg shrink-0 flex items-center gap-2"
           >
             <FcGoogle size={18} />
-            <span className="hidden md:block">Sign in</span>
-          </button>
+            <span className="hidden md:block">Login</span>
+          </Link>
         </div>
       </div>
     </nav>
