@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
 
 function GoogleIcon() {
   return (
@@ -50,12 +51,16 @@ export default function LoginPage() {
       setError("Please agree to the Terms and Conditions before continuing.");
       return;
     }
-
     setError("");
     setIsLoading(true);
-
+    if (agreed) {
+      setError("");
+      setIsLoading(true);
+      signIn("google", {
+        callbackUrl: "/polls",
+      });
+    }
     await new Promise((resolve) => setTimeout(resolve, 1200));
-
     setIsLoading(false);
   };
 
