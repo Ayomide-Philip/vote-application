@@ -51,8 +51,6 @@ export default function LoginPage() {
       setError("Please agree to the Terms and Conditions before continuing.");
       return;
     }
-    setError("");
-    setIsLoading(true);
     if (agreed) {
       setError("");
       setIsLoading(true);
@@ -119,7 +117,7 @@ export default function LoginPage() {
                     className={`inline-flex w-full items-center justify-center gap-3 rounded-xl border px-4 py-3 text-sm font-medium shadow-sm outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 active:scale-[0.99] dark:focus-visible:ring-offset-zinc-900 ${
                       !agreed || isLoading
                         ? "cursor-not-allowed border-zinc-300 bg-zinc-100 text-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-400"
-                        : "border-zinc-300 bg-white text-zinc-900 hover:bg-zinc-50 hover:shadow-md dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700"
+                        : "border-zinc-300 cursor-pointer bg-white text-zinc-900 hover:bg-zinc-50 hover:shadow-md dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700"
                     }`}
                   >
                     {isLoading ? (

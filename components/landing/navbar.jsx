@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import { signIn } from "next-auth/react";
 import Toggle from "../toggle";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
