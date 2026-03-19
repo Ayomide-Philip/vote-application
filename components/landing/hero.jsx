@@ -89,7 +89,7 @@ export default function HeroSection() {
               >
                 <Shield className="w-3.5 sm:w-4 h-3.5 sm:h-4 text-blue-600 dark:text-blue-400" />
                 <span className="text-xs sm:text-sm font-semibold text-blue-700 dark:text-blue-300">
-                  Trusted by Students
+                  Currently in beta - Free for everyone
                 </span>
               </motion.div>
 
