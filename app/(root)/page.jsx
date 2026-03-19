@@ -9,7 +9,7 @@ export default function Home() {
     <>
       <HeroSection />
       <main className="mx-auto max-w-7xl px-4 sm:px-6 w-full overflow-x-hidden pt-5">
-        <motion.div
+        {/* <motion.div
           className="grid grid-cols-3 gap-8 py-16 border-t border-b border-zinc-200 dark:border-zinc-700"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -40,7 +40,7 @@ export default function Home() {
               Uptime SLA
             </p>
           </div>
-        </motion.div>
+        </motion.div> */}
 
         <FeatureSection />
 
