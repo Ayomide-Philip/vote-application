@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { motion } from "motion/react";
 import FeatureSection from "@/components/landing/features";
 import HeroSection from "@/components/landing/hero";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -181,10 +182,13 @@ export default function Home() {
             Join thousands of teams making faster, smarter decisions with Ballot
             Right.
           </p>
-          <button className="rounded-lg bg-white dark:bg-zinc-100 text-blue-600 dark:text-blue-600 px-10 py-4 text-lg font-bold hover:bg-blue-50 dark:hover:bg-white transition shadow-lg hover:shadow-xl inline-flex items-center gap-2">
+          <Link
+            href="/login"
+            className="rounded-lg cursor-pointer bg-white dark:bg-zinc-100 text-blue-600 dark:text-blue-600 px-10 py-4 text-lg font-bold hover:bg-blue-50 dark:hover:bg-white transition shadow-lg hover:shadow-xl inline-flex items-center gap-2"
+          >
             Start Now
             <ArrowRight className="w-5 h-5" />
-          </button>
+          </Link>
         </motion.section>
       </main>
     </>
