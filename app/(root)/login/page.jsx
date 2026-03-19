@@ -64,7 +64,7 @@ export default function LoginPage() {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.12),transparent_42%),radial-gradient(circle_at_bottom_right,rgba(99,102,241,0.12),transparent_45%)]" />
 
       <section className="relative mx-auto grid w-full max-w-6xl items-center gap-10 lg:min-h-[calc(100vh-14rem)] lg:grid-cols-12 lg:gap-14">
-        <div className="lg:col-span-7">
+        <div className="hidden lg:col-span-7 lg:block">
           <div className="max-w-xl">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-600 dark:text-blue-400">
               Ballot Right
