@@ -101,17 +101,6 @@ export default function PollsIdHeader({ pollData }) {
     return totalCandidate;
   }
 
-  // const handleCopyLink = async () => {
-  //   try {
-  //     await navigator.clipboard.writeText(
-  //       `${window.location.origin}/polls/invite/${pollData?._id}`,
-  //     );
-  //     toast.success("Link copied to clipboard");
-  //   } catch (error) {
-  //     toast.error("Unable to copy link");
-  //   }
-  // };
-
   return (
     <div className="bg-white dark:bg-slate-800 border-b border-gray-200 dark:border-slate-700 px-4 sm:px-6 py-6 sm:py-8">
       <div className="max-w-7xl mx-auto">
