@@ -1,5 +1,5 @@
 "use client";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, BarChart3, Settings, Users } from "lucide-react";
 import { motion } from "motion/react";
 import FeatureSection from "@/components/landing/features";
 import HeroSection from "@/components/landing/hero";
@@ -67,19 +67,19 @@ export default function Home() {
                 num: "01",
                 title: "Setup Your Poll",
                 desc: "Define title, dates, and eligibility rules like email domain and department restrictions",
-                icon: "⚙️",
+                Icon: Settings,
               },
               {
                 num: "02",
                 title: "Enroll & Organize",
                 desc: "Add voters via CSV or manually, create positions, and assign candidates to the ballot",
-                icon: "👥",
+                Icon: Users,
               },
               {
                 num: "03",
                 title: "Vote & Report",
                 desc: "Track live vote counts during the window, then export detailed printable results",
-                icon: "📊",
+                Icon: BarChart3,
               },
             ].map((step, idx) => (
               <motion.div
@@ -91,7 +91,9 @@ export default function Home() {
                 transition={{ duration: 0.5, delay: 0.3 + idx * 0.15 }}
               >
                 <div className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-8 text-center hover:shadow-lg transition">
-                  <div className="text-4xl mb-4">{step.icon}</div>
+                  <div className="mb-4 flex justify-center">
+                    <step.Icon className="h-10 w-10 text-blue-600 dark:text-blue-400" />
+                  </div>
                   <p className="text-5xl font-black text-blue-600 dark:text-blue-400 mb-4 opacity-20">
                     {step.num}
                   </p>
