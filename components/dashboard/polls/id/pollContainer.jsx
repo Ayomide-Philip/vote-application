@@ -20,6 +20,7 @@ export default function PollIdContainer({ polls, pollsId, user }) {
     };
     streamRequest.onerror = () => {
       toast.error("Connection lost. Please refresh the page.");
+      streamRequest.close();
     };
     return () => {
       streamRequest.close();
