@@ -98,20 +98,16 @@ export default function LoginPage() {
 
   return (
     <div className="w-full max-w-md mx-auto px-4 py-12 sm:py-20 flex flex-col items-center">
-      {/* Editorial Card: Style 3 Razor-Sharp Official Ledger */}
       <div className="w-full bg-card border-2 border-border p-6 sm:p-8 relative">
-        {/* Card Header */}
         <div className="mb-6 pb-5 border-b-2 border-dashed border-border text-center">
           <h1 className="text-2xl sm:text-3xl font-medium font-heading tracking-tight text-foreground">
             Sign in to Ballot
           </h1>
           <p className="text-muted-foreground text-xs sm:text-sm mt-1.5 leading-relaxed max-w-sm mx-auto">
-            Enter your campus credentials or sign in with your institutional
-            Google account.
+            Enter your campus credentials or sign in with your institutional Google account.
           </p>
         </div>
 
-        {/* Form Error Banner */}
         {error && (
           <div className="mb-5 p-3.5 bg-status-rejected/10 border border-status-rejected/30 text-xs font-mono text-status-rejected flex items-center gap-2 text-left">
             <InformationCircleIcon size={14} className="shrink-0" />
@@ -119,9 +115,7 @@ export default function LoginPage() {
           </div>
         )}
 
-        {/* Sign In Form */}
         <form onSubmit={handleSubmit} className="space-y-4 text-left">
-          {/* Institutional Email Field */}
           <div>
             <label
               htmlFor="email"
@@ -149,7 +143,6 @@ export default function LoginPage() {
               />
             </div>
 
-            {/* Real-Time Domain Detection Feedback */}
             {emailDomain && (
               <div className="mt-2 text-[11px] font-mono">
                 {isPersonalDomain ? (
@@ -173,7 +166,6 @@ export default function LoginPage() {
             )}
           </div>
 
-          {/* Password Field */}
           <div>
             <div className="flex items-center justify-between mb-1.5">
               <label
@@ -222,7 +214,6 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* Submit Action */}
           <div className="pt-2">
             <button
               type="submit"
@@ -244,7 +235,6 @@ export default function LoginPage() {
           </div>
         </form>
 
-        {/* Divider: Neo-Editorial Plain Divider */}
         <div className="relative my-6 flex items-center justify-center">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-border" />
@@ -254,7 +244,6 @@ export default function LoginPage() {
           </div>
         </div>
 
-        {/* Google / Gmail Fast Sign In */}
         <div className="space-y-1.5">
           <button
             type="button"
