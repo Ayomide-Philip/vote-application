@@ -102,10 +102,6 @@ export default function LoginPage() {
       <div className="w-full bg-card border-2 border-border p-6 sm:p-8 relative">
         {/* Card Header */}
         <div className="mb-6 pb-5 border-b-2 border-dashed border-border text-center">
-          <div className="flex items-center justify-center gap-2 text-[11px] font-mono tracking-widest text-brand uppercase mb-1.5">
-            <LockKeyIcon size={13} />
-            <span>ACCOUNT SIGN IN</span>
-          </div>
           <h1 className="text-2xl sm:text-3xl font-medium font-heading tracking-tight text-foreground">
             Sign in to Ballot
           </h1>
