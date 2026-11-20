@@ -162,8 +162,8 @@
     }
 
     .theme-toggle-btn {
-      background: transparent;
-      border: 1px solid var(--border);
+      background: var(--card);
+      border: 1.5px solid var(--border);
       border-radius: 0px;
       width: 38px;
       height: 38px;
@@ -176,8 +176,13 @@
     }
 
     .theme-toggle-btn:hover {
-      background-color: var(--muted);
-      border-color: var(--brand);
+      background-color: var(--foreground);
+      color: var(--background);
+      border-color: var(--foreground);
+    }
+
+    .theme-toggle-btn:active {
+      transform: translateY(1px);
     }
 
     /* Layout */
@@ -207,6 +212,7 @@
     .nav-item {
       padding: 8px 14px;
       border-radius: 0px;
+      border-left: 2px solid transparent;
       font-size: 14px;
       font-weight: 500;
       color: var(--muted-foreground);
@@ -219,12 +225,14 @@
     .nav-item:hover {
       color: var(--foreground);
       background-color: var(--muted);
+      border-left-color: var(--subtle);
     }
 
     .nav-item.active {
-      color: var(--nav-active-text);
+      color: var(--brand);
       background-color: var(--nav-active-bg);
-      font-weight: 600;
+      border-left-color: var(--brand);
+      font-weight: 700;
     }
 
     /* Main Content Area */
@@ -297,14 +305,15 @@
     .swatch-box {
       height: 72px;
       border-radius: 0px;
-      border: 1px solid var(--border);
+      border: 1.5px solid var(--border);
       box-shadow: none;
-      transition: transform 0.15s ease;
+      transition: transform 0.15s ease, border-color 0.15s ease;
       cursor: pointer;
     }
 
     .swatch-box:hover {
       transform: translateY(-2px);
+      border-color: var(--brand);
     }
 
     .swatch-info {
@@ -344,15 +353,15 @@
       flex: 1;
     }
 
-    /* Buttons Row */
+    /* Buttons Row - Style 3: Editorial Grid / Ledger */
     .components-row {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
       padding: 24px;
       background-color: var(--card);
-      border: 1px solid var(--border);
+      border: 1.5px solid var(--border);
       border-radius: 0px;
       margin-bottom: 24px;
     }
@@ -366,14 +375,21 @@
       font-size: 13px;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.08em;
       border-radius: 0px;
       cursor: pointer;
-      border: 1px solid transparent;
+      border: 1.5px solid transparent;
       transition: all 0.15s ease;
       font-family: 'Satoshi', sans-serif;
+      user-select: none;
+      position: relative;
     }
 
+    .btn:active {
+      transform: translateY(1px);
+    }
+
+    /* Primary: Bold amber ledger block framed in crisp 1.5px border, stark inversion on hover */
     .btn-primary {
       background-color: var(--brand);
       color: #0c0d12;
@@ -381,32 +397,37 @@
     }
 
     .btn-primary:hover {
-      background-color: var(--brand-hover);
-      border-color: var(--brand-hover);
-      color: #000000;
+      background-color: transparent;
+      color: var(--brand);
+      border-color: var(--brand);
     }
 
+    /* Secondary: Framed editorial cell, crisp inverted fill on hover */
     .btn-secondary {
-      background-color: var(--card);
+      background-color: transparent;
       color: var(--foreground);
       border-color: var(--border);
     }
 
     .btn-secondary:hover {
-      background-color: var(--muted);
-      border-color: var(--subtle);
+      background-color: var(--foreground);
+      color: var(--background);
+      border-color: var(--foreground);
     }
 
+    /* Danger: Official rejection / termination ledger action */
     .btn-danger {
-      background-color: var(--status-rejected);
-      color: #ffffff;
+      background-color: transparent;
+      color: var(--status-rejected);
       border-color: var(--status-rejected);
     }
 
     .btn-danger:hover {
-      filter: brightness(1.1);
+      background-color: var(--status-rejected);
+      color: #ffffff;
     }
 
+    /* Ghost: Understated editorial prompt */
     .btn-ghost {
       background: transparent;
       color: var(--muted-foreground);
@@ -415,8 +436,8 @@
 
     .btn-ghost:hover {
       color: var(--foreground);
-      background-color: var(--muted);
       border-color: var(--border);
+      background-color: var(--muted);
     }
 
     /* Fields */
@@ -444,28 +465,28 @@
       height: 42px;
       padding: 0 14px;
       background-color: var(--muted);
-      border: 1px solid var(--border);
+      border: 1.5px solid var(--border);
       border-radius: 0px;
       font-size: 14px;
       color: var(--foreground);
       outline: none;
       font-family: inherit;
-      transition: border-color 0.15s ease;
+      transition: border-color 0.15s ease, background-color 0.15s ease;
     }
 
     .text-input:focus {
       border-color: var(--brand);
-      outline: 1px solid var(--brand);
+      background-color: var(--card);
     }
 
     .code-input {
       font-family: 'JetBrains Mono', monospace;
       font-weight: 600;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
     }
 
-    /* Interactive Candidate Card */
+    /* Interactive Candidate Card - Style 3: Official Ballot Slip */
     .ballot-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -475,7 +496,8 @@
 
     .candidate-card {
       background-color: var(--card);
-      border: 1px solid var(--border);
+      border: 1.5px solid var(--border);
+      border-left: 4px solid var(--border);
       border-radius: 0px;
       padding: 20px;
       cursor: pointer;
@@ -488,11 +510,13 @@
 
     .candidate-card:hover {
       border-color: var(--subtle);
+      border-left-color: var(--subtle);
       background-color: var(--muted);
     }
 
     .candidate-card.selected {
-      border: 2px solid var(--brand);
+      border-color: var(--brand);
+      border-left: 4px solid var(--brand);
       background-color: var(--card);
       box-shadow: none;
     }
@@ -502,7 +526,7 @@
       height: 48px;
       border-radius: 0px;
       background: var(--muted);
-      border: 1px solid var(--border);
+      border: 1.5px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -537,16 +561,18 @@
       line-height: 1.4;
     }
 
+    /* Ballot Box Selector: Authentic square ballot checkbox */
     .selection-ring {
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
       border-radius: 0px;
-      border: 1px solid var(--border);
+      border: 2px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: center;
       transition: all 0.15s ease;
       flex-shrink: 0;
+      background: transparent;
     }
 
     .candidate-card.selected .selection-ring {
@@ -566,29 +592,29 @@
       display: block;
     }
 
-    /* Badges - Sharp Rectangular Tags */
+    /* Badges - Editorial Gazette Stamps */
     .badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 4px 8px;
+      padding: 3px 8px;
       border-radius: 0px;
       font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       font-family: 'Satoshi', sans-serif;
-      border: 1px solid currentColor;
+      border: 1.5px solid currentColor;
+      background: transparent;
     }
 
     .badge-dot {
-      width: 5px;
-      height: 5px;
+      width: 6px;
+      height: 6px;
       border-radius: 0px;
     }
 
     .badge-active {
-      background-color: rgba(59, 130, 246, 0.15);
       color: var(--brand);
     }
 
@@ -597,7 +623,6 @@
     }
 
     .badge-confirmed {
-      background-color: rgba(16, 185, 129, 0.15);
       color: var(--status-confirmed);
     }
 
@@ -606,7 +631,6 @@
     }
 
     .badge-upcoming {
-      background-color: rgba(245, 158, 11, 0.15);
       color: var(--status-upcoming);
     }
 
@@ -615,7 +639,6 @@
     }
 
     .badge-rejected {
-      background-color: rgba(244, 63, 94, 0.15);
       color: var(--status-rejected);
     }
 
@@ -623,13 +646,28 @@
       background-color: var(--status-rejected);
     }
 
-    /* Receipt Card Preview - Sharp Ledger Box */
+    /* Receipt Card Preview - Official Audited Ledger */
     .receipt-card {
       background-color: var(--card);
-      border: 1px solid var(--border);
+      border: 2px solid var(--border);
       border-radius: 0px;
       padding: 28px;
       max-width: 480px;
+      position: relative;
+    }
+
+    .receipt-card::before {
+      content: "OFFICIAL AUDITED RECORD";
+      position: absolute;
+      top: -9px;
+      left: 16px;
+      background: var(--card);
+      padding: 0 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--brand);
+      letter-spacing: 0.1em;
     }
 
     .receipt-header {
@@ -896,21 +934,21 @@
       <section id="spacing" class="system-section">
         <div class="section-header">
           <h2 class="section-title">Spacing and radius</h2>
-          <p class="section-desc">Style 1 Swiss Razor-Sharp geometry: 0px default radius across buttons, cards, and input fields. Eliminates playful consumer curvature in favor of institutional, architectural authority.</p>
+          <p class="section-desc">Style 3 Editorial Grid & Ledger Architecture: Boxed, structured cells with strict 0px geometry and 1.5px / 2px hairline junctions. Echoes the rigor, permanence, and transparency of official legislative records, parliamentary gazettes, and printed ballot papers.</p>
         </div>
 
         <div class="components-row" style="gap: 24px;">
           <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
-            <div style="width: 56px; height: 56px; background: var(--muted); border: 1px solid var(--border); border-radius: 0px;"></div>
-            <span style="font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--brand); font-weight: 600;">0px (default)</span>
+            <div style="width: 56px; height: 56px; background: var(--muted); border: 2px solid var(--brand); border-radius: 0px; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--brand); font-weight: 700;">ACTIVE</div>
+            <span style="font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--brand); font-weight: 600;">0px (Ledger Cell)</span>
           </div>
           <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
-            <div style="width: 56px; height: 56px; background: var(--muted); border: 1px solid var(--border); border-radius: 2px;"></div>
-            <span style="font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--muted-foreground);">2px (micro)</span>
+            <div style="width: 56px; height: 56px; background: var(--muted); border: 1.5px solid var(--border); border-radius: 0px;"></div>
+            <span style="font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--muted-foreground);">1.5px Frame</span>
           </div>
           <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
-            <div style="width: 56px; height: 56px; background: var(--muted); border: 1px solid var(--border); border-radius: 4px;"></div>
-            <span style="font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--muted-foreground);">4px (subtle)</span>
+            <div style="width: 56px; height: 56px; background: var(--muted); border: 2px solid var(--border); border-radius: 0px;"></div>
+            <span style="font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--muted-foreground);">2px Audit Line</span>
           </div>
         </div>
       </section>
@@ -919,8 +957,7 @@
       <section id="buttons" class="system-section">
         <div class="section-header">
           <h2 class="section-title">Buttons</h2>
-          <p class="section-desc">Primary actions guide election progression. Secondary and danger actions provide
-            explicit safe boundaries.</p>
+          <p class="section-desc">Style 3 Editorial Grid: Boxed ledger cells with 1.5px architectural frames, letterspaced Satoshi bold uppercase typography, and stark high-contrast hover inversions. Hover over any button to preview the ink-stamp inversion.</p>
         </div>
 
         <div class="components-row">

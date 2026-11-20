@@ -61,17 +61,25 @@
 
 ---
 
-## 4. Spacing, Borders & Elevation (Swiss Razor-Sharp Geometry)
+## 4. Surface Styling & Button Paradigms (Beyond Glassmorphism)
 
-### Radius Scale
-- `radius-none`: `0px` (Default across all buttons, cards, candidate cards, inputs, and badges)
-- `radius-micro`: `2px` (Optional micro-chamfer for small tooltips)
-- `radius-subtle`: `4px` (Border elements requiring subtle soften)
+To maintain seriousness and civic trust, glassmorphism (frosted blurs and glowing transparency) has been eliminated. The platform explores three distinct structural paradigms:
 
-### Surface & Elevation
-- **Opaque Matte Layers:** 100% solid opacity with crisp lightness stepping. Zero blurry glassmorphism.
-- **Hairline Dividers:** 1px solid boundaries (`var(--border)`).
-- **Tactile High-Contrast Focus:** Solid border state changes rather than heavy rounded glows.
+### Style 1: Swiss Razor-Sharp (Clean & Architectural)
+- **Geometry:** Strict `0px` radius.
+- **Surfaces:** 100% matte opaque surfaces (`#0c0d12` → `#13141c` → `#1c1e29`).
+- **Feel:** High-security government terminal, constitutional registry.
+
+### Style 2: Tactile Chiseled (Embossed & Mechanical Stamp)
+- **Geometry:** Micro-chamfered `3px` radius.
+- **Lighting:** Inset top-edge highlight (`box-shadow: inset 0 1px 0 rgba(255,255,255,0.25)`).
+- **Feel:** Physical voting booth push-button, cast brass stamp.
+
+### Style 3: Neo-Editorial / Official Ballot Grid (Print & Ledger Style) — *Currently Active*
+- **Geometry:** Strict `0px` rectangular cells with defined `1.5px` and `2px` solid architectural borders.
+- **Buttons:** Boxed cells framed with bold `1.5px` borders, letterspaced Satoshi bold uppercase typography (`letter-spacing: 0.08em`), with high-contrast hover inversion (e.g. solid amber inverts to transparent outline, framed outline inverts to solid text ink).
+- **Candidate Cards:** Structured like official perforated ballot slips with a `4px` left indicator bar and a classic square ballot checkbox (`[ ]` → `[ ✓ ]`).
+- **Feel:** Official parliamentary gazette, audited legislative ledger, authentic paper ballot tally.
 
 ---
 

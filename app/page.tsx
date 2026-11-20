@@ -43,11 +43,11 @@ export default function Home() {
           private.
         </p>
 
-        {/* Quick Join Box - Sharp Swiss Style */}
-        <div className="w-full max-w-md bg-card border border-border p-5 mb-10 text-left">
+        {/* Quick Join Box - Style 3: Editorial Grid / Ledger */}
+        <div className="w-full max-w-md bg-card border-2 border-border p-6 mb-10 text-left">
           <label
             htmlFor="electionCode"
-            className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2"
+            className="block text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3 font-heading"
           >
             Enter Election Code
           </label>
@@ -56,11 +56,11 @@ export default function Home() {
               id="electionCode"
               type="text"
               placeholder="e.g. OAU-ENG-24"
-              className="flex-1 h-12 px-4 rounded-none bg-muted border border-border text-foreground font-mono font-semibold uppercase placeholder:normal-case placeholder:font-normal placeholder:text-subtle focus:outline-none focus:border-brand transition-colors text-sm"
+              className="flex-1 h-12 px-4 rounded-none bg-muted border-2 border-border text-foreground font-mono font-semibold uppercase placeholder:normal-case placeholder:font-normal placeholder:text-subtle focus:outline-none focus:border-brand transition-colors text-sm"
             />
             <button
               type="button"
-              className="h-12 px-6 rounded-none bg-brand hover:bg-brand-hover text-black font-bold uppercase tracking-wider text-xs transition-colors cursor-pointer whitespace-nowrap"
+              className="h-12 px-6 rounded-none bg-brand hover:bg-transparent text-black hover:text-brand border-2 border-brand font-bold uppercase tracking-widest text-xs transition-colors cursor-pointer whitespace-nowrap active:translate-y-[1px] font-heading"
             >
               Join →
             </button>
@@ -68,16 +68,16 @@ export default function Home() {
         </div>
 
         {/* Action Links */}
-        <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-bold uppercase tracking-wider">
+        <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-bold uppercase tracking-widest font-heading">
           <button
             type="button"
-            className="px-6 py-3 border border-border bg-card hover:bg-muted text-foreground transition-colors cursor-pointer"
+            className="px-6 py-3 border-2 border-border bg-transparent hover:bg-foreground hover:text-background hover:border-foreground text-foreground transition-all cursor-pointer active:translate-y-[1px]"
           >
             Create an Election
           </button>
           <button
             type="button"
-            className="px-6 py-3 border border-transparent hover:border-border text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+            className="px-6 py-3 border-2 border-transparent hover:border-border text-muted-foreground hover:text-foreground transition-all cursor-pointer"
           >
             Sign In with School Email
           </button>
