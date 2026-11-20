@@ -31,7 +31,7 @@ const STEPS: StepItem[] = [
       "Review candidate profiles, manifestos, and contest questions. When you submit, the platform logs that you voted, then separates your identity from your candidate choices before storing the ballot.",
     ledgerLabel: "Voter Privacy",
     ledgerValue: "Identity Unlinked",
-    valueColorClass: "text-status-confirmed font-mono font-medium",
+    valueColorClass: "text-brand font-mono font-medium",
     icon: LockKeyIcon,
   },
   {
@@ -57,7 +57,8 @@ export function HowItWorksSection() {
             Three steps from sign-in to verified result
           </h2>
           <p className="text-muted-foreground text-base sm:text-lg font-normal leading-relaxed mt-4 max-w-xl text-center">
-            How Ballot enforces domain security, voter privacy, and auditable counting.
+            How Ballot enforces domain security, voter privacy, and auditable
+            counting.
           </p>
         </div>
 
@@ -92,8 +93,12 @@ export function HowItWorksSection() {
 
                 {/* Grounded Technical Ledger Anchor */}
                 <div className="mt-8 pt-4 border-t border-dashed border-border flex items-center justify-between text-xs">
-                  <span className="text-subtle font-mono">{step.ledgerLabel}:</span>
-                  <span className={step.valueColorClass}>{step.ledgerValue}</span>
+                  <span className="text-subtle font-mono">
+                    {step.ledgerLabel}:
+                  </span>
+                  <span className={step.valueColorClass}>
+                    {step.ledgerValue}
+                  </span>
                 </div>
               </div>
             );

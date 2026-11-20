@@ -7,11 +7,13 @@ This document contains all user-facing copy for public routes on Ballot. Every s
 ## 1. Landing Page (`/`)
 
 ### Navigation Bar
+
 - Brand: `ballot.`
 - Links: `Elections`, `Verify`, `About`
 - Action: `Sign In`
 
 ### Hero Section
+
 - Badge: `Zero paper ballots. One student, one vote.`
 - Headline: `Institutional voting you can actually verify.`
 - Subheadline: `Run clean elections for student unions, faculty boards, and clubs. Students sign in with their school email, cast a secret ballot, and get a receipt proving their vote was counted.`
@@ -22,6 +24,7 @@ This document contains all user-facing copy for public routes on Ballot. Every s
 - Secondary action: `Create an Election`
 
 ### The Problem With Paper Ballots
+
 - Section title: `Why paper elections fail on campus`
 - Section intro: `Paper ballots create friction for election committees and distrust among voters.`
 - Card 1:
@@ -35,6 +38,7 @@ This document contains all user-facing copy for public routes on Ballot. Every s
   - Text: `Printing thousands of serialized ballots, securing physical boxes, and staffing tables drains union budgets.`
 
 ### How It Works
+
 - Section title: `Three steps from sign-in to verified result`
 - Step 1:
   - Step label: `Step 01`
@@ -50,6 +54,7 @@ This document contains all user-facing copy for public routes on Ballot. Every s
   - Text: `You receive a cryptographic receipt code. You can use this code on the public audit tool to confirm your ballot sits in the final tally, without showing anyone who you voted for.`
 
 ### Key Guarantees
+
 - Section title: `Built for impartial elections`
 - Guarantee 1:
   - Title: `Strict domain gating`
@@ -64,16 +69,8 @@ This document contains all user-facing copy for public routes on Ballot. Every s
   - Title: `Live tallies when polls close`
   - Text: `Results compute automatically the second voting ends. No manual recounts, no midnight tally sessions.`
 
-### Interactive Receipt Preview
-- Card title: `Official voting receipt preview`
-- Card badge: `Recorded`
-- Line 1: `Election: OAU-SUG-2026`
-- Line 2: `Voter Domain: @oauife.edu.ng`
-- Line 3: `Timestamp: 2026-11-20 14:15:02 UTC`
-- Line 4: `Receipt Hash: 8f94a2b10cd47e91`
-- Footnote: `Individual choices remain private. This receipt verifies participation in the audited tally.`
-
 ### Frequently Asked Questions
+
 - Section title: `Frequently asked questions`
 
 - Q1: `Can an administrator see who I voted for?`
@@ -92,12 +89,14 @@ This document contains all user-facing copy for public routes on Ballot. Every s
   - A5: `Yes. Your account works across elections. You can vote in your faculty election, vote in your departmental election, and manage an election for your student club from the same login.`
 
 ### Bottom Call to Action
+
 - Headline: `Ready to run a clean election?`
 - Subheadline: `Set up your student union, departmental, or organization ballot in minutes.`
 - Button 1: `Create an Election`
 - Button 2: `Join an Active Election`
 
 ### Footer
+
 - Left: `ballot.`
 - Tagline: `Institutional voting platform for schools and organizations.`
 - Columns:
@@ -111,6 +110,7 @@ This document contains all user-facing copy for public routes on Ballot. Every s
 ## 2. Join and Eligibility Route (`/join` and `/elections/[code]`)
 
 ### Join Screen
+
 - Header title: `Enter an election`
 - Header description: `Type the unique election code shared by your organization or election committee.`
 - Field label: `Election Code`
@@ -118,6 +118,7 @@ This document contains all user-facing copy for public routes on Ballot. Every s
 - Button: `Continue`
 
 ### Email Eligibility Verification Screen
+
 - Election title display: `Faculty of Engineering Executive Council 2026`
 - Organized by: `Faculty Electoral Commission`
 - Restricted domain badge: `Allowed: @oauife.edu.ng`
@@ -129,30 +130,35 @@ This document contains all user-facing copy for public routes on Ballot. Every s
 ### State Banners
 
 #### Accepted Domain Banner
+
 - Badge: `Eligible`
 - Heading: `Domain verified`
 - Message: `Your email matches the required domain for this election. We sent a magic sign-in link to your inbox.`
 - Submessage: `Check your inbox and click the link to open your secret ballot.`
 
 #### Rejected Domain Banner
+
 - Badge: `Access Denied`
 - Heading: `Ineligible email domain`
 - Message: `The address you entered (@gmail.com) is not permitted for this election. This vote requires an active @oauife.edu.ng address.`
 - Action: `Try another email address`
 
 #### Already Voted Banner
+
 - Badge: `Ballot Recorded`
 - Heading: `You have already voted in this election`
 - Message: `Our records show a ballot was cast from this account on November 20, 2026 at 11:22 UTC.`
 - Action: `Look up your receipt code on the public verification tool.`
 
 #### Election Closed / Ended Banner
+
 - Badge: `Voting Closed`
 - Heading: `This election ended on November 20, 2026 at 12:00 UTC`
 - Message: `Voting is complete. You can view the final certified tally below.`
 - Action: `View Certified Results`
 
 #### Election Upcoming Banner
+
 - Badge: `Opens Soon`
 - Heading: `Voting has not started`
 - Message: `This election opens on November 21, 2026 at 08:00 UTC. Come back then with your school email.`
@@ -162,16 +168,19 @@ This document contains all user-facing copy for public routes on Ballot. Every s
 ## 3. Public Ballot Verification Route (`/verify`)
 
 ### Header
+
 - Title: `Verify a ballot receipt`
 - Subtitle: `Check that your ballot sits in the final tally without revealing your choices to anyone.`
 
 ### Lookup Form
+
 - Field label: `Receipt Code or Hash`
 - Field placeholder: `e.g. 8f94a2b10cd47e91`
 - Field helper: `You received this 16-character code on your confirmation screen after voting.`
 - Button: `Search Receipt`
 
 ### Search Result: Found
+
 - Status badge: `Verified and Counted`
 - Card header: `Cryptographic Ballot Confirmation`
 - Detail 1: `Election: Faculty of Engineering Executive Council 2026`
@@ -182,6 +191,7 @@ This document contains all user-facing copy for public routes on Ballot. Every s
 - Privacy note: `Candidate choices are cryptographically decoupled from voter identity to protect ballot secrecy.`
 
 ### Search Result: Not Found
+
 - Status badge: `No Record Found`
 - Card header: `Receipt code not recognized`
 - Message: `We could not find a recorded ballot matching that code. Check that you typed all 16 characters correctly.`
@@ -192,25 +202,31 @@ This document contains all user-facing copy for public routes on Ballot. Every s
 ## 4. About Route (`/about`)
 
 ### Header
+
 - Title: `About Ballot`
 - Subtitle: `How the platform keeps voting honest, secret, and simple.`
 
 ### Principle 1: Domain-Specific Eligibility
+
 - Title: `Restricting access by domain`
 - Text: `Organizers configure one or more allowed email domains. Anyone without an active email address on that domain cannot open a ballot. This keeps outside actors from voting without requiring complicated registration forms.`
 
 ### Principle 2: Secret Ballot Decoupling
+
 - Title: `Separating who voted from what they chose`
 - Text: `When you cast your vote, the platform carries out two distinct database transactions:
+
 1. It records that your account has voted, preventing duplicate submissions.
 2. It writes your choices to an anonymous ballot ledger with no foreign key pointing back to your user account.
-Once written, there is no technical way to link a specific ballot back to the voter who cast it.`
+   Once written, there is no technical way to link a specific ballot back to the voter who cast it.`
 
 ### Principle 3: Single Unified Accounts
+
 - Title: `One account for voting and organizing`
 - Text: `Ballot does not separate users into rigid admin and voter roles. A student can create and run an election for their hall of residence while participating as an ordinary voter in their departmental election.`
 
 ### Principle 4: Instant Public Auditing
+
 - Title: `Receipts anyone can check`
 - Text: `Every completed ballot produces a unique receipt hash. Voters can enter their receipt into the public verification tool to confirm their ballot is counted, making final totals easy to audit.`
 
@@ -219,15 +235,18 @@ Once written, there is no technical way to link a specific ballot back to the vo
 ## 5. Sign-In Route (`/login`)
 
 ### Header
+
 - Title: `Sign in to Ballot`
 - Subtitle: `Enter your institutional email. We will send a secure sign-in link to your inbox.`
 
 ### Form
+
 - Field label: `Institutional Email`
 - Placeholder: `student@school.edu`
 - Button: `Send Sign-In Link`
 
 ### Check Inbox Screen
+
 - Heading: `Check your email`
 - Body: `We sent a temporary sign-in link to your address. Click the link in that email to sign in.`
 - Hint: `If you do not see the message within two minutes, check your spam folder.`
