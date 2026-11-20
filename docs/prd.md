@@ -181,9 +181,10 @@ Ballot utilizes a **unified, multi-role account model**. A user is not restricte
 - **Eligibility Rejection State:** Clear warning alert detailing why entry was rejected (Domain Mismatch, Election Closed, or Already Voted) with next steps.
 - **Success State:** Instant toast alerts, animated checkmarks on vote casting, and copyable share-link modals.
 
-#### 5.3 Responsive & Accessibility Expectations
-- Responsive design tailored for mobile browsers (where the majority of students cast votes).
-- Fully accessible keyboard navigation and ARIA attributes for radio/checkbox ballot selection.
+#### 5.3 Design System & Aesthetic Direction
+- **Confirmed Design System:** Palette B — Obsidian & Electric Amber / Topaz (see [design.md](file:///c:/Users/Administrator/OneDrive/Desktop/Programming/vote-application/design.md) and interactive showcase [design.html](file:///c:/Users/Administrator/OneDrive/Desktop/Programming/vote-application/design.html)).
+- **Tone & Mood:** Sovereign, executive, and authoritative; avoids generic corporate blue in favor of warm obsidian ink and amber gold accents.
+- **Responsive & Accessibility:** Mobile-first responsive design, WCAG 2.1 AA/AAA contrast compliance, high outdoor sunlight readability.
 
 ---
 

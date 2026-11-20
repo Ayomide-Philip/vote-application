@@ -44,18 +44,20 @@
 
 ---
 
-## 3. Typography Scale
+## 3. Typography Scale & Font Families
 
-Font Family: `Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`
+- **Display & Headings:** `Satoshi, sans-serif` (Geometric, clean, modern neo-grotesque authority from Fontshare)
+- **Body & Controls:** `DM Sans, sans-serif` (Highly legible geometric sans-serif from Google Fonts optimized for mobile screens)
+- **Code & Hashes:** `JetBrains Mono, monospace` (For election codes, cryptographic hashes, and timestamps)
 
-| Token | Size | Line Height | Weight | Usage |
-| :--- | :--- | :--- | :--- | :--- |
-| `text-display` | 32px / 2rem | 1.2 | 700 (Bold) | Hero headlines, "Ballot" brand title |
-| `text-h1` | 24px / 1.5rem | 1.25 | 600 (Semi-bold) | Section titles, contest question headings |
-| `text-h2` | 20px / 1.25rem | 1.3 | 600 (Semi-bold) | Candidate names, modal headers |
-| `text-body` | 15px / 0.9375rem| 1.5 | 400 (Regular) | General body, candidate manifesto text |
-| `text-caption` | 13px / 0.8125rem| 1.4 | 500 (Medium) | Timestamps, domain tags, input hints |
-| `text-code` | 12px / 0.75rem | 1.4 | 600 (Mono) | Election codes (`VOTE-8492`), token names |
+| Token | Size | Line Height | Weight | Font Family | Usage |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `text-display` | 32px / 2rem | 1.2 | 700 (Bold) | Satoshi | Hero headlines, "Ballot" brand title |
+| `text-h1` | 24px / 1.5rem | 1.25 | 600 (Semi-bold) | Satoshi | Section titles, contest question headings |
+| `text-h2` | 20px / 1.25rem | 1.3 | 600 (Semi-bold) | Satoshi | Candidate names, modal headers |
+| `text-body` | 15px / 0.9375rem| 1.5 | 400 (Regular) | DM Sans | General body, candidate manifesto text |
+| `text-caption` | 13px / 0.8125rem| 1.4 | 500 (Medium) | DM Sans | Timestamps, domain tags, input hints |
+| `text-code` | 12px / 0.75rem | 1.4 | 600 (Mono) | JetBrains Mono | Election codes (`VOTE-8492`), token names |
 
 ---
 
