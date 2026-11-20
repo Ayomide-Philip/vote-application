@@ -28,8 +28,8 @@ export default function Home() {
 
       {/* Hero / Join Hub */}
       <main className="flex-1 flex flex-col items-center justify-center px-6 py-20 max-w-4xl mx-auto text-center">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand/10 text-brand text-xs font-semibold mb-8">
-          <span className="w-2 h-2 rounded-full bg-brand animate-pulse" />
+        <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand/10 text-brand text-xs font-bold uppercase tracking-wider mb-8 border border-brand/30">
+          <span className="w-1.5 h-1.5 bg-brand animate-pulse" />
           Zero Paper Ballots · Domain-Verified Elections
         </div>
 
@@ -43,11 +43,11 @@ export default function Home() {
           private.
         </p>
 
-        {/* Quick Join Box */}
-        <div className="w-full max-w-md bg-card border border-border rounded-2xl p-4 shadow-subtle mb-10">
+        {/* Quick Join Box - Sharp Swiss Style */}
+        <div className="w-full max-w-md bg-card border border-border p-5 mb-10 text-left">
           <label
             htmlFor="electionCode"
-            className="block text-xs font-medium text-muted-foreground text-left mb-2 pl-1"
+            className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2"
           >
             Enter Election Code
           </label>
@@ -56,11 +56,11 @@ export default function Home() {
               id="electionCode"
               type="text"
               placeholder="e.g. OAU-ENG-24"
-              className="flex-1 h-12 px-4 rounded-xl bg-muted border border-border text-foreground font-mono font-semibold uppercase placeholder:normal-case placeholder:font-normal placeholder:text-subtle focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all text-sm"
+              className="flex-1 h-12 px-4 rounded-none bg-muted border border-border text-foreground font-mono font-semibold uppercase placeholder:normal-case placeholder:font-normal placeholder:text-subtle focus:outline-none focus:border-brand transition-colors text-sm"
             />
             <button
               type="button"
-              className="h-12 px-6 rounded-xl bg-brand hover:bg-brand-hover text-white font-semibold text-sm transition-all shadow-sm cursor-pointer whitespace-nowrap"
+              className="h-12 px-6 rounded-none bg-brand hover:bg-brand-hover text-black font-bold uppercase tracking-wider text-xs transition-colors cursor-pointer whitespace-nowrap"
             >
               Join →
             </button>
@@ -68,16 +68,16 @@ export default function Home() {
         </div>
 
         {/* Action Links */}
-        <div className="flex flex-wrap items-center justify-center gap-4 text-sm">
+        <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-bold uppercase tracking-wider">
           <button
             type="button"
-            className="px-5 py-2.5 rounded-xl border border-border bg-muted/50 hover:bg-muted text-foreground font-medium transition-all cursor-pointer"
+            className="px-6 py-3 border border-border bg-card hover:bg-muted text-foreground transition-colors cursor-pointer"
           >
             Create an Election
           </button>
           <button
             type="button"
-            className="px-5 py-2.5 rounded-xl text-muted-foreground hover:text-foreground font-medium transition-all cursor-pointer"
+            className="px-6 py-3 border border-transparent hover:border-border text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
           >
             Sign In with School Email
           </button>

@@ -61,18 +61,17 @@
 
 ---
 
-## 4. Spacing, Borders & Elevation
+## 4. Spacing, Borders & Elevation (Swiss Razor-Sharp Geometry)
 
 ### Radius Scale
-- `radius-sm`: `6px` (Badges, tags, token pills)
-- `radius-md`: `10px` (Input fields, standard buttons)
-- `radius-lg`: `16px` (Candidate selection cards, modals, preview containers)
-- `radius-full`: `9999px` (Pills, round icons, user avatars)
+- `radius-none`: `0px` (Default across all buttons, cards, candidate cards, inputs, and badges)
+- `radius-micro`: `2px` (Optional micro-chamfer for small tooltips)
+- `radius-subtle`: `4px` (Border elements requiring subtle soften)
 
-### Elevation & Shadows
-- `shadow-subtle`: `0 1px 3px rgba(15, 23, 42, 0.05)` (Default card resting state)
-- `shadow-hover`: `0 6px 16px -2px rgba(15, 23, 42, 0.08)` (Card hover / interactive)
-- `shadow-focus`: `0 0 0 3px rgba(37, 99, 235, 0.25)` (Accessible keyboard focus ring)
+### Surface & Elevation
+- **Opaque Matte Layers:** 100% solid opacity with crisp lightness stepping. Zero blurry glassmorphism.
+- **Hairline Dividers:** 1px solid boundaries (`var(--border)`).
+- **Tactile High-Contrast Focus:** Solid border state changes rather than heavy rounded glows.
 
 ---
 

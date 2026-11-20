@@ -41,11 +41,11 @@
   --shadow-hover: 0 8px 24px -4px rgba(0, 0, 0, 0.6);
   --shadow-focus: 0 0 0 3px rgba(245, 158, 11, 0.25);
 
-  /* Radius Scale */
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
-  --radius-full: 9999px;
+  /* Radius Scale - Swiss Razor-Sharp (0px) */
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-full: 0px;
 }
 
 /* Light Mode Overrides */
