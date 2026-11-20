@@ -47,7 +47,7 @@ export default function Home() {
         <div className="w-full max-w-md bg-card border-2 border-border p-6 mb-10 text-left">
           <label
             htmlFor="electionCode"
-            className="block text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3 font-heading"
+            className="field-label block uppercase tracking-widest text-xs font-bold mb-3 font-heading"
           >
             Enter Election Code
           </label>
@@ -56,11 +56,11 @@ export default function Home() {
               id="electionCode"
               type="text"
               placeholder="e.g. OAU-ENG-24"
-              className="flex-1 h-12 px-4 rounded-none bg-muted border-2 border-border text-foreground font-mono font-semibold uppercase placeholder:normal-case placeholder:font-normal placeholder:text-subtle focus:outline-none focus:border-brand transition-colors text-sm"
+              className="text-input code-input flex-1 h-12"
             />
             <button
               type="button"
-              className="h-12 px-6 rounded-none bg-brand hover:bg-transparent text-black hover:text-brand border-2 border-brand font-bold uppercase tracking-widest text-xs transition-colors cursor-pointer whitespace-nowrap active:translate-y-[1px] font-heading"
+              className="btn btn-primary h-12 px-6"
             >
               Join →
             </button>
@@ -68,16 +68,16 @@ export default function Home() {
         </div>
 
         {/* Action Links */}
-        <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-bold uppercase tracking-widest font-heading">
+        <div className="flex flex-wrap items-center justify-center gap-4">
           <button
             type="button"
-            className="px-6 py-3 border-2 border-border bg-transparent hover:bg-foreground hover:text-background hover:border-foreground text-foreground transition-all cursor-pointer active:translate-y-[1px]"
+            className="btn btn-secondary px-6 py-3"
           >
             Create an Election
           </button>
           <button
             type="button"
-            className="px-6 py-3 border-2 border-transparent hover:border-border text-muted-foreground hover:text-foreground transition-all cursor-pointer"
+            className="btn btn-ghost px-6 py-3"
           >
             Sign In with School Email
           </button>

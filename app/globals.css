@@ -163,23 +163,31 @@ h6,
 }
 
 /* -------------------------------------------------------------
-   Buttons
+   Buttons - Style 3: Editorial Grid / Ledger
    ------------------------------------------------------------- */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 10px 18px;
-  font-size: 14px;
-  font-weight: 600;
-  border-radius: var(--radius-md);
+  padding: 10px 22px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 0px;
   cursor: pointer;
-  border: 1px solid transparent;
+  border: 1.5px solid transparent;
   transition: all 0.15s ease;
-  font-family: inherit;
+  font-family: var(--font-heading);
   text-decoration: none;
   white-space: nowrap;
+  user-select: none;
+  position: relative;
+}
+
+.btn:active {
+  transform: translateY(1px);
 }
 
 .btn:disabled {
@@ -188,46 +196,84 @@ h6,
   pointer-events: none;
 }
 
+/* Primary: Bold amber ledger block, inverting cleanly on hover */
 .btn-primary {
   background-color: var(--brand);
-  color: #ffffff;
+  color: #0c0d12;
+  border-color: var(--brand);
 }
 
 .btn-primary:hover {
-  background-color: var(--brand-hover);
+  background-color: transparent;
+  color: var(--brand);
+  border-color: var(--brand);
 }
 
+/* Secondary: Framed editorial cell, crisp inverted fill on hover */
 .btn-secondary {
-  background-color: var(--muted);
+  background-color: transparent;
   color: var(--foreground);
   border-color: var(--border);
 }
 
 .btn-secondary:hover {
-  background-color: var(--border);
+  background-color: var(--foreground);
+  color: var(--background);
+  border-color: var(--foreground);
 }
 
+/* Danger: Official rejection / termination ledger action */
 .btn-danger {
+  background-color: transparent;
+  color: var(--status-rejected);
+  border-color: var(--status-rejected);
+}
+
+.btn-danger:hover {
   background-color: var(--status-rejected);
   color: #ffffff;
 }
 
-.btn-danger:hover {
-  filter: brightness(0.9);
-}
-
+/* Ghost: Understated editorial prompt */
 .btn-ghost {
   background: transparent;
   color: var(--muted-foreground);
+  border: 1.5px solid transparent;
 }
 
 .btn-ghost:hover {
   color: var(--foreground);
+  border-color: var(--border);
   background-color: var(--muted);
 }
 
+/* Theme Toggle Button */
+.theme-toggle-btn {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 0px;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--foreground);
+  transition: all 0.15s ease;
+}
+
+.theme-toggle-btn:hover {
+  background-color: var(--foreground);
+  color: var(--background);
+  border-color: var(--foreground);
+}
+
+.theme-toggle-btn:active {
+  transform: translateY(1px);
+}
+
 /* -------------------------------------------------------------
-   Form Inputs & Controls
+   Form Inputs & Controls - Style 3: Editorial Grid / Ledger
    ------------------------------------------------------------- */
 .field-group {
   display: flex;
@@ -253,18 +299,18 @@ h6,
   height: 42px;
   padding: 0 14px;
   background-color: var(--muted);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
+  border: 1.5px solid var(--border);
+  border-radius: 0px;
   font-size: 14px;
   color: var(--foreground);
   outline: none;
   font-family: inherit;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
 }
 
 .text-input:focus {
   border-color: var(--brand);
-  box-shadow: 0 0 0 3px var(--brand-tint);
+  background-color: var(--card);
 }
 
 .text-input::placeholder {
@@ -274,12 +320,12 @@ h6,
 .code-input {
   font-family: var(--font-mono);
   font-weight: 600;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 /* -------------------------------------------------------------
-   Candidate Selection Card
+   Candidate Selection Card - Style 3: Official Ballot Slip
    ------------------------------------------------------------- */
 .ballot-grid {
   display: grid;
@@ -290,27 +336,29 @@ h6,
 
 .candidate-card {
   background-color: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--border);
+  border-left: 4px solid var(--border);
+  border-radius: 0px;
   padding: 20px;
   cursor: pointer;
   display: flex;
   align-items: flex-start;
   gap: 16px;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.15s ease;
   position: relative;
 }
 
 .candidate-card:hover {
   border-color: var(--subtle);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-hover);
+  border-left-color: var(--subtle);
+  background-color: var(--muted);
 }
 
 .candidate-card.selected {
   border-color: var(--brand);
+  border-left: 4px solid var(--brand);
   background-color: var(--card);
-  box-shadow: 0 0 0 2px var(--brand), 0 8px 24px -4px var(--brand-tint);
+  box-shadow: none;
 }
 
 .candidate-card.disabled {
@@ -322,14 +370,16 @@ h6,
 .avatar-placeholder {
   width: 48px;
   height: 48px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, var(--muted), var(--border));
+  border-radius: 0px;
+  background: var(--muted);
+  border: 1.5px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
   font-size: 16px;
-  color: var(--foreground);
+  font-family: var(--font-heading);
+  color: var(--brand);
   flex-shrink: 0;
 }
 
@@ -339,7 +389,8 @@ h6,
 
 .candidate-name {
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
+  font-family: var(--font-heading);
   color: var(--foreground);
   margin-bottom: 2px;
 }
@@ -356,16 +407,18 @@ h6,
   line-height: 1.4;
 }
 
+/* Ballot Box Selector: Authentic square ballot checkbox */
 .selection-ring {
   width: 22px;
   height: 22px;
-  border-radius: 50%;
+  border-radius: 0px;
   border: 2px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.15s ease;
   flex-shrink: 0;
+  background: transparent;
 }
 
 .candidate-card.selected .selection-ring {
@@ -375,9 +428,10 @@ h6,
 
 .selection-check {
   display: none;
-  color: #ffffff;
-  width: 12px;
-  height: 12px;
+  color: #0c0d12;
+  width: 14px;
+  height: 14px;
+  stroke-width: 3.5;
 }
 
 .candidate-card.selected .selection-check {
@@ -385,27 +439,30 @@ h6,
 }
 
 /* -------------------------------------------------------------
-   Status Badges
+   Status Badges - Editorial Gazette Stamps
    ------------------------------------------------------------- */
 .badge {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 4px 10px;
-  border-radius: var(--radius-sm);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  padding: 3px 8px;
+  border-radius: 0px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: var(--font-heading);
+  border: 1.5px solid currentColor;
+  background: transparent;
 }
 
 .badge-dot {
   width: 6px;
   height: 6px;
-  border-radius: 50%;
+  border-radius: 0px;
 }
 
 .badge-draft {
-  background-color: rgba(108, 109, 128, 0.15);
   color: var(--status-draft);
 }
 
@@ -414,7 +471,6 @@ h6,
 }
 
 .badge-upcoming {
-  background-color: rgba(56, 189, 248, 0.15);
   color: var(--status-upcoming);
 }
 
@@ -423,7 +479,6 @@ h6,
 }
 
 .badge-active {
-  background-color: rgba(245, 158, 11, 0.15);
   color: var(--status-active);
 }
 
@@ -432,7 +487,6 @@ h6,
 }
 
 .badge-confirmed {
-  background-color: rgba(16, 185, 129, 0.15);
   color: var(--status-confirmed);
 }
 
@@ -441,7 +495,6 @@ h6,
 }
 
 .badge-rejected {
-  background-color: rgba(244, 63, 94, 0.15);
   color: var(--status-rejected);
 }
 
