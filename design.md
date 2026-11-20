@@ -17,30 +17,30 @@
 
 ## 2. Color System (Perceptually Uniform OKLCH)
 
-### 2.1 Surfaces & Canvas (Palette A: Nordic Deep Teal & Aegean Cyan)
+### 2.1 Surfaces & Canvas (Palette B: Obsidian & Electric Amber / Topaz)
 | Token | Role | OKLCH Value | Light Mode Hex | Dark Mode Hex |
 | :--- | :--- | :--- | :--- | :--- |
-| `--background` | Page background canvas | `oklch(0.97 0.008 210)` | `#f4f8fa` | `#060d13` |
-| `--card` | Card & container surface | `oklch(1.00 0.000 0)` | `#ffffff` | `#0c161f` |
-| `--muted` | Subdued surface / input fill | `oklch(0.94 0.012 210)` | `#eaf1f4` | `#13202c` |
-| `--border` | Dividers & card boundaries | `oklch(0.88 0.018 210)` | `#d3e2e8` | `#1c2e3f` |
+| `--background` | Page background canvas | `oklch(0.98 0.006 80)` | `#faf8f4` | `#0c0d12` |
+| `--card` | Card & container surface | `oklch(1.00 0.000 0)` | `#ffffff` | `#13141c` |
+| `--muted` | Subdued surface / input fill | `oklch(0.95 0.010 80)` | `#f3f0e8` | `#1c1e29` |
+| `--border` | Dividers & card boundaries | `oklch(0.89 0.015 80)` | `#e3ded2` | `#292a3a` |
 
 ### 2.2 Ink & Typography
 | Token | Role | OKLCH Value | Light Mode Hex | Dark Mode Hex |
 | :--- | :--- | :--- | :--- | :--- |
-| `--foreground` | Primary text & headings | `oklch(0.24 0.035 210)` | `#082f49` | `#f0fdfa` |
-| `--muted-foreground` | Secondary labels & metadata | `oklch(0.50 0.025 210)` | `#486577` | `#8faec2` |
-| `--subtle` | Placeholder text & disabled icons | `oklch(0.65 0.020 210)` | `#7b97a7` | `#587588` |
-| `--brand` | Nordic Teal / Aegean Cyan (Action / Focus ring) | `oklch(0.62 0.140 210)` | `#0891b2` | `#06b6d4` |
+| `--foreground` | Primary text & headings | `oklch(0.20 0.015 60)` | `#1c1917` | `#fcfbf9` |
+| `--muted-foreground` | Secondary labels & metadata | `oklch(0.48 0.015 60)` | `#5c5750` | `#a4a5b5` |
+| `--subtle` | Placeholder text & disabled icons | `oklch(0.62 0.015 60)` | `#8a857b` | `#6c6d80` |
+| `--brand` | Electric Amber / Warm Topaz (Action / Focus ring) | `oklch(0.74 0.170 70)` | `#d97706` | `#f59e0b` |
 
 ### 2.3 Status Tokens
 | Token | Status Role | OKLCH Value | Light Hex | Dark Hex | Usage |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| `--status-draft` | Draft / Inactive | `oklch(0.60 0.020 210)` | `#7b97a7` | `#587588` | Unreleased election draft |
-| `--status-upcoming`| Scheduled / Countdown | `oklch(0.68 0.150 75)` | `#d97706` | `#f59e0b` | Election opens soon |
-| `--status-active` | Active Voting Open | `oklch(0.62 0.140 210)` | `#0891b2` | `#06b6d4` | Voting currently live |
+| `--status-draft` | Draft / Inactive | `oklch(0.60 0.015 60)` | `#8a857b` | `#6c6d80` | Unreleased election draft |
+| `--status-upcoming`| Scheduled / Countdown | `oklch(0.65 0.140 230)` | `#0284c7` | `#38bdf8` | Election opens soon |
+| `--status-active` | Active Voting Open | `oklch(0.74 0.170 70)` | `#d97706` | `#f59e0b` | Voting currently live |
 | `--status-confirmed`| Ballot Counted / Verified | `oklch(0.58 0.160 155)` | `#059669` | `#10b981` | Submission receipt badge |
-| `--status-rejected` | Domain Denied / Closed | `oklch(0.57 0.210 25)` | `#e11d48` | `#f43f5e` | Non-matching domain / error |
+| `--status-rejected` | Domain Denied / Closed | `oklch(0.57 0.210 25)` | `#dc2626` | `#f43f5e` | Non-matching domain / error |
 
 ---
 
