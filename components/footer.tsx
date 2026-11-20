@@ -7,26 +7,32 @@ interface FooterLink {
 }
 
 const PLATFORM_LINKS: FooterLink[] = [
-  { label: "Browse Elections", href: "/#elections" },
-  { label: "Verify a Ballot", href: "/#verify" },
-  { label: "Create Election", href: "/login" },
-  { label: "About Ballot", href: "/#about" },
+  { label: "How It Works", href: "/#how-it-works" },
+  { label: "Guarantees", href: "/#guarantees" },
+  { label: "FAQ", href: "/#faq" },
+  { label: "Sign In", href: "/login" },
+  { label: "Create Account", href: "/register" },
 ];
 
 const LEGAL_LINKS: FooterLink[] = [
-  { label: "Secret Ballot Protocol", href: "/#about" },
-  { label: "Privacy Notice", href: "/#privacy" },
-  { label: "Terms of Service", href: "/#terms" },
+  { label: "Voter Anonymity Protocol", href: "/#guarantees" },
+  { label: "Audit Receipt Verification", href: "/#how-it-works" },
+  { label: "Campus Domain Policy", href: "/#guarantees" },
+  { label: "Institutional Security", href: "/#guarantees" },
 ];
 
 const VERIFICATION_LINKS: FooterLink[] = [
-  { label: "Public Audit Ledger", href: "/#verify" },
-  { label: "Design System Showcase", href: "/design.html", external: true },
+  { label: "Official Design System", href: "/design.html", external: true },
+  { label: "Audited Ledger Specification", href: "/#how-it-works" },
+  { label: "Receipt Cryptographic Seal", href: "/#how-it-works" },
 ];
 
 export function Footer() {
   return (
     <footer className="w-full border-t-2 border-border bg-card text-foreground transition-colors">
+      {/* Visually Hidden Semantic Heading Level 2 to prevent skipped heading levels */}
+      <h2 className="sr-only">Footer Directory and Institutional Policies</h2>
+
       <div className="max-w-7xl mx-auto px-6 md:px-10 py-12 lg:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-12 pb-12 border-b-2 border-border">
           {/* Brand & Mission Column */}
@@ -39,7 +45,8 @@ export function Footer() {
             </Link>
             <p className="text-muted-foreground text-sm max-w-sm leading-relaxed mb-4">
               Institutional voting platform for schools, student unions, and
-              organizations. Domain-verified, private, and tamper-resistant.
+              organizations. Domain-verified, private, and mathematically
+              verifiable.
             </p>
           </div>
 
@@ -113,7 +120,7 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom Bar: Copyright & Architecture */}
+        {/* Bottom Bar: Copyright & Institutional Status */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-muted-foreground">
           <p>© 2026 Ballot Platform. All rights reserved.</p>
         </div>

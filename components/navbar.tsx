@@ -36,7 +36,7 @@ export function Navbar() {
         </Link>
 
         {/* Center: True Symmetrical Center Navigation */}
-        <nav className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
+        <nav className="hidden md:flex items-center gap-6 absolute left-1/2 -translate-x-1/2">
           {NAV_ITEMS.map((item) => {
             const isExternal = item.external || item.href.startsWith("http");
             if (isExternal) {
@@ -64,7 +64,7 @@ export function Navbar() {
         <div className="hidden md:flex items-center gap-3 z-10">
           <ThemeToggle />
 
-          <Link href="/login" className="btn btn-primary h-9 px-4 text-xs">
+          <Link href="/login" className="btn btn-primary h-8 px-3.5 text-[11px]">
             Sign In
           </Link>
         </div>
@@ -104,7 +104,7 @@ export function Navbar() {
 
           {/* Overlay Dropdown Sheet */}
           <div className="absolute top-full left-0 w-full bg-background border-b-2 border-border px-6 py-6 flex flex-col gap-5 shadow-2xl z-50 md:hidden animate-in fade-in slide-in-from-top-2 duration-150">
-            <nav className="flex flex-col gap-1 text-xs font-heading font-bold uppercase tracking-widest">
+            <nav className="flex flex-col gap-1 text-[11px] font-heading font-semibold uppercase tracking-wider">
               {NAV_ITEMS.map((item) => {
                 const isExternal =
                   item.external || item.href.startsWith("http");
@@ -143,7 +143,7 @@ export function Navbar() {
               <Link
                 href="/login"
                 onClick={() => setMobileMenuOpen(false)}
-                className="btn btn-primary w-full justify-center h-10 text-xs"
+                className="btn btn-primary w-full justify-center h-9 text-[11px]"
               >
                 Sign In
               </Link>
