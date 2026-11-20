@@ -1,43 +1,6 @@
 @import "tailwindcss";
 
 /* -------------------------------------------------------------
-   Local Typography (@font-face) - Self-hosted Fonts
-   ------------------------------------------------------------- */
-@font-face {
-  font-family: 'Satoshi';
-  src: url('/fonts/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-Variable.woff2') format('woff2'),
-    url('/fonts/Satoshi_Complete/Fonts/TTF/Satoshi-Variable.ttf') format('truetype');
-  font-weight: 300 900;
-  font-display: swap;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Satoshi';
-  src: url('/fonts/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-VariableItalic.woff2') format('woff2'),
-    url('/fonts/Satoshi_Complete/Fonts/TTF/Satoshi-VariableItalic.ttf') format('truetype');
-  font-weight: 300 900;
-  font-display: swap;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: 'DM Sans';
-  src: url('/fonts/DMSans-VariableFont_opsz,wght.ttf') format('truetype');
-  font-weight: 100 1000;
-  font-display: swap;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'DM Sans';
-  src: url('/fonts/DMSans-Italic-VariableFont_opsz,wght.ttf') format('truetype');
-  font-weight: 100 1000;
-  font-display: swap;
-  font-style: italic;
-}
-
-/* -------------------------------------------------------------
    Ballot Design System Specification (Palette B: Obsidian & Electric Amber)
    Perceptually Uniform OKLCH / Tuned Hex Tokens
    ------------------------------------------------------------- */
