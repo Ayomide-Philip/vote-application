@@ -51,7 +51,7 @@ export function FAQSection() {
   };
 
   return (
-    <section className="relative w-full border-t-2 border-border py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
+    <section id="faq" className="relative w-full border-t-2 border-border py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Section Header: Centralized */}
         <div className="max-w-2xl mx-auto text-center mb-12 sm:mb-16 flex flex-col items-center">

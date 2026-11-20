@@ -16,9 +16,9 @@ export interface NavItem {
 }
 
 export const NAV_ITEMS: NavItem[] = [
-  { label: "About", href: "/#about" },
-  { label: "Verify", href: "/#verify" },
-  { label: "Elections", href: "/#elections" },
+  { label: "How It Works", href: "/#how-it-works" },
+  { label: "Guarantees", href: "/#guarantees" },
+  { label: "FAQ", href: "/#faq" },
 ];
 
 export function Navbar() {

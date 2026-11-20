@@ -1,141 +1,83 @@
-"use client";
+import { LockKeyIcon } from "hugeicons-react";
 
-import { useState } from "react";
-import {
-  CheckmarkCircle02Icon,
-  FileValidationIcon,
-  LockKeyIcon,
-  QrCodeIcon,
-} from "hugeicons-react";
+interface ReceiptRowProps {
+  label: string;
+  value: React.ReactNode;
+}
+
+function ReceiptRow({ label, value }: ReceiptRowProps) {
+  return (
+    <div className="flex items-center justify-between gap-4 py-4 sm:py-5 lg:py-5.5 border-b border-border/50 font-mono text-xs">
+      <span className="text-muted-foreground uppercase tracking-wider text-[11px] sm:text-xs shrink-0">
+        {label}
+      </span>
+      <span className="text-right truncate">{value}</span>
+    </div>
+  );
+}
 
 export function HeroReceiptPreview() {
-  const [verified, setVerified] = useState(false);
-  const [verifying, setVerifying] = useState(false);
-
-  const handleSimulateVerify = () => {
-    if (verified) {
-      setVerified(false);
-      return;
-    }
-    setVerifying(true);
-    setTimeout(() => {
-      setVerifying(false);
-      setVerified(true);
-    }, 450);
-  };
-
   return (
-    <div className="w-full max-w-lg mx-auto lg:max-w-none">
-      {/* Container with Style 3 Crisp Geometry */}
-      <div className="receipt-card bg-card border-2 border-border p-6 sm:p-7 relative">
+    <div className="w-full max-w-md mx-auto lg:max-w-none">
+      {/* Crisp 0px Geometry Editorial Ledger Slip - Stretched Height */}
+      <div className="receipt-card bg-card border-2 border-border p-6 sm:p-7 lg:p-8 relative transition-colors">
         {/* Top Ledger Accession Header */}
-        <div className="receipt-header flex items-center justify-between pb-4 mb-5 border-b-2 border-dashed border-border">
+        <div className="flex items-start sm:items-center justify-between pb-5 mb-6 sm:mb-7 border-b-2 border-dashed border-border gap-2">
           <div>
-            <div className="text-[11px] font-mono tracking-widest text-subtle uppercase mb-0.5">
+            <div className="text-[11px] font-mono tracking-widest text-muted-foreground uppercase mb-1">
               OFFICIAL LEDGER SLIP
             </div>
-            <h3 className="receipt-title text-base font-medium font-heading text-foreground">
+            <h3 className="text-base sm:text-lg font-medium font-heading text-foreground leading-snug">
               Certified Voting Receipt
             </h3>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="badge badge-confirmed">
-              <span className="badge-dot" />
-              RECORDED
-            </span>
-          </div>
+          <span className="badge badge-confirmed text-[10px] sm:text-xs py-0.5 shrink-0">
+            <span className="badge-dot" />
+            RECORDED
+          </span>
         </div>
 
-        {/* Ledger Metadata Rows */}
-        <div className="space-y-3 font-mono text-xs mb-6">
-          <div className="receipt-row flex justify-between items-center py-1.5 border-b border-border/40">
-            <span className="receipt-label text-subtle uppercase tracking-wider text-[11px]">
-              Election Code
-            </span>
-            <span className="receipt-value font-medium text-foreground">
-              OAU-ENG-24
-            </span>
-          </div>
-
-          <div className="receipt-row flex justify-between items-center py-1.5 border-b border-border/40">
-            <span className="receipt-label text-subtle uppercase tracking-wider text-[11px]">
-              Contest Title
-            </span>
-            <span className="text-foreground text-right truncate max-w-50">
-              Faculty Executive Board
-            </span>
-          </div>
-
-          <div className="receipt-row flex justify-between items-center py-1.5 border-b border-border/40">
-            <span className="receipt-label text-subtle uppercase tracking-wider text-[11px]">
-              Domain Gate
-            </span>
-            <span className="text-brand font-medium">@oauife.edu.ng</span>
-          </div>
-
-          <div className="receipt-row flex justify-between items-center py-1.5 border-b border-border/40">
-            <span className="receipt-label text-subtle uppercase tracking-wider text-[11px]">
-              Voter Privacy
-            </span>
-            <span className="text-status-confirmed flex items-center gap-1 font-medium">
-              <LockKeyIcon size={12} />
-              Identity Unlinked
-            </span>
-          </div>
-
-          <div className="receipt-row flex justify-between items-center py-1.5 border-b border-border/40">
-            <span className="receipt-label text-subtle uppercase tracking-wider text-[11px]">
-              Audit Hash
-            </span>
-            <span className="text-brand font-medium">8f94a2b1...e78b20</span>
-          </div>
-        </div>
-
-        {/* Verification Status Simulation Box */}
-        {verified ? (
-          <div className="p-4 bg-status-confirmed/10 border border-status-confirmed/30 mb-5 text-xs font-mono space-y-1.5 animate-in fade-in duration-200">
-            <div className="flex items-center gap-2 text-status-confirmed font-medium uppercase tracking-wider">
-              <CheckmarkCircle02Icon size={16} />
-              <span>Ballot Confirmed in Tally</span>
-            </div>
-            <p className="text-muted-foreground text-[11px]">
-              Cryptographic proof verified against public ledger block #1402.
-              Choice integrity preserved.
-            </p>
-          </div>
-        ) : (
-          <div className="p-3.5 bg-muted/60 border border-border mb-5 text-xs font-mono flex items-center justify-between">
-            <div className="flex items-center gap-2 text-subtle">
-              <QrCodeIcon size={18} className="text-brand" />
-              <span>Public Verification Protocol</span>
-            </div>
-            <span className="text-[11px] text-muted-foreground">
-              SHA-256 Validated
-            </span>
-          </div>
-        )}
-
-        {/* Interactive Verification Action */}
-        <div className="flex flex-col sm:flex-row gap-2.5">
-          <button
-            type="button"
-            onClick={handleSimulateVerify}
-            disabled={verifying}
-            className={`btn flex-1 text-xs py-2.5 ${
-              verified ? "btn-secondary" : "btn-primary"
-            }`}
-          >
-            {verifying ? (
-              <span>Auditing Merkle Proof...</span>
-            ) : verified ? (
-              <span>Reset Sample</span>
-            ) : (
-              <>
-                <FileValidationIcon size={15} />
-                <span>Simulate Receipt Audit</span>
-              </>
-            )}
-          </button>
+        {/* Ledger Metadata Rows (Stretched Spacing & High-Contrast) */}
+        <div>
+          <ReceiptRow
+            label="Election Code"
+            value={
+              <span className="font-semibold text-foreground text-sm">
+                OAU-ENG-24
+              </span>
+            }
+          />
+          <ReceiptRow
+            label="Contest Title"
+            value={
+              <span className="text-foreground font-medium max-w-45 sm:max-w-55 truncate inline-block align-bottom">
+                Faculty Executive Board
+              </span>
+            }
+          />
+          <ReceiptRow
+            label="Domain Gate"
+            value={
+              <span className="text-brand font-medium">@oauife.edu.ng</span>
+            }
+          />
+          <ReceiptRow
+            label="Voter Privacy"
+            value={
+              <span className="text-status-confirmed flex items-center gap-1 font-medium justify-end">
+                <LockKeyIcon size={13} className="shrink-0" />
+                <span>Identity Unlinked</span>
+              </span>
+            }
+          />
+          <ReceiptRow
+            label="Audit Hash"
+            value={
+              <span className="text-brand font-semibold tracking-tight">
+                8f94a2b1...e78b20
+              </span>
+            }
+          />
         </div>
       </div>
     </div>
