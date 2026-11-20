@@ -8,9 +8,38 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=JetBrains+Mono:wght@400;500;600&display=swap"
     rel="stylesheet">
   <style>
+    /* -------------------------------------------------------------
+       Self-Hosted Fonts (@font-face)
+       ------------------------------------------------------------- */
+    @font-face {
+      font-family: 'Satoshi';
+      src: url('public/fonts/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-Variable.woff2') format('woff2'),
+        url('public/fonts/Satoshi_Complete/Fonts/TTF/Satoshi-Variable.ttf') format('truetype');
+      font-weight: 300 900;
+      font-display: swap;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'Satoshi';
+      src: url('public/fonts/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-VariableItalic.woff2') format('woff2'),
+        url('public/fonts/Satoshi_Complete/Fonts/TTF/Satoshi-VariableItalic.ttf') format('truetype');
+      font-weight: 300 900;
+      font-display: swap;
+      font-style: italic;
+    }
+
+    @font-face {
+      font-family: 'DM Sans';
+      src: url('public/fonts/DMSans-VariableFont_opsz,wght.ttf') format('truetype');
+      font-weight: 100 1000;
+      font-display: swap;
+      font-style: normal;
+    }
+
     /* -------------------------------------------------------------
        CSS Custom Properties / Design Tokens (Dark Theme Default)
        Palette B: Obsidian & Electric Amber / Topaz
@@ -74,13 +103,26 @@
     }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background-color: var(--background);
       color: var(--foreground);
       min-height: 100vh;
       line-height: 1.5;
       transition: background-color 0.2s ease, color 0.2s ease;
       -webkit-font-smoothing: antialiased;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    .brand-logo,
+    .page-title,
+    .section-title,
+    .candidate-name,
+    .receipt-title {
+      font-family: 'Satoshi', sans-serif;
+      letter-spacing: -0.02em;
     }
 
     /* Top Navigation Bar */
@@ -796,27 +838,31 @@
       <section id="type" class="system-section">
         <div class="section-header">
           <h2 class="section-title">Type</h2>
-          <p class="section-desc">Inter is used for high-clarity UI. JetBrains Mono is paired for codes, hashes, and
-            timestamps.</p>
+          <p class="section-desc">Satoshi (Fontshare) is used for authoritative, high-impact headings. DM Sans (Google
+            Fonts) powers body text and forms, paired with JetBrains Mono for election codes and hashes.</p>
         </div>
 
         <div class="type-sample-row">
-          <div class="type-meta">Display / 32px 700</div>
-          <div class="type-preview" style="font-size: 32px; font-weight: 700; letter-spacing: -0.02em;">Student Union
-            Executive Election</div>
+          <div class="type-meta">Satoshi Bold / 32px 700</div>
+          <div class="type-preview"
+            style="font-family: 'Satoshi', sans-serif; font-size: 32px; font-weight: 700; letter-spacing: -0.02em;">
+            Student Union Executive Election</div>
         </div>
         <div class="type-sample-row">
-          <div class="type-meta">Heading 1 / 24px 600</div>
-          <div class="type-preview" style="font-size: 24px; font-weight: 600;">Office of the President</div>
+          <div class="type-meta">Satoshi SemiBold / 24px 600</div>
+          <div class="type-preview" style="font-family: 'Satoshi', sans-serif; font-size: 24px; font-weight: 600;">
+            Office of the President</div>
         </div>
         <div class="type-sample-row">
-          <div class="type-meta">Heading 2 / 20px 600</div>
-          <div class="type-preview" style="font-size: 20px; font-weight: 600;">Faculty Senate Representatives</div>
+          <div class="type-meta">Satoshi Medium / 20px 500</div>
+          <div class="type-preview" style="font-family: 'Satoshi', sans-serif; font-size: 20px; font-weight: 500;">
+            Faculty Senate Representatives</div>
         </div>
         <div class="type-sample-row">
-          <div class="type-meta">Body / 15px 400</div>
-          <div class="type-preview" style="font-size: 15px; color: var(--muted-foreground);">Eligible students must hold
-            an active institutional email ending in @oauife.edu.ng to cast their ballot.</div>
+          <div class="type-meta">DM Sans Regular / 15px 400</div>
+          <div class="type-preview"
+            style="font-family: 'DM Sans', sans-serif; font-size: 15px; color: var(--muted-foreground);">Eligible
+            students must hold an active institutional email ending in @oauife.edu.ng to cast their ballot.</div>
         </div>
         <div class="type-sample-row">
           <div class="type-meta">Mono Code / 13px 500</div>

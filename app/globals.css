@@ -1,6 +1,43 @@
 @import "tailwindcss";
 
 /* -------------------------------------------------------------
+   Local Typography (@font-face) - Self-hosted Fonts
+   ------------------------------------------------------------- */
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-Variable.woff2') format('woff2'),
+    url('/fonts/Satoshi_Complete/Fonts/TTF/Satoshi-Variable.ttf') format('truetype');
+  font-weight: 300 900;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-VariableItalic.woff2') format('woff2'),
+    url('/fonts/Satoshi_Complete/Fonts/TTF/Satoshi-VariableItalic.ttf') format('truetype');
+  font-weight: 300 900;
+  font-display: swap;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('/fonts/DMSans-VariableFont_opsz,wght.ttf') format('truetype');
+  font-weight: 100 1000;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('/fonts/DMSans-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+  font-weight: 100 1000;
+  font-display: swap;
+  font-style: italic;
+}
+
+/* -------------------------------------------------------------
    Ballot Design System Specification (Palette B: Obsidian & Electric Amber)
    Perceptually Uniform OKLCH / Tuned Hex Tokens
    ------------------------------------------------------------- */
@@ -111,7 +148,9 @@ html.light,
   --color-nav-active-bg: var(--nav-active-bg);
   --color-nav-active-text: var(--nav-active-text);
 
-  --font-sans: "Inter", "Satoshi", "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-heading: "Satoshi", sans-serif;
+  --font-body: "DM Sans", sans-serif;
+  --font-sans: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   --radius-sm: var(--radius-sm);
@@ -142,6 +181,17 @@ body {
   transition: background-color 0.2s ease, color 0.2s ease;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.font-heading {
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
 }
 
 ::selection {
@@ -395,6 +445,7 @@ body {
   background-color: rgba(108, 109, 128, 0.15);
   color: var(--status-draft);
 }
+
 .badge-draft .badge-dot {
   background-color: var(--status-draft);
 }
@@ -403,6 +454,7 @@ body {
   background-color: rgba(56, 189, 248, 0.15);
   color: var(--status-upcoming);
 }
+
 .badge-upcoming .badge-dot {
   background-color: var(--status-upcoming);
 }
@@ -411,6 +463,7 @@ body {
   background-color: rgba(245, 158, 11, 0.15);
   color: var(--status-active);
 }
+
 .badge-active .badge-dot {
   background-color: var(--status-active);
 }
@@ -419,6 +472,7 @@ body {
   background-color: rgba(16, 185, 129, 0.15);
   color: var(--status-confirmed);
 }
+
 .badge-confirmed .badge-dot {
   background-color: var(--status-confirmed);
 }
@@ -427,6 +481,7 @@ body {
   background-color: rgba(244, 63, 94, 0.15);
   color: var(--status-rejected);
 }
+
 .badge-rejected .badge-dot {
   background-color: var(--status-rejected);
 }
