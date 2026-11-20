@@ -5,43 +5,63 @@ import Link from "next/link";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Menu01Icon, Cancel01Icon } from "hugeicons-react";
 
+/**
+ * Centralized Navigation Configuration
+ * Add, remove, or reorder navigation links here.
+ */
+export interface NavItem {
+  label: string;
+  href: string;
+  external?: boolean;
+}
+
+export const NAV_ITEMS: NavItem[] = [
+  { label: "Elections", href: "/#elections" },
+  { label: "Verify Ballot", href: "/#verify" },
+  { label: "Protocol", href: "/#about" },
+];
+
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
   return (
     <header className="w-full bg-background border-b-2 border-border sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
+      <div className="relative max-w-7xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
+        {/* Left: Brand Logo */}
         <Link
           href="/"
-          className="font-heading font-bold text-2xl tracking-tight text-foreground hover:opacity-90 transition-opacity"
+          className="font-heading capitalize font-bold text-2xl tracking-tight text-foreground hover:opacity-90 transition-opacity z-10"
         >
           ballot<span className="text-brand">.</span>
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-6 text-xs font-heading font-bold uppercase tracking-widest">
-          <Link
-            href="/#elections"
-            className="text-muted-foreground hover:text-foreground transition-colors py-1"
-          >
-            Elections
-          </Link>
-          <Link
-            href="/#verify"
-            className="text-muted-foreground hover:text-foreground transition-colors py-1"
-          >
-            Verify Ballot
-          </Link>
-          <Link
-            href="/#about"
-            className="text-muted-foreground hover:text-foreground transition-colors py-1"
-          >
-            Protocol
-          </Link>
+        {/* Center: True Symmetrical Center Navigation */}
+        <nav className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
+          {NAV_ITEMS.map((item) => {
+            const isExternal = item.external || item.href.startsWith("http");
+            if (isExternal) {
+              return (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="nav-link"
+                >
+                  {item.label}
+                </a>
+              );
+            }
+            return (
+              <Link key={item.href} href={item.href} className="nav-link">
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
 
-        {/* Desktop Actions */}
-        <div className="hidden md:flex items-center gap-3">
+        {/* Right: Desktop Actions */}
+        <div className="hidden md:flex items-center gap-3 z-10">
           <ThemeToggle />
 
           <button type="button" className="btn btn-primary h-9 px-4 text-xs">
@@ -49,7 +69,7 @@ export function Navbar() {
           </button>
         </div>
 
-        {/* Mobile Header Controls */}
+        {/* Mobile Header Controls: ThemeToggle + Hamburger */}
         <div className="flex md:hidden items-center gap-2">
           <ThemeToggle />
 
@@ -72,7 +92,7 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Overlay Menu (Floats over the page, zero layout shift) */}
+      {/* Mobile Overlay Menu */}
       {mobileMenuOpen && (
         <>
           {/* Backdrop Overlay - Tap outside to close */}
@@ -84,28 +104,39 @@ export function Navbar() {
 
           {/* Overlay Dropdown Sheet */}
           <div className="absolute top-full left-0 w-full bg-background border-b-2 border-border px-6 py-6 flex flex-col gap-5 shadow-2xl z-50 md:hidden animate-in fade-in slide-in-from-top-2 duration-150">
-            <nav className="flex flex-col gap-2 text-xs font-heading font-bold uppercase tracking-widest">
-              <Link
-                href="/#elections"
-                onClick={() => setMobileMenuOpen(false)}
-                className="py-3 text-muted-foreground hover:text-foreground border-b border-border/40 transition-colors"
-              >
-                Elections
-              </Link>
-              <Link
-                href="/#verify"
-                onClick={() => setMobileMenuOpen(false)}
-                className="py-3 text-muted-foreground hover:text-foreground border-b border-border/40 transition-colors"
-              >
-                Verify Ballot
-              </Link>
-              <Link
-                href="/#about"
-                onClick={() => setMobileMenuOpen(false)}
-                className="py-3 text-muted-foreground hover:text-foreground border-b border-border/40 transition-colors"
-              >
-                Protocol
-              </Link>
+            <nav className="flex flex-col gap-1 text-xs font-heading font-bold uppercase tracking-widest">
+              {NAV_ITEMS.map((item) => {
+                const isExternal =
+                  item.external || item.href.startsWith("http");
+                if (isExternal) {
+                  return (
+                    <a
+                      key={item.href}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="py-3 px-1 text-muted-foreground hover:text-brand hover:bg-muted/40 border-b border-border/40 transition-colors flex items-center justify-between"
+                    >
+                      <span>{item.label}</span>
+                      <span className="text-subtle text-[10px] font-mono">
+                        ↗
+                      </span>
+                    </a>
+                  );
+                }
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="py-3 px-1 text-muted-foreground hover:text-brand hover:bg-muted/40 border-b border-border/40 transition-colors flex items-center justify-between"
+                  >
+                    <span>{item.label}</span>
+                    <span className="text-subtle text-[10px] font-mono">→</span>
+                  </Link>
+                );
+              })}
             </nav>
 
             <div className="pt-2">
