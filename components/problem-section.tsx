@@ -43,12 +43,12 @@ export function ProblemSection() {
   return (
     <section className="relative w-full border-t-2 border-border py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        {/* Section Header: No kicker/eyebrow (banned by craft-floor), heading speaks for itself */}
-        <div className="max-w-2xl mb-12 sm:mb-14">
+        {/* Section Header: Centralized */}
+        <div className="max-w-2xl mx-auto text-center mb-12 sm:mb-14 flex flex-col items-center">
           <h2 className="text-3xl sm:text-4xl lg:text-[2.6rem] font-medium font-heading tracking-tight text-foreground leading-[1.15]">
             Why paper elections fail on campus
           </h2>
-          <p className="text-muted-foreground text-base sm:text-lg font-normal leading-relaxed mt-4 max-w-xl">
+          <p className="text-muted-foreground text-base sm:text-lg font-normal leading-relaxed mt-4 max-w-xl text-center">
             Paper ballots create friction for election committees and distrust among voters.
           </p>
         </div>

@@ -209,6 +209,11 @@ h6,
   transform: translateY(1px);
 }
 
+.btn:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+}
+
 .btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;

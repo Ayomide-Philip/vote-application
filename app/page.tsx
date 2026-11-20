@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/navbar";
 import { HeroSection } from "@/components/hero-section";
 import { ProblemSection } from "@/components/problem-section";
+import { HowItWorksSection } from "@/components/how-it-works-section";
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
       <main className="flex-1">
         <HeroSection />
         <ProblemSection />
+        <HowItWorksSection />
       </main>
 
       <footer className="border-t-2 border-border py-6 px-6 text-center text-xs text-subtle font-mono">
