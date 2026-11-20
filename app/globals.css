@@ -163,6 +163,25 @@ h6,
 }
 
 /* -------------------------------------------------------------
+   Architectural Ledger Grid Background (Full-Page Canvas)
+   ------------------------------------------------------------- */
+.site-grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(120, 120, 140, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(120, 120, 140, 0.08) 1px, transparent 1px);
+  background-size: 48px 48px;
+  background-position: center top;
+}
+
+.btn .btn-arrow-icon {
+  transition: transform 0.15s ease-out;
+}
+
+.btn:hover .btn-arrow-icon {
+  transform: translateX(4px);
+}
+
+/* -------------------------------------------------------------
    Buttons - Style 3: Editorial Grid / Ledger
    ------------------------------------------------------------- */
 .btn {
@@ -552,49 +571,62 @@ h6,
 }
 
 /* -------------------------------------------------------------
-   Receipt Card & Cards
+   Receipt Card & Cards - Style 3: Official Certified Ledger Slip
    ------------------------------------------------------------- */
 .receipt-card {
   background-color: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 28px;
-  max-width: 480px;
-  box-shadow: var(--shadow-subtle);
+  border: 2px solid var(--border);
+  border-radius: 0px;
+  padding: 24px;
+  box-shadow: none;
+  position: relative;
 }
 
 .receipt-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--border);
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1.5px dashed var(--border);
 }
 
 .receipt-title {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: var(--font-heading);
+  letter-spacing: -0.01em;
 }
 
 .receipt-row {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-size: 13px;
-  margin-bottom: 12px;
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(120, 120, 140, 0.1);
+}
+
+.receipt-row:last-child {
+  border-bottom: none;
 }
 
 .receipt-label {
   color: var(--muted-foreground);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
 }
 
 .receipt-value {
-  font-weight: 500;
+  font-weight: 600;
   font-family: var(--font-mono);
+  font-size: 12px;
 }
 
 /* -------------------------------------------------------------
-   Navigation Items & Toggle Button
+   Navigation Items
    ------------------------------------------------------------- */
 .nav-list {
   list-style: none;
@@ -605,7 +637,7 @@ h6,
 
 .nav-item {
   padding: 8px 14px;
-  border-radius: 8px;
+  border-radius: 0px;
   font-size: 14px;
   font-weight: 500;
   color: var(--muted-foreground);
@@ -624,23 +656,4 @@ h6,
   color: var(--nav-active-text);
   background-color: var(--nav-active-bg);
   font-weight: 600;
-}
-
-.theme-toggle-btn {
-  background: transparent;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: var(--foreground);
-  transition: all 0.15s ease;
-}
-
-.theme-toggle-btn:hover {
-  background-color: var(--muted);
-  border-color: var(--subtle);
 }
