@@ -1,26 +1,526 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* -------------------------------------------------------------
+   Ballot Design System Specification (Palette B: Obsidian & Electric Amber)
+   Perceptually Uniform OKLCH / Tuned Hex Tokens
+   ------------------------------------------------------------- */
+
+:root,
+.dark,
+[data-theme="dark"] {
+  /* Surfaces & Canvas */
+  --background: #0c0d12;
+  --card: #13141c;
+  --muted: #1c1e29;
+  --border: #292a3a;
+
+  /* Ink / Typography */
+  --foreground: #fcfbf9;
+  --muted-foreground: #a4a5b5;
+  --subtle: #6c6d80;
+
+  /* Brand Accents (Electric Amber / Warm Topaz) */
+  --brand: #f59e0b;
+  --brand-hover: #fbbf24;
+  --brand-tint: rgba(245, 158, 11, 0.15);
+
+  /* Status Tokens */
+  --status-draft: #6c6d80;
+  --status-upcoming: #38bdf8;
+  --status-active: #f59e0b;
+  --status-confirmed: #10b981;
+  --status-rejected: #f43f5e;
+
+  /* Sidebar & Navigation */
+  --nav-active-bg: #1c1e29;
+  --nav-active-text: #f59e0b;
+  --sidebar-width: 220px;
+
+  /* Elevation / Shadows */
+  --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-hover: 0 8px 24px -4px rgba(0, 0, 0, 0.6);
+  --shadow-focus: 0 0 0 3px rgba(245, 158, 11, 0.25);
+
+  /* Radius Scale */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
 }
 
+/* Light Mode Overrides */
+.light,
+html.light,
+[data-theme="light"] {
+  /* Surfaces & Canvas */
+  --background: #faf8f4;
+  --card: #ffffff;
+  --muted: #f3f0e8;
+  --border: #e3ded2;
+
+  /* Ink / Typography */
+  --foreground: #1c1917;
+  --muted-foreground: #5c5750;
+  --subtle: #8a857b;
+
+  /* Brand Accents */
+  --brand: #d97706;
+  --brand-hover: #b45309;
+  --brand-tint: rgba(217, 119, 6, 0.10);
+
+  /* Status Tokens */
+  --status-draft: #8a857b;
+  --status-upcoming: #0284c7;
+  --status-active: #d97706;
+  --status-confirmed: #059669;
+  --status-rejected: #dc2626;
+
+  /* Sidebar & Navigation */
+  --nav-active-bg: #eae5d7;
+  --nav-active-text: #b45309;
+
+  /* Elevation / Shadows */
+  --shadow-subtle: 0 1px 3px rgba(15, 23, 42, 0.05);
+  --shadow-hover: 0 6px 16px -2px rgba(15, 23, 42, 0.08);
+  --shadow-focus: 0 0 0 3px rgba(217, 119, 6, 0.20);
+}
+
+/* -------------------------------------------------------------
+   Tailwind CSS v4 Theme Integration
+   ------------------------------------------------------------- */
 @theme inline {
   --color-background: var(--background);
+  --color-card: var(--card);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-subtle: var(--subtle);
+
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-tint: var(--brand-tint);
+
+  --color-status-draft: var(--status-draft);
+  --color-status-upcoming: var(--status-upcoming);
+  --color-status-active: var(--status-active);
+  --color-status-confirmed: var(--status-confirmed);
+  --color-status-rejected: var(--status-rejected);
+
+  --color-nav-active-bg: var(--nav-active-bg);
+  --color-nav-active-text: var(--nav-active-text);
+
+  --font-sans: "Inter", "Satoshi", "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-full: var(--radius-full);
+
+  --shadow-subtle: var(--shadow-subtle);
+  --shadow-hover: var(--shadow-hover);
+  --shadow-focus: var(--shadow-focus);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* -------------------------------------------------------------
+   Base Elements & Global Smoothness
+   ------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  line-height: 1.5;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: var(--brand);
+  color: #ffffff;
+}
+
+/* -------------------------------------------------------------
+   Buttons
+   ------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+  font-family: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.btn-primary {
+  background-color: var(--brand);
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: var(--brand-hover);
+}
+
+.btn-secondary {
+  background-color: var(--muted);
+  color: var(--foreground);
+  border-color: var(--border);
+}
+
+.btn-secondary:hover {
+  background-color: var(--border);
+}
+
+.btn-danger {
+  background-color: var(--status-rejected);
+  color: #ffffff;
+}
+
+.btn-danger:hover {
+  filter: brightness(0.9);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--muted-foreground);
+}
+
+.btn-ghost:hover {
+  color: var(--foreground);
+  background-color: var(--muted);
+}
+
+/* -------------------------------------------------------------
+   Form Inputs & Controls
+   ------------------------------------------------------------- */
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 260px;
+}
+
+.field-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted-foreground);
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.text-input {
+  width: 100%;
+  height: 42px;
+  padding: 0 14px;
+  background-color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  color: var(--foreground);
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.text-input:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px var(--brand-tint);
+}
+
+.text-input::placeholder {
+  color: var(--subtle);
+}
+
+.code-input {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* -------------------------------------------------------------
+   Candidate Selection Card
+   ------------------------------------------------------------- */
+.ballot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.candidate-card {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.candidate-card:hover {
+  border-color: var(--subtle);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.candidate-card.selected {
+  border-color: var(--brand);
+  background-color: var(--card);
+  box-shadow: 0 0 0 2px var(--brand), 0 8px 24px -4px var(--brand-tint);
+}
+
+.candidate-card.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.avatar-placeholder {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--muted), var(--border));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--foreground);
+  flex-shrink: 0;
+}
+
+.candidate-content {
+  flex: 1;
+}
+
+.candidate-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 2px;
+}
+
+.candidate-dept {
+  font-size: 13px;
+  color: var(--muted-foreground);
+  margin-bottom: 8px;
+}
+
+.candidate-manifesto {
+  font-size: 13px;
+  color: var(--subtle);
+  line-height: 1.4;
+}
+
+.selection-ring {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.candidate-card.selected .selection-ring {
+  border-color: var(--brand);
+  background-color: var(--brand);
+}
+
+.selection-check {
+  display: none;
+  color: #ffffff;
+  width: 12px;
+  height: 12px;
+}
+
+.candidate-card.selected .selection-check {
+  display: block;
+}
+
+/* -------------------------------------------------------------
+   Status Badges
+   ------------------------------------------------------------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.badge-draft {
+  background-color: rgba(108, 109, 128, 0.15);
+  color: var(--status-draft);
+}
+.badge-draft .badge-dot {
+  background-color: var(--status-draft);
+}
+
+.badge-upcoming {
+  background-color: rgba(56, 189, 248, 0.15);
+  color: var(--status-upcoming);
+}
+.badge-upcoming .badge-dot {
+  background-color: var(--status-upcoming);
+}
+
+.badge-active {
+  background-color: rgba(245, 158, 11, 0.15);
+  color: var(--status-active);
+}
+.badge-active .badge-dot {
+  background-color: var(--status-active);
+}
+
+.badge-confirmed {
+  background-color: rgba(16, 185, 129, 0.15);
+  color: var(--status-confirmed);
+}
+.badge-confirmed .badge-dot {
+  background-color: var(--status-confirmed);
+}
+
+.badge-rejected {
+  background-color: rgba(244, 63, 94, 0.15);
+  color: var(--status-rejected);
+}
+.badge-rejected .badge-dot {
+  background-color: var(--status-rejected);
+}
+
+/* -------------------------------------------------------------
+   Receipt Card & Cards
+   ------------------------------------------------------------- */
+.receipt-card {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  max-width: 480px;
+  box-shadow: var(--shadow-subtle);
+}
+
+.receipt-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.receipt-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.receipt-label {
+  color: var(--muted-foreground);
+}
+
+.receipt-value {
+  font-weight: 500;
+  font-family: var(--font-mono);
+}
+
+/* -------------------------------------------------------------
+   Navigation Items & Toggle Button
+   ------------------------------------------------------------- */
+.nav-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nav-item {
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-decoration: none;
+  display: block;
+}
+
+.nav-item:hover {
+  color: var(--foreground);
+  background-color: var(--muted);
+}
+
+.nav-item.active {
+  color: var(--nav-active-text);
+  background-color: var(--nav-active-bg);
+  font-weight: 600;
+}
+
+.theme-toggle-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--foreground);
+  transition: all 0.15s ease;
+}
+
+.theme-toggle-btn:hover {
+  background-color: var(--muted);
+  border-color: var(--subtle);
 }
