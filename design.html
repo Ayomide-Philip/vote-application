@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ballot. Design system</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    /* -------------------------------------------------------------
+       CSS Custom Properties / Design Tokens (Dark Theme Default)
+       Palette A: Nordic Deep Teal & Aegean Cyan
+       ------------------------------------------------------------- */
+    :root {
+      /* Surfaces */
+      --background: #060d13;
+      --card: #0c161f;
+      --muted: #13202c;
+      --border: #1c2e3f;
+
+      /* Ink / Typography */
+      --foreground: #f0fdfa;
+      --muted-foreground: #8faec2;
+      --subtle: #587588;
+      --brand: #06b6d4;
+      --brand-hover: #22d3ee;
+      --brand-tint: rgba(6, 182, 212, 0.12);
+
+      /* Status Tokens */
+      --status-draft: #587588;
+      --status-upcoming: #f59e0b;
+      --status-active: #06b6d4;
+      --status-confirmed: #10b981;
+      --status-rejected: #f43f5e;
+
+      /* Sidebar & Accents */
+      --nav-active-bg: #13202c;
+      --nav-active-text: #06b6d4;
+      --sidebar-width: 220px;
+    }
+
+    /* Light Theme Override */
+    html.light {
+      --background: #f4f8fa;
+      --card: #ffffff;
+      --muted: #eaf1f4;
+      --border: #d3e2e8;
+
+      --foreground: #082f49;
+      --muted-foreground: #486577;
+      --subtle: #7b97a7;
+      --brand: #0891b2;
+      --brand-hover: #0e7490;
+      --brand-tint: rgba(8, 145, 178, 0.08);
+
+      --status-draft: #7b97a7;
+      --status-upcoming: #d97706;
+      --status-active: #0891b2;
+      --status-confirmed: #059669;
+      --status-rejected: #e11d48;
+
+      --nav-active-bg: #e0edf2;
+      --nav-active-text: #0891b2;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--background);
+      color: var(--foreground);
+      min-height: 100vh;
+      line-height: 1.5;
+      transition: background-color 0.2s ease, color 0.2s ease;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Top Navigation Bar */
+    header {
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background-color: var(--background);
+      z-index: 50;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .brand-logo .dot {
+      color: var(--brand);
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .brand-logo .system-label {
+      color: var(--muted-foreground);
+      font-weight: 400;
+      padding-left: 8px;
+      border-left: 1px solid var(--border);
+    }
+
+    .theme-toggle-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--foreground);
+      transition: all 0.15s ease;
+    }
+
+    .theme-toggle-btn:hover {
+      background-color: var(--muted);
+      border-color: var(--subtle);
+    }
+
+    /* Layout */
+    .app-layout {
+      display: flex;
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 40px;
+      gap: 60px;
+    }
+
+    /* Sidebar Navigation */
+    aside {
+      width: var(--sidebar-width);
+      flex-shrink: 0;
+    }
+
+    .nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      position: sticky;
+      top: 104px;
+    }
+
+    .nav-item {
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-decoration: none;
+      display: block;
+    }
+
+    .nav-item:hover {
+      color: var(--foreground);
+      background-color: var(--muted);
+    }
+
+    .nav-item.active {
+      color: var(--nav-active-text);
+      background-color: var(--nav-active-bg);
+      font-weight: 600;
+    }
+
+    /* Main Content Area */
+    main {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .page-title {
+      font-size: 38px;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      margin-bottom: 8px;
+    }
+
+    .page-subtitle {
+      font-size: 15px;
+      color: var(--muted-foreground);
+      margin-bottom: 48px;
+      max-width: 650px;
+    }
+
+    /* System Section */
+    .system-section {
+      margin-bottom: 64px;
+      scroll-margin-top: 100px;
+    }
+
+    .section-header {
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+
+    .section-desc {
+      font-size: 14px;
+      color: var(--muted-foreground);
+      max-width: 700px;
+      line-height: 1.6;
+    }
+
+    /* Swatches Grid */
+    .swatches-group-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted-foreground);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 28px 0 14px;
+    }
+
+    .swatches-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .swatch-card {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .swatch-box {
+      height: 72px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+      transition: transform 0.15s ease;
+      cursor: pointer;
+    }
+
+    .swatch-box:hover {
+      transform: translateY(-2px);
+    }
+
+    .swatch-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .swatch-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+
+    .swatch-token {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--subtle);
+    }
+
+    /* Type Specs */
+    .type-sample-row {
+      display: flex;
+      align-items: baseline;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .type-meta {
+      width: 180px;
+      flex-shrink: 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--muted-foreground);
+    }
+
+    .type-preview {
+      flex: 1;
+    }
+
+    /* Buttons Row */
+    .components-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      padding: 24px;
+      background-color: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin-bottom: 24px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 18px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      border: none;
+      transition: all 0.15s ease;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background-color: var(--brand);
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--brand-hover);
+    }
+
+    .btn-secondary {
+      background-color: var(--muted);
+      color: var(--foreground);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--border);
+    }
+
+    .btn-danger {
+      background-color: var(--status-rejected);
+      color: #ffffff;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--muted-foreground);
+    }
+
+    .btn-ghost:hover {
+      color: var(--foreground);
+      background-color: var(--muted);
+    }
+
+    /* Fields */
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 260px;
+    }
+
+    .field-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .text-input {
+      width: 100%;
+      height: 42px;
+      padding: 0 14px;
+      background-color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 14px;
+      color: var(--foreground);
+      outline: none;
+      font-family: inherit;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .text-input:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px var(--brand-tint);
+    }
+
+    .code-input {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* Interactive Candidate Card */
+    .ballot-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .candidate-card {
+      background-color: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    .candidate-card:hover {
+      border-color: var(--subtle);
+      transform: translateY(-2px);
+    }
+
+    .candidate-card.selected {
+      border-color: var(--brand);
+      background-color: var(--card);
+      box-shadow: 0 0 0 2px var(--brand), 0 8px 24px -4px var(--brand-tint);
+    }
+
+    .avatar-placeholder {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--muted), var(--border));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--foreground);
+      flex-shrink: 0;
+    }
+
+    .candidate-content {
+      flex: 1;
+    }
+
+    .candidate-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--foreground);
+      margin-bottom: 2px;
+    }
+
+    .candidate-dept {
+      font-size: 13px;
+      color: var(--muted-foreground);
+      margin-bottom: 8px;
+    }
+
+    .candidate-manifesto {
+      font-size: 13px;
+      color: var(--subtle);
+      line-height: 1.4;
+    }
+
+    .selection-ring {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .candidate-card.selected .selection-ring {
+      border-color: var(--brand);
+      background-color: var(--brand);
+    }
+
+    .selection-check {
+      display: none;
+      color: #ffffff;
+      width: 12px;
+      height: 12px;
+    }
+
+    .candidate-card.selected .selection-check {
+      display: block;
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    .badge-active {
+      background-color: rgba(59, 130, 246, 0.15);
+      color: var(--brand);
+    }
+
+    .badge-active .badge-dot {
+      background-color: var(--brand);
+    }
+
+    .badge-confirmed {
+      background-color: rgba(16, 185, 129, 0.15);
+      color: var(--status-confirmed);
+    }
+
+    .badge-confirmed .badge-dot {
+      background-color: var(--status-confirmed);
+    }
+
+    .badge-upcoming {
+      background-color: rgba(245, 158, 11, 0.15);
+      color: var(--status-upcoming);
+    }
+
+    .badge-upcoming .badge-dot {
+      background-color: var(--status-upcoming);
+    }
+
+    .badge-rejected {
+      background-color: rgba(244, 63, 94, 0.15);
+      color: var(--status-rejected);
+    }
+
+    .badge-rejected .badge-dot {
+      background-color: var(--status-rejected);
+    }
+
+    /* Receipt Card Preview */
+    .receipt-card {
+      background-color: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      max-width: 480px;
+    }
+
+    .receipt-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .receipt-title {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .receipt-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+
+    .receipt-label {
+      color: var(--muted-foreground);
+    }
+
+    .receipt-value {
+      font-weight: 500;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .app-layout {
+        flex-direction: column;
+        padding: 24px;
+        gap: 32px;
+      }
+
+      aside {
+        width: 100%;
+      }
+
+      .nav-list {
+        flex-direction: row;
+        overflow-x: auto;
+        position: static;
+      }
+
+      header {
+        padding: 0 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Top Header Navigation -->
+  <header>
+    <div class="brand-logo">
+      <span>ballot<span class="dot">.</span></span>
+      <span class="system-label">Design system</span>
+    </div>
+    <button class="theme-toggle-btn" id="themeToggle" title="Toggle Light/Dark Theme">
+      <svg id="moonIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+      </svg>
+      <svg id="sunIcon" style="display:none;" width="18" height="18" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 2v2" />
+        <path d="M12 20v2" />
+        <path d="m4.93 4.93 1.41 1.41" />
+        <path d="m17.66 17.66 1.41 1.41" />
+        <path d="M2 12h2" />
+        <path d="M20 12h2" />
+        <path d="m6.34 17.66-1.41 1.41" />
+        <path d="m19.07 4.93-1.41 1.41" />
+      </svg>
+    </button>
+  </header>
+
+  <!-- Main App Layout -->
+  <div class="app-layout">
+
+    <!-- Left Navigation Sidebar (Matching Reference Image) -->
+    <aside>
+      <nav class="nav-list">
+        <a href="#colour" class="nav-item active">Colour</a>
+        <a href="#type" class="nav-item">Type</a>
+        <a href="#spacing" class="nav-item">Spacing and radius</a>
+        <a href="#buttons" class="nav-item">Buttons</a>
+        <a href="#fields" class="nav-item">Fields</a>
+        <a href="#controls" class="nav-item">Controls</a>
+        <a href="#status" class="nav-item">Status</a>
+        <a href="#ballot-cards" class="nav-item">Ballot cards</a>
+        <a href="#feedback" class="nav-item">Feedback</a>
+        <a href="#receipt" class="nav-item">Receipt</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content Stream -->
+    <main>
+      <h1 class="page-title">Design system</h1>
+      <p class="page-subtitle">The tokens and components the voting app is built from. Change them here first.</p>
+
+      <!-- 1. Colour Section (Pixel-matched structure to reference) -->
+      <section id="colour" class="system-section">
+        <div class="section-header">
+          <h2 class="section-title">Colour</h2>
+          <p class="section-desc">Deep oceanic ink and crisp ice-slate neutrals carry the interface. Nordic teal and Aegean cyan provide a modern, cryptographic brand focus with zero generic corporate blue.</p>
+        </div>
+
+        <!-- Surfaces -->
+        <div class="swatches-group-title">Surfaces</div>
+        <div class="swatches-grid">
+          <div class="swatch-card">
+            <div class="swatch-box" style="background-color: var(--background);"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Background</span>
+              <span class="swatch-token">--background</span>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div class="swatch-box" style="background-color: var(--card);"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Card</span>
+              <span class="swatch-token">--card</span>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div class="swatch-box" style="background-color: var(--muted);"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Muted</span>
+              <span class="swatch-token">--muted</span>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div class="swatch-box" style="background-color: var(--border);"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Border</span>
+              <span class="swatch-token">--border</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ink -->
+        <div class="swatches-group-title">Ink</div>
+        <div class="swatches-grid">
+          <div class="swatch-card">
+            <div class="swatch-box" style="background-color: var(--foreground);"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Foreground</span>
+              <span class="swatch-token">--foreground</span>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div class="swatch-box" style="background-color: var(--muted-foreground);"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Muted text</span>
+              <span class="swatch-token">--muted-foreground</span>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div class="swatch-box" style="background-color: var(--subtle);"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Subtle</span>
+              <span class="swatch-token">--subtle</span>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div class="swatch-box" style="background-color: var(--brand);"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Brand</span>
+              <span class="swatch-token">--brand</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Status -->
+        <div class="swatches-group-title">Status</div>
+        <div class="swatches-grid">
+          <div class="swatch-card">
+            <div class="swatch-box" style="background-color: var(--status-draft);"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Draft</span>
+              <span class="swatch-token">--status-draft</span>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div class="swatch-box" style="background-color: var(--status-upcoming);"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Scheduled</span>
+              <span class="swatch-token">--status-upcoming</span>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div class="swatch-box" style="background-color: var(--status-active);"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Active / Open</span>
+              <span class="swatch-token">--status-active</span>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div class="swatch-box" style="background-color: var(--status-confirmed);"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Confirmed</span>
+              <span class="swatch-token">--status-confirmed</span>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div class="swatch-box" style="background-color: var(--status-rejected);"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Rejected</span>
+              <span class="swatch-token">--status-rejected</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Typography Section -->
+      <section id="type" class="system-section">
+        <div class="section-header">
+          <h2 class="section-title">Type</h2>
+          <p class="section-desc">Inter is used for high-clarity UI. JetBrains Mono is paired for codes, hashes, and
+            timestamps.</p>
+        </div>
+
+        <div class="type-sample-row">
+          <div class="type-meta">Display / 32px 700</div>
+          <div class="type-preview" style="font-size: 32px; font-weight: 700; letter-spacing: -0.02em;">Student Union
+            Executive Election</div>
+        </div>
+        <div class="type-sample-row">
+          <div class="type-meta">Heading 1 / 24px 600</div>
+          <div class="type-preview" style="font-size: 24px; font-weight: 600;">Office of the President</div>
+        </div>
+        <div class="type-sample-row">
+          <div class="type-meta">Heading 2 / 20px 600</div>
+          <div class="type-preview" style="font-size: 20px; font-weight: 600;">Faculty Senate Representatives</div>
+        </div>
+        <div class="type-sample-row">
+          <div class="type-meta">Body / 15px 400</div>
+          <div class="type-preview" style="font-size: 15px; color: var(--muted-foreground);">Eligible students must hold
+            an active institutional email ending in @oauife.edu.ng to cast their ballot.</div>
+        </div>
+        <div class="type-sample-row">
+          <div class="type-meta">Mono Code / 13px 500</div>
+          <div class="type-preview"
+            style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--brand);">
+            ELEC-OAU-2026-ENG-4921</div>
+        </div>
+      </section>
+
+      <!-- 3. Spacing and Radius -->
+      <section id="spacing" class="system-section">
+        <div class="section-header">
+          <h2 class="section-title">Spacing and radius</h2>
+          <p class="section-desc">Consistent structural geometry builds visual rhythm and clear click affordance.</p>
+        </div>
+
+        <div class="components-row" style="gap: 24px;">
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+            <div
+              style="width: 56px; height: 56px; background: var(--muted); border: 1px solid var(--border); border-radius: 6px;">
+            </div>
+            <span style="font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--muted-foreground);">6px
+              (sm)</span>
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+            <div
+              style="width: 56px; height: 56px; background: var(--muted); border: 1px solid var(--border); border-radius: 10px;">
+            </div>
+            <span
+              style="font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--muted-foreground);">10px
+              (md)</span>
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+            <div
+              style="width: 56px; height: 56px; background: var(--muted); border: 1px solid var(--border); border-radius: 16px;">
+            </div>
+            <span
+              style="font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--muted-foreground);">16px
+              (lg)</span>
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+            <div
+              style="width: 56px; height: 56px; background: var(--muted); border: 1px solid var(--border); border-radius: 50%;">
+            </div>
+            <span
+              style="font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--muted-foreground);">Full
+              (pills)</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Buttons Section -->
+      <section id="buttons" class="system-section">
+        <div class="section-header">
+          <h2 class="section-title">Buttons</h2>
+          <p class="section-desc">Primary actions guide election progression. Secondary and danger actions provide
+            explicit safe boundaries.</p>
+        </div>
+
+        <div class="components-row">
+          <button class="btn btn-primary">Cast Ballot →</button>
+          <button class="btn btn-secondary">Review Selections</button>
+          <button class="btn btn-ghost">Cancel</button>
+          <button class="btn btn-danger">End Election Early</button>
+        </div>
+      </section>
+
+      <!-- 5. Fields Section -->
+      <section id="fields" class="system-section">
+        <div class="section-header">
+          <h2 class="section-title">Fields</h2>
+          <p class="section-desc">Inputs for entering unique election codes and verifying institutional accounts.</p>
+        </div>
+
+        <div class="components-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));">
+          <div class="field-group">
+            <label class="field-label">Election Code</label>
+            <div class="input-wrapper">
+              <input type="text" class="text-input code-input" value="OAU-ENG-24" placeholder="e.g. VOTE-8491">
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Institutional Email</label>
+            <div class="input-wrapper">
+              <input type="email" class="text-input" value="a.adebayo@oauife.edu.ng" placeholder="student@school.edu">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. Controls Section -->
+      <section id="controls" class="system-section">
+        <div class="section-header">
+          <h2 class="section-title">Controls</h2>
+          <p class="section-desc">Radio selectors for single-choice positions and checkboxes for multi-seat
+            representation.</p>
+        </div>
+
+        <div class="components-row" style="gap: 32px;">
+          <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 14px;">
+            <input type="radio" name="example-radio" checked
+              style="accent-color: var(--brand); width: 18px; height: 18px;">
+            Single-Choice Option (Radio)
+          </label>
+          <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 14px;">
+            <input type="checkbox" checked style="accent-color: var(--brand); width: 18px; height: 18px;">
+            Multiple-Choice Option (Select up to 3)
+          </label>
+        </div>
+      </section>
+
+      <!-- 7. Status Badges -->
+      <section id="status" class="system-section">
+        <div class="section-header">
+          <h2 class="section-title">Status</h2>
+          <p class="section-desc">Badges indicate election lifecycle stages and instant voter domain eligibility
+            validation.</p>
+        </div>
+
+        <div class="components-row">
+          <span class="badge badge-active"><span class="badge-dot"></span> Voting Active</span>
+          <span class="badge badge-confirmed"><span class="badge-dot"></span> Ballot Verified & Counted</span>
+          <span class="badge badge-upcoming"><span class="badge-dot"></span> Opens in 2 Hours</span>
+          <span class="badge badge-rejected"><span class="badge-dot"></span> Domain @gmail.com Denied</span>
+        </div>
+      </section>
+
+      <!-- 8. Ballot Cards (Interactive Showcase) -->
+      <section id="ballot-cards" class="system-section">
+        <div class="section-header">
+          <h2 class="section-title">Ballot cards</h2>
+          <p class="section-desc">Interactive voting cards. Click on any card below to test the active selection state
+            and civic blue glow.</p>
+        </div>
+
+        <div class="ballot-grid">
+          <!-- Card 1 -->
+          <div class="candidate-card selected" onclick="toggleSelect(this)">
+            <div class="avatar-placeholder">AA</div>
+            <div class="candidate-content">
+              <div class="candidate-name">Adebayo Adeleke</div>
+              <div class="candidate-dept">Faculty of Technology · Computer Science</div>
+              <div class="candidate-manifesto">"Fostering transparent campus governance, 24/7 library power, and open
+                union accounting."</div>
+            </div>
+            <div class="selection-ring">
+              <svg class="selection-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="candidate-card" onclick="toggleSelect(this)">
+            <div class="avatar-placeholder">CO</div>
+            <div class="candidate-content">
+              <div class="candidate-name">Chioma Okonkwo</div>
+              <div class="candidate-dept">Faculty of Law · Public Jurisprudence</div>
+              <div class="candidate-manifesto">"Advocating student rights, affordable campus transit, and digital
+                lecture recording access."</div>
+            </div>
+            <div class="selection-ring">
+              <svg class="selection-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 9. Feedback Banners -->
+      <section id="feedback" class="system-section">
+        <div class="section-header">
+          <h2 class="section-title">Feedback</h2>
+          <p class="section-desc">Explicit alert banners for domain rejection and election status notices.</p>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <!-- Error Alert -->
+          <div
+            style="background-color: rgba(244, 63, 94, 0.1); border: 1px solid var(--status-rejected); border-radius: 12px; padding: 16px; display: flex; align-items: center; gap: 14px;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--status-rejected)"
+              stroke-width="2">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+            <div style="font-size: 14px;">
+              <strong style="color: var(--status-rejected);">Access Denied:</strong> Your email domain
+              (<code>@gmail.com</code>) is not eligible. This election is restricted to <code>@oauife.edu.ng</code>.
+            </div>
+          </div>
+
+          <!-- Success Alert -->
+          <div
+            style="background-color: rgba(16, 185, 129, 0.1); border: 1px solid var(--status-confirmed); border-radius: 12px; padding: 16px; display: flex; align-items: center; gap: 14px;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--status-confirmed)"
+              stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+              <polyline points="22 4 12 14.01 9 11.01" />
+            </svg>
+            <div style="font-size: 14px;">
+              <strong style="color: var(--status-confirmed);">Domain Verified:</strong> Welcome, registered student of
+              Obafemi Awolowo University. Your ballot is active.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 10. Receipt Preview -->
+      <section id="receipt" class="system-section">
+        <div class="section-header">
+          <h2 class="section-title">Receipt</h2>
+          <p class="section-desc">The cryptographic voting receipt given to the voter immediately after casting their
+            ballot.</p>
+        </div>
+
+        <div class="receipt-card">
+          <div class="receipt-header">
+            <div>
+              <div class="receipt-title">Certified Voting Receipt</div>
+              <div style="font-size: 12px; color: var(--muted-foreground);">Official Record · Ballot Platform</div>
+            </div>
+            <span class="badge badge-confirmed">Recorded</span>
+          </div>
+
+          <div class="receipt-row">
+            <span class="receipt-label">Election</span>
+            <span class="receipt-value">OAU-SUG-2026</span>
+          </div>
+          <div class="receipt-row">
+            <span class="receipt-label">Voter Domain</span>
+            <span class="receipt-value">@oauife.edu.ng</span>
+          </div>
+          <div class="receipt-row">
+            <span class="receipt-label">Timestamp</span>
+            <span class="receipt-value">2026-11-20 10:55:04 UTC</span>
+          </div>
+          <div class="receipt-row">
+            <span class="receipt-label">Cryptographic Hash</span>
+            <span class="receipt-value" style="color: var(--brand);">8f94a2b1...c78e</span>
+          </div>
+
+          <div
+            style="margin-top: 16px; padding-top: 12px; border-top: 1px dashed var(--border); font-size: 12px; color: var(--subtle); text-align: center;">
+            Individual ballot choices are decoupled to guarantee secret voting.
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    // Theme Switcher (Light / Dark Mode)
+    const themeBtn = document.getElementById('themeToggle');
+    const moonIcon = document.getElementById('moonIcon');
+    const sunIcon = document.getElementById('sunIcon');
+    const html = document.documentElement;
+
+    themeBtn.addEventListener('click', () => {
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        html.classList.add('light');
+        moonIcon.style.display = 'none';
+        sunIcon.style.display = 'block';
+      } else {
+        html.classList.remove('light');
+        html.classList.add('dark');
+        moonIcon.style.display = 'block';
+        sunIcon.style.display = 'none';
+      }
+    });
+
+    // Interactive Candidate Card Selection
+    function toggleSelect(clickedCard) {
+      const allCards = document.querySelectorAll('.candidate-card');
+      allCards.forEach(card => card.classList.remove('selected'));
+      clickedCard.classList.add('selected');
+    }
+
+    // Smooth Scroll Spy for Sidebar Navigation
+    const navItems = document.querySelectorAll('.nav-item');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      const sections = document.querySelectorAll('.system-section');
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (pageYOffset >= sectionTop - 140) {
+          current = section.getAttribute('id');
+        }
+      });
+      navItems.forEach(item => {
+        item.classList.remove('active');
+        if (item.getAttribute('href') === '#' + current) {
+          item.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
