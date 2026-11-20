@@ -64,9 +64,9 @@ export function Navbar() {
         <div className="hidden md:flex items-center gap-3 z-10">
           <ThemeToggle />
 
-          <button type="button" className="btn btn-primary h-9 px-4 text-xs">
+          <Link href="/login" className="btn btn-primary h-9 px-4 text-xs">
             Sign In
-          </button>
+          </Link>
         </div>
 
         {/* Mobile Header Controls: ThemeToggle + Hamburger */}
@@ -140,12 +140,13 @@ export function Navbar() {
             </nav>
 
             <div className="pt-2">
-              <button
-                type="button"
+              <Link
+                href="/login"
+                onClick={() => setMobileMenuOpen(false)}
                 className="btn btn-primary w-full justify-center h-10 text-xs"
               >
                 Sign In
-              </button>
+              </Link>
             </div>
           </div>
         </>
