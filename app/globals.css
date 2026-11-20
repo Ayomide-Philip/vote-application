@@ -249,7 +249,8 @@ h6,
 
 /* Theme Toggle Button - Transparent Background & Amber Accent */
 .theme-toggle-btn {
-  background: transparent;
+  background: transparent !important;
+  background-color: transparent !important;
   border: 1.5px solid var(--border);
   border-radius: 0px;
   width: 38px;
@@ -263,7 +264,8 @@ h6,
 }
 
 .theme-toggle-btn:hover {
-  background: transparent;
+  background: transparent !important;
+  background-color: transparent !important;
   border-color: var(--brand);
   color: var(--brand);
 }
