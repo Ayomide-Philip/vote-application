@@ -86,7 +86,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const newUser = await pool.query(
+    await pool.query(
       "INSERT INTO users (fullname, email, password,domain) VALUES ($1, $2,$3,$4) RETURNING id",
       [
         fullname?.trim(),
@@ -96,11 +96,15 @@ export async function POST(req: NextRequest) {
       ],
     );
 
-    return NextResponse.json({
-      success: true,
-      message: "Sucessfully created an account",
-      id: newUser.rows[0].id,
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        message: "Sucessfully created an account",
+      },
+      {
+        status: 200,
+      },
+    );
   } catch (err) {
     console.log(err);
     return NextResponse.json(

@@ -109,7 +109,7 @@ export default function LoginPage() {
         </div>
 
         {error && (
-          <div className="mb-5 p-3.5 bg-status-rejected/10 border border-status-rejected/30 text-xs font-mono text-status-rejected flex items-center gap-2 text-left">
+          <div className="mb-5 p-3.5 bg-status-rejected/10 border border-status-rejected/30 text-xs font-sans font-medium text-status-rejected flex items-center gap-2 text-left">
             <InformationCircleIcon size={14} className="shrink-0" />
             <span>{error}</span>
           </div>

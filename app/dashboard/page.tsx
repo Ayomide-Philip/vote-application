@@ -74,6 +74,37 @@ const ELECTIONS_DATA: ElectionCardItem[] = [
   },
 ];
 
+const STATS_DATA = [
+  {
+    label: "Total Elections",
+    value: "12",
+    pill: "↗ +2",
+    isPositive: true,
+    icon: CheckmarkCircle02Icon,
+  },
+  {
+    label: "Total Ballots Cast",
+    value: "3,273",
+    pill: "↗ +14%",
+    isPositive: true,
+    icon: Shield01Icon,
+  },
+  {
+    label: "Avg Turnout Rate",
+    value: "78.4%",
+    pill: "↗ +3.2%",
+    isPositive: true,
+    icon: Time02Icon,
+  },
+  {
+    label: "Active Elections",
+    value: "09",
+    pill: "3 concluded",
+    isPositive: false,
+    icon: CheckListIcon,
+  },
+];
+
 export default function DashboardPage() {
   const [filter, setFilter] = useState<"All" | "Active" | "Concluded">("All");
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
@@ -120,81 +151,39 @@ export default function DashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-card border-2 border-border p-5 text-left flex flex-col justify-between relative hover:border-border/80 transition-colors">
-          <div className="flex items-center justify-between text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <CheckmarkCircle02Icon size={16} className="text-brand" />
-              <span className="text-xs font-heading font-bold uppercase tracking-wider text-muted-foreground">
-                Total Elections
-              </span>
+        {STATS_DATA.map((stat) => {
+          const Icon = stat.icon;
+          return (
+            <div
+              key={stat.label}
+              className="bg-card border border-border/80 hover:border-border p-5 text-left flex flex-col justify-between transition-colors shadow-2xs"
+            >
+              <div className="flex items-center gap-2.5">
+                <div className="w-7 h-7 bg-muted/50 border border-border/60 flex items-center justify-center text-brand shrink-0">
+                  <Icon size={14} />
+                </div>
+                <span className="text-xs font-heading font-medium text-muted-foreground">
+                  {stat.label}
+                </span>
+              </div>
+
+              <div className="mt-5 flex items-baseline justify-between">
+                <span className="text-3xl font-heading font-semibold tracking-tight text-foreground">
+                  {stat.value}
+                </span>
+                <span
+                  className={`px-2 py-0.5 text-[11px] font-mono font-medium border ${
+                    stat.isPositive
+                      ? "bg-status-confirmed/10 border-status-confirmed/30 text-status-confirmed"
+                      : "bg-muted border-border text-muted-foreground"
+                  }`}
+                >
+                  {stat.pill}
+                </span>
+              </div>
             </div>
-            <MoreHorizontalIcon size={16} className="text-subtle" />
-          </div>
-
-          <div className="mt-4 flex items-baseline justify-between">
-            <span className="text-3xl font-medium font-heading text-foreground">12</span>
-            <span className="px-2 py-0.5 bg-status-confirmed/10 border border-status-confirmed/30 text-status-confirmed font-mono text-[11px] font-semibold">
-              ↗ +2
-            </span>
-          </div>
-        </div>
-
-        <div className="bg-card border-2 border-border p-5 text-left flex flex-col justify-between relative hover:border-border/80 transition-colors">
-          <div className="flex items-center justify-between text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <Shield01Icon size={16} className="text-brand" />
-              <span className="text-xs font-heading font-bold uppercase tracking-wider text-muted-foreground">
-                Total Ballots Cast
-              </span>
-            </div>
-            <MoreHorizontalIcon size={16} className="text-subtle" />
-          </div>
-
-          <div className="mt-4 flex items-baseline justify-between">
-            <span className="text-3xl font-medium font-heading text-foreground">3,273</span>
-            <span className="px-2 py-0.5 bg-status-confirmed/10 border border-status-confirmed/30 text-status-confirmed font-mono text-[11px] font-semibold">
-              ↗ +14%
-            </span>
-          </div>
-        </div>
-
-        <div className="bg-card border-2 border-border p-5 text-left flex flex-col justify-between relative hover:border-border/80 transition-colors">
-          <div className="flex items-center justify-between text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <Time02Icon size={16} className="text-brand" />
-              <span className="text-xs font-heading font-bold uppercase tracking-wider text-muted-foreground">
-                Avg Turnout Rate
-              </span>
-            </div>
-            <MoreHorizontalIcon size={16} className="text-subtle" />
-          </div>
-
-          <div className="mt-4 flex items-baseline justify-between">
-            <span className="text-3xl font-medium font-heading text-foreground">78.4%</span>
-            <span className="px-2 py-0.5 bg-status-confirmed/10 border border-status-confirmed/30 text-status-confirmed font-mono text-[11px] font-semibold">
-              ↗ +3.2%
-            </span>
-          </div>
-        </div>
-
-        <div className="bg-card border-2 border-border p-5 text-left flex flex-col justify-between relative hover:border-border/80 transition-colors">
-          <div className="flex items-center justify-between text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <CheckListIcon size={16} className="text-brand" />
-              <span className="text-xs font-heading font-bold uppercase tracking-wider text-muted-foreground">
-                Active Elections
-              </span>
-            </div>
-            <MoreHorizontalIcon size={16} className="text-subtle" />
-          </div>
-
-          <div className="mt-4 flex items-baseline justify-between">
-            <span className="text-3xl font-medium font-heading text-foreground">09</span>
-            <span className="px-2 py-0.5 bg-muted border border-border text-muted-foreground font-mono text-[11px]">
-              3 concluded
-            </span>
-          </div>
-        </div>
+          );
+        })}
       </div>
 
       <div className="space-y-5">

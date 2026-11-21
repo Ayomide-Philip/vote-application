@@ -15,7 +15,7 @@ import {
   ViewOffSlashIcon,
 } from "hugeicons-react";
 
-function GoogleIcon({ className = "w-4 h-4" }: { className?: string }) {
+export function GoogleIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
     <svg
       className={className}
@@ -55,8 +55,8 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
 
-  // Extract domain for real-time institutional domain recognition
   const emailDomain = email.includes("@")
     ? email.split("@")[1].toLowerCase().trim()
     : "";
@@ -73,28 +73,78 @@ export default function RegisterPage() {
     emailDomain.includes(".ac.") ||
     emailDomain.endsWith(".edu.ng");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!fullName || !email || !password || !confirmPassword) {
+    const trimmedName = fullName.trim();
+    const trimmedEmail = email.trim().toLowerCase();
+
+    if (!trimmedName || !trimmedEmail || !password || !confirmPassword) {
       setError("Please fill in all required registration fields.");
       return;
     }
+
+    if (
+      trimmedName.split(" ").length < 2 ||
+      trimmedName.split(" ").some((n) => n.length < 2)
+    ) {
+      setError("Full name must include both first and last name.");
+      return;
+    }
+
+    if (trimmedName.length < 5) {
+      setError("Full name must be at least 5 characters long.");
+      return;
+    }
+
     if (password.length < 8) {
       setError("Password must contain at least 8 characters.");
       return;
     }
+
     if (password !== confirmPassword) {
       setError("Passwords do not match. Please re-enter.");
       return;
     }
+
     setError(null);
+    setSuccess(null);
     setLoading(true);
 
-    // Simulate account registration
-    setTimeout(() => {
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          fullname: trimmedName,
+          email: trimmedEmail,
+          password,
+        }),
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        setError(
+          data.error || "An error occurred while creating your account.",
+        );
+        setLoading(false);
+        return;
+      }
+
+      setSuccess("Account successfully created. Redirecting to login...");
+      setFullName("");
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
+      setTimeout(() => {
+        router.push("/login?registered=true");
+      }, 1000);
+    } catch {
+      setError("Network error. Please check your connection and try again.");
       setLoading(false);
-      router.push("/#how-it-works");
-    }, 700);
+    }
   };
 
   const handleGoogleSignUp = () => {
@@ -122,13 +172,24 @@ export default function RegisterPage() {
         </div>
 
         {error && (
-          <div className="mb-5 p-3.5 bg-status-rejected/10 border border-status-rejected/30 text-xs font-mono text-status-rejected flex items-center gap-2 text-left">
+          <div className="mb-5 p-3.5 bg-status-rejected/10 border border-status-rejected/30 text-xs font-sans font-medium text-status-rejected flex items-center gap-2 text-left">
             <InformationCircleIcon size={14} className="shrink-0" />
             <span>{error}</span>
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4 text-left">
+        {success && (
+          <div className="mb-5 p-3.5 bg-status-confirmed/10 border border-status-confirmed/30 text-xs font-sans font-medium text-status-confirmed flex items-center gap-2 text-left">
+            <CheckmarkCircle02Icon size={14} className="shrink-0" />
+            <span>{success}</span>
+          </div>
+        )}
+
+        <form
+          onSubmit={handleSubmit}
+          autoComplete="off"
+          className="space-y-4 text-left"
+        >
           <div>
             <label
               htmlFor="fullName"
@@ -184,9 +245,8 @@ export default function RegisterPage() {
               />
             </div>
 
-            {/* Real-Time Domain Detection Feedback */}
             {emailDomain && (
-              <div className="mt-2 text-[11px] font-mono">
+              <div className="mt-2 text-[11px] font-medium">
                 {isPersonalDomain ? (
                   <span className="text-brand flex items-center gap-1.5">
                     <InformationCircleIcon size={13} className="shrink-0" />
@@ -297,14 +357,14 @@ export default function RegisterPage() {
             </div>
             {/* Password match indicator */}
             {confirmPassword && (
-              <div className="mt-1.5 text-[11px] font-mono">
+              <div className="mt-1.5 text-[11px] font-sans">
                 {password === confirmPassword ? (
                   <span className="text-status-confirmed flex items-center gap-1 font-medium">
                     <CheckmarkCircle02Icon size={12} />
                     Passwords match
                   </span>
                 ) : (
-                  <span className="text-status-rejected">
+                  <span className="text-status-rejected font-medium">
                     Passwords do not match
                   </span>
                 )}
