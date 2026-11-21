@@ -78,8 +78,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.domain = (user as { domain?: string }).domain as string;
         token.isVerified = (user as { isVerified?: boolean })
           .isVerified as boolean;
+        token.picture = (user as { image?: string }).image as string;
       }
-      token.picture = (user as { image?: string }).image as string;
       return token;
     },
     async session({ session, token }) {

@@ -1,15 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { signIn } from "next-auth/react";
 import {
   ArrowRight01Icon,
   CheckmarkCircle02Icon,
   InformationCircleIcon,
   LockKeyIcon,
   Mail01Icon,
-  Shield01Icon,
   ViewIcon,
   ViewOffSlashIcon,
 } from "hugeicons-react";
@@ -43,8 +43,11 @@ function GoogleIcon({ className = "w-4 h-4" }: { className?: string }) {
   );
 }
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const registered = searchParams.get("registered") === "true";
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -52,48 +55,63 @@ export default function LoginPage() {
   const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Extract domain for real-time institutional domain recognition
-  const emailDomain = email.includes("@")
-    ? email.split("@")[1].toLowerCase().trim()
-    : "";
-  const isPersonalDomain = [
-    "gmail.com",
-    "yahoo.com",
-    "hotmail.com",
-    "outlook.com",
-    "icloud.com",
-    "live.com",
-  ].includes(emailDomain);
-  const isEduDomain =
-    emailDomain.includes(".edu") ||
-    emailDomain.includes(".ac.") ||
-    emailDomain.endsWith(".edu.ng");
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !password) {
+    const trimmedEmail = email.trim().toLowerCase();
+
+    if (!trimmedEmail || !password) {
       setError("Please enter both your institutional email and password.");
       return;
     }
+
     setError(null);
     setLoading(true);
 
-    // Simulate login verification
-    setTimeout(() => {
+    try {
+      const res = await signIn("credentials", {
+        email: trimmedEmail,
+        password,
+        redirect: false,
+      });
+
+      if (res?.error) {
+        if (
+          res.error === "google_credentials_error" ||
+          res.error.toLowerCase().includes("google")
+        ) {
+          setError(
+            "This account was created with Google. Please click 'Continue with Google'.",
+          );
+        } else if (res.error === "empty_credentials") {
+          setError("Please enter both your institutional email and password.");
+        } else {
+          setError(
+            "Invalid institutional email or password. Please try again.",
+          );
+        }
+        setLoading(false);
+        return;
+      }
+
+      router.push("/dashboard");
+      router.refresh();
+    } catch {
+      setError(
+        "An unexpected error occurred during sign in. Please try again.",
+      );
       setLoading(false);
-      router.push("/#how-it-works");
-    }, 600);
+    }
   };
 
   const handleGoogleSignIn = () => {
     setError(null);
     setGoogleLoading(true);
-
-    // Simulate Google OAuth flow
-    setTimeout(() => {
+    signIn("google", { callbackUrl: "/dashboard" }).catch(() => {
+      setError(
+        "Google Sign-In is not configured yet. Please sign in with your email and password.",
+      );
       setGoogleLoading(false);
-      router.push("/#how-it-works");
-    }, 750);
+    });
   };
 
   return (
@@ -109,8 +127,18 @@ export default function LoginPage() {
           </p>
         </div>
 
+        {registered && !error && (
+          <div className="mb-5 p-3.5 bg-status-confirmed/10 border border-status-confirmed/30 text-xs font-sans font-medium text-status-confirmed flex items-center gap-2 text-left">
+            <CheckmarkCircle02Icon size={14} className="shrink-0" />
+            <span>
+              Account created successfully. Please sign in with your
+              credentials.
+            </span>
+          </div>
+        )}
+
         {error && (
-          <div className="mb-5 p-3.5 bg-status-rejected/10 border border-status-rejected/30 text-xs font-sans font-medium text-status-rejected flex items-center gap-2 text-left">
+          <div className="mb-5 p-3.5 bg-status-rejected/10 border border-status-rejected/30 text-xs  font-medium text-status-rejected flex items-center gap-2 text-left">
             <InformationCircleIcon size={14} className="shrink-0" />
             <span>{error}</span>
           </div>
@@ -143,28 +171,6 @@ export default function LoginPage() {
                 className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none"
               />
             </div>
-
-            {emailDomain && (
-              <div className="mt-2 text-[11px] font-mono">
-                {isPersonalDomain ? (
-                  <span className="text-brand flex items-center gap-1.5">
-                    <InformationCircleIcon size={13} className="shrink-0" />
-                    Personal email: Allowed for open ballots; restricted campus
-                    elections require an institutional domain.
-                  </span>
-                ) : isEduDomain ? (
-                  <span className="text-status-confirmed flex items-center gap-1.5 font-medium">
-                    <CheckmarkCircle02Icon size={13} className="shrink-0" />
-                    Verified Campus Domain: @{emailDomain}
-                  </span>
-                ) : (
-                  <span className="text-muted-foreground flex items-center gap-1.5">
-                    <Shield01Icon size={13} className="text-brand shrink-0" />
-                    Recognized Domain: @{emailDomain}
-                  </span>
-                )}
-              </div>
-            )}
           </div>
 
           <div>
@@ -176,8 +182,8 @@ export default function LoginPage() {
                 Password
               </label>
               <Link
-                href="/forgot-password"
-                className="text-brand hover:underline font-mono text-[11px]"
+                href="/login"
+                className="text-[11px] font-mono text-muted-foreground hover:text-brand transition-colors"
               >
                 Forgot password?
               </Link>
@@ -228,7 +234,7 @@ export default function LoginPage() {
                 </span>
               ) : (
                 <>
-                  <span>Sign In to Account</span>
+                  <span>Sign In to Ballot</span>
                   <ArrowRight01Icon size={16} className="btn-arrow-icon" />
                 </>
               )}
@@ -251,7 +257,7 @@ export default function LoginPage() {
             onClick={handleGoogleSignIn}
             disabled={googleLoading || loading}
             className="btn btn-secondary w-full h-12 flex items-center justify-center gap-3 text-xs font-bold uppercase tracking-wider transition-all disabled:opacity-60"
-            aria-label="Continue with Google or Gmail"
+            aria-label="Sign in with Google"
           >
             {googleLoading ? (
               <span className="flex items-center gap-2 font-mono text-[11px]">
@@ -269,14 +275,28 @@ export default function LoginPage() {
 
         <div className="mt-6 pt-5 border-t border-border/60 text-center text-xs text-muted-foreground">
           <span>Don&apos;t have an institutional account? </span>
-          <a
+          <Link
             href="/register"
             className="text-brand font-medium hover:underline"
           >
             Register here
-          </a>
+          </Link>
         </div>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="w-full max-w-md mx-auto py-20 text-center text-xs font-sans text-muted-foreground">
+          Loading sign in...
+        </div>
+      }
+    >
+      <LoginForm />
+    </Suspense>
   );
 }
