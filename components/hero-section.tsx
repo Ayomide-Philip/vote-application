@@ -9,7 +9,8 @@ export function HeroSection() {
       </h1>
 
       <p className="text-muted-foreground text-base sm:text-lg lg:text-xl font-normal leading-relaxed mt-6 max-w-2xl mx-auto">
-        Create an account with your school email to organize clean campus elections and cast verified ballots.
+        Create an account with your school email to organize clean campus
+        elections and cast verified ballots.
       </p>
 
       <div className="flex flex-wrap items-center justify-center gap-4 mt-8 sm:mt-10">
