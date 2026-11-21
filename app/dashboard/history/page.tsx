@@ -62,7 +62,6 @@ export default function VotingHistoryPage() {
 
   return (
     <div className="space-y-8">
-      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-left pb-6 border-b-2 border-border">
         <div>
           <h1 className="text-2xl sm:text-3xl font-medium font-heading tracking-tight text-foreground">
@@ -82,7 +81,6 @@ export default function VotingHistoryPage() {
         </Link>
       </div>
 
-      {/* Receipts List */}
       <div className="space-y-4">
         {VOTING_HISTORY.map((record) => (
           <div
@@ -132,7 +130,6 @@ export default function VotingHistoryPage() {
         ))}
       </div>
 
-      {/* Cryptographic Receipt Slip Modal */}
       {selectedReceipt && (
         <div
           className="fixed inset-0 bg-black/75 z-50 flex items-center justify-center p-4 animate-in fade-in duration-150"
@@ -153,54 +150,86 @@ export default function VotingHistoryPage() {
             </button>
 
             <div className="mb-6 pb-4 border-b-2 border-dashed border-border">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="px-2 py-0.5 bg-brand/10 border border-brand/30 text-brand font-mono text-[10px] uppercase font-bold tracking-wider">
+                  Official Cryptographic Receipt
+                </span>
+                <span className="font-mono text-xs text-muted-foreground">
+                  {selectedReceipt.electionCode}
+                </span>
+              </div>
               <h2 className="text-xl sm:text-2xl font-medium font-heading text-foreground">
-                Proof of Submission
+                {selectedReceipt.electionTitle}
               </h2>
-              <p className="text-muted-foreground text-xs font-mono mt-1">
-                Receipt Serial: {selectedReceipt.receiptHash}
-              </p>
             </div>
 
-            <div className="space-y-3 font-mono text-xs border-b-2 border-dashed border-border pb-5">
-              <div className="flex justify-between py-1.5 border-b border-border/40">
-                <span className="text-muted-foreground">Election Code:</span>
-                <span className="font-bold text-foreground">{selectedReceipt.electionCode}</span>
+            <div className="space-y-4 font-mono text-xs border-b-2 border-dashed border-border pb-6">
+              <div>
+                <span className="text-muted-foreground block text-[10px] uppercase tracking-wider mb-1">
+                  Ballot Serial Hash
+                </span>
+                <div className="flex items-center justify-between p-2.5 bg-muted/50 border border-border">
+                  <span className="text-brand truncate mr-2 font-mono text-xs">
+                    {selectedReceipt.receiptHash}
+                  </span>
+                  <button
+                    onClick={() => handleCopy(selectedReceipt.receiptHash)}
+                    className="p-1 hover:text-brand transition-colors shrink-0"
+                    title="Copy Receipt Hash"
+                  >
+                    <Copy01Icon size={14} />
+                  </button>
+                </div>
               </div>
-              <div className="flex justify-between py-1.5 border-b border-border/40">
-                <span className="text-muted-foreground">Timestamp:</span>
-                <span className="text-foreground">{selectedReceipt.votedAt}</span>
+
+              <div>
+                <span className="text-muted-foreground block text-[10px] uppercase tracking-wider mb-1">
+                  Merkle Tree Root Commitment
+                </span>
+                <div className="flex items-center justify-between p-2.5 bg-muted/50 border border-border">
+                  <span className="text-foreground truncate mr-2 font-mono text-xs">
+                    {selectedReceipt.merkleRoot}
+                  </span>
+                  <button
+                    onClick={() => handleCopy(selectedReceipt.merkleRoot)}
+                    className="p-1 hover:text-brand transition-colors shrink-0"
+                    title="Copy Merkle Root"
+                  >
+                    <Copy01Icon size={14} />
+                  </button>
+                </div>
               </div>
-              <div className="flex justify-between py-1.5 border-b border-border/40">
-                <span className="text-muted-foreground">Voter Affiliation:</span>
-                <span className="text-status-confirmed font-semibold">@oauife.edu.ng (Verified)</span>
-              </div>
-              <div className="flex justify-between py-1.5 border-b border-border/40">
-                <span className="text-muted-foreground">Merkle Root:</span>
-                <span className="text-foreground">{selectedReceipt.merkleRoot}</span>
-              </div>
-              <div className="flex justify-between py-1.5">
-                <span className="text-muted-foreground">Audit Status:</span>
-                <span className="text-status-confirmed font-semibold">VERIFIED &amp; COUNTED</span>
+
+              <div className="grid grid-cols-2 gap-3 pt-1">
+                <div>
+                  <span className="text-muted-foreground block text-[10px] uppercase tracking-wider">
+                    Timestamp
+                  </span>
+                  <span className="text-foreground font-semibold">
+                    {selectedReceipt.votedAt}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-muted-foreground block text-[10px] uppercase tracking-wider">
+                    Proof Status
+                  </span>
+                  <span className="text-status-confirmed font-semibold uppercase">
+                    Mathematical Proof Valid
+                  </span>
+                </div>
               </div>
             </div>
 
-            <div className="mt-4 p-3 bg-muted/40 border border-border text-[11px] font-mono text-muted-foreground leading-relaxed">
-              <strong>Cryptographic Decoupling:</strong> This receipt proves your ballot was committed into the immutable tally without revealing your candidate selections.
-            </div>
+            <div className="mt-6 flex items-center justify-between">
+              <span className="text-[11px] font-mono text-muted-foreground">
+                {copiedCode ? "Hash copied to clipboard!" : "Zero voter identity linkage."}
+              </span>
 
-            <div className="mt-6 flex items-center justify-end gap-3">
-              <button
-                onClick={() => handleCopy(selectedReceipt.receiptHash)}
-                className="btn btn-secondary h-10 px-4 text-xs font-bold flex items-center gap-1.5"
-              >
-                <Copy01Icon size={14} />
-                <span>{copiedCode === selectedReceipt.receiptHash ? "Copied!" : "Copy Receipt Hash"}</span>
-              </button>
               <button
                 onClick={() => setSelectedReceipt(null)}
                 className="btn btn-primary h-10 px-5 text-xs font-bold"
               >
-                Done
+                Close Receipt
               </button>
             </div>
           </div>

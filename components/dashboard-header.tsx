@@ -13,7 +13,6 @@ export function DashboardHeader({ onOpenSidebar }: DashboardHeaderProps) {
   const pathname = usePathname();
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Dynamic contextual breadcrumb
   let breadcrumb = "Dashboard";
   if (pathname.startsWith("/dashboard/elections")) {
     breadcrumb = "Dashboard / Elections";
@@ -27,7 +26,6 @@ export function DashboardHeader({ onOpenSidebar }: DashboardHeaderProps) {
 
   return (
     <header className="h-16 bg-background/95 backdrop-blur-sm border-b-2 border-border sticky top-0 z-30 px-4 sm:px-8 flex items-center justify-between gap-4">
-      {/* Left: Mobile Sidebar Trigger & Dynamic Breadcrumb */}
       <div className="flex items-center gap-3">
         <button
           onClick={onOpenSidebar}

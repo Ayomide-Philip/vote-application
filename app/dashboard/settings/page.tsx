@@ -10,7 +10,6 @@ import {
 export default function SettingsPage() {
   return (
     <div className="space-y-8 text-left">
-      {/* Header */}
       <div className="pb-6 border-b-2 border-border">
         <h1 className="text-2xl sm:text-3xl font-medium font-heading tracking-tight text-foreground">
           Settings &amp; Access Controls
@@ -20,7 +19,6 @@ export default function SettingsPage() {
         </p>
       </div>
 
-      {/* Account Identity Card */}
       <div className="bg-card border-2 border-border p-6 space-y-6">
         <h2 className="text-lg font-heading font-medium text-foreground pb-3 border-b border-border/60">
           Institutional Account Affiliation
@@ -48,39 +46,50 @@ export default function SettingsPage() {
                 type="email"
                 readOnly
                 value="k.adeyemi@oauife.edu.ng"
-                className="text-input h-11 w-full text-xs font-mono bg-muted/40 !pl-10"
+                className="text-input h-11 w-full text-xs font-mono bg-muted/40 pl-9!"
               />
               <Mail01Icon
                 size={16}
-                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none"
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-brand"
               />
             </div>
-            <span className="text-[11px] font-mono text-status-confirmed flex items-center gap-1 mt-1">
-              <CheckmarkCircle02Icon size={12} />
-              Verified Campus Domain (@oauife.edu.ng)
-            </span>
           </div>
+        </div>
+
+        <div className="flex items-center gap-3 p-3.5 bg-brand/5 border border-brand/20 text-xs">
+          <Shield01Icon size={18} className="text-brand shrink-0" />
+          <p className="text-muted-foreground">
+            Identity verified via institutional single sign-on with recognized campus domain{" "}
+            <span className="font-mono text-brand font-semibold">@oauife.edu.ng</span>.
+          </p>
         </div>
       </div>
 
-      {/* Cryptographic Privacy Guarantee Card */}
-      <div className="bg-card border-2 border-border p-6 space-y-4">
-        <div className="flex items-center gap-2 text-brand text-xs font-mono uppercase tracking-wider">
-          <Shield01Icon size={16} />
-          <span>Voter Decoupling Policy</span>
-        </div>
-
-        <h2 className="text-lg font-heading font-medium text-foreground">
-          Secret Ballot Cryptographic Architecture
+      <div className="bg-card border-2 border-border p-6 space-y-6">
+        <h2 className="text-lg font-heading font-medium text-foreground pb-3 border-b border-border/60">
+          Voter Identity Decoupling Policy
         </h2>
 
-        <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed max-w-2xl">
-          Your account credentials are valid for election access, but are strictly decoupled from ballot submissions. When you vote, the record verifying your participation is written independently of your candidate choices. No administrator, tally observer, or faculty head can connect your vote to your user record.
-        </p>
+        <div className="space-y-4 text-xs leading-relaxed text-muted-foreground">
+          <div className="flex items-start gap-3">
+            <CheckmarkCircle02Icon size={18} className="text-status-confirmed shrink-0 mt-0.5" />
+            <div>
+              <strong className="text-foreground block font-heading text-sm">
+                Blind Signature Guarantee
+              </strong>
+              Your institutional identity token authorizes ballot issuance, but is cryptographically separated from the final cast ballot.
+            </div>
+          </div>
 
-        <div className="pt-2 flex items-center gap-2 text-xs font-mono text-muted-foreground">
-          <LockKeyIcon size={14} className="text-brand shrink-0" />
-          <span>Section 3.1 &amp; 7.2 of Ballot Protocol Active</span>
+          <div className="flex items-start gap-3">
+            <LockKeyIcon size={18} className="text-brand shrink-0 mt-0.5" />
+            <div>
+              <strong className="text-foreground block font-heading text-sm">
+                Tamper-Evident Receipts
+              </strong>
+              Audit receipts verify that your individual vote was counted in the final tally without revealing your candidate choices to administrators.
+            </div>
+          </div>
         </div>
       </div>
     </div>

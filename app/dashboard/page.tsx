@@ -79,7 +79,6 @@ export default function DashboardPage() {
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
   const [inspectingElection, setInspectingElection] = useState<ElectionCardItem | null>(null);
 
-  // Close modal on Escape key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") setInspectingElection(null);
@@ -101,7 +100,6 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-8">
-      {/* 1. Page Header & Primary Action Row (Clean hierarchy, no eyebrow) */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-left">
         <div>
           <h1 className="text-2xl sm:text-3xl font-medium font-heading tracking-tight text-foreground">
@@ -112,7 +110,6 @@ export default function DashboardPage() {
           </p>
         </div>
 
-        {/* Primary Action Button */}
         <Link
           href="/#how-it-works"
           className="btn btn-primary h-11 px-5 text-xs font-bold tracking-wider flex items-center justify-center gap-2 shrink-0 self-start sm:self-auto"
@@ -122,9 +119,7 @@ export default function DashboardPage() {
         </Link>
       </div>
 
-      {/* 2. Top 4 KPI Metric Cards in a Row (Contiguous 0px Razor Grid) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Metric Card 1: Total Elections */}
         <div className="bg-card border-2 border-border p-5 text-left flex flex-col justify-between relative hover:border-border/80 transition-colors">
           <div className="flex items-center justify-between text-muted-foreground">
             <div className="flex items-center gap-2">
@@ -144,7 +139,6 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Metric Card 2: Total Ballots Cast */}
         <div className="bg-card border-2 border-border p-5 text-left flex flex-col justify-between relative hover:border-border/80 transition-colors">
           <div className="flex items-center justify-between text-muted-foreground">
             <div className="flex items-center gap-2">
@@ -164,7 +158,6 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Metric Card 3: Avg Turnout Rate */}
         <div className="bg-card border-2 border-border p-5 text-left flex flex-col justify-between relative hover:border-border/80 transition-colors">
           <div className="flex items-center justify-between text-muted-foreground">
             <div className="flex items-center gap-2">
@@ -184,7 +177,6 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Metric Card 4: Active Elections */}
         <div className="bg-card border-2 border-border p-5 text-left flex flex-col justify-between relative hover:border-border/80 transition-colors">
           <div className="flex items-center justify-between text-muted-foreground">
             <div className="flex items-center gap-2">
@@ -205,14 +197,12 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* 3. Main Section: Section Header with Filter Tabs */}
       <div className="space-y-5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b-2 border-border text-left">
           <h2 className="text-lg sm:text-xl font-medium font-heading text-foreground">
             All Institutional Elections
           </h2>
 
-          {/* Filter Tabs on Right */}
           <div className="flex items-center gap-1 font-heading text-xs uppercase font-bold tracking-wider">
             {(["All", "Active", "Concluded"] as const).map((tab) => (
               <button
@@ -230,7 +220,6 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* 4. 2-Column Grid of Rich Cards */}
         {filteredElections.length === 0 ? (
           <div className="bg-card border-2 border-border p-12 text-center col-span-full">
             <div className="w-12 h-12 mx-auto bg-muted border border-border flex items-center justify-center text-muted-foreground mb-3">
@@ -251,14 +240,11 @@ export default function DashboardPage() {
                 className="bg-card border-2 border-border p-6 text-left flex flex-col justify-between gap-5 transition-all hover:border-foreground/30"
               >
                 <div>
-                  {/* Card Top Action Row */}
                   <div className="flex items-center justify-between gap-3 pb-3 border-b border-border/60">
-                    {/* Left: Election Document Icon */}
                     <div className="w-9 h-9 bg-muted/60 border border-border flex items-center justify-center text-brand">
                       <CheckListIcon size={18} />
                     </div>
 
-                    {/* Right: Quick Action Controls + Status Badge */}
                     <div className="flex items-center gap-1.5 sm:gap-2">
                       <button
                         onClick={() => setInspectingElection(election)}
@@ -292,7 +278,6 @@ export default function DashboardPage() {
                         <Edit02Icon size={16} />
                       </Link>
 
-                      {/* Status Indicator Chip */}
                       <div
                         className={`inline-flex items-center gap-1.5 px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-wider border ${
                           election.status === "Active"
@@ -320,7 +305,6 @@ export default function DashboardPage() {
                     </div>
                   </div>
 
-                  {/* Card Title & Subtitle */}
                   <div className="mt-4 space-y-1">
                     <div className="flex items-center gap-2">
                       <span className="font-mono text-[11px] px-1.5 py-0.5 bg-muted border border-border text-foreground font-semibold uppercase">
@@ -341,7 +325,6 @@ export default function DashboardPage() {
                   </div>
                 </div>
 
-                {/* Inner Bottom Summary Strip */}
                 <div className="grid grid-cols-2 border border-border bg-muted/30 divide-x divide-border">
                   <div className="p-3.5 text-left">
                     <span className="block text-[10px] font-mono uppercase tracking-wider text-muted-foreground mb-0.5">
@@ -367,7 +350,6 @@ export default function DashboardPage() {
         )}
       </div>
 
-      {/* 5. Quick View / Inspection Modal */}
       {inspectingElection && (
         <div
           className="fixed inset-0 bg-black/75 z-50 flex items-center justify-center p-4 animate-in fade-in duration-150"
@@ -380,7 +362,6 @@ export default function DashboardPage() {
             className="w-full max-w-lg bg-card border-2 border-border p-6 sm:p-8 relative text-left shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close Button */}
             <button
               onClick={() => setInspectingElection(null)}
               className="absolute top-4 right-4 p-1.5 text-muted-foreground hover:text-foreground border border-transparent hover:border-border transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand"
@@ -389,7 +370,6 @@ export default function DashboardPage() {
               <Cancel01Icon size={18} />
             </button>
 
-            {/* Slip Header */}
             <div className="mb-6 pb-4 border-b-2 border-dashed border-border">
               <h2
                 id="modal-inspection-title"
@@ -402,7 +382,6 @@ export default function DashboardPage() {
               </p>
             </div>
 
-            {/* Data Rows */}
             <div className="space-y-3 font-mono text-xs border-b-2 border-dashed border-border pb-5">
               <div className="flex justify-between py-1.5 border-b border-border/40">
                 <span className="text-muted-foreground">Status:</span>
@@ -430,7 +409,6 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            {/* Modal Actions */}
             <div className="mt-6 flex items-center justify-end gap-3">
               <button
                 onClick={() => handleCopyCode(inspectingElection.code)}

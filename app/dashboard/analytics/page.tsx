@@ -10,7 +10,6 @@ import {
 export default function AnalyticsPage() {
   return (
     <div className="space-y-8">
-      {/* Header */}
       <div className="text-left pb-6 border-b-2 border-border">
         <h1 className="text-2xl sm:text-3xl font-medium font-heading tracking-tight text-foreground">
           Analytics &amp; Real-Time Tallies
@@ -20,7 +19,6 @@ export default function AnalyticsPage() {
         </p>
       </div>
 
-      {/* Overview Metric Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-card border-2 border-border p-5 text-left">
           <div className="flex items-center gap-2 text-muted-foreground mb-1">
@@ -51,66 +49,70 @@ export default function AnalyticsPage() {
         <div className="bg-card border-2 border-border p-5 text-left">
           <div className="flex items-center gap-2 text-muted-foreground mb-1">
             <Time02Icon size={16} className="text-brand" />
-            <span className="text-xs font-heading font-bold uppercase tracking-wider">Peak Voting Hour</span>
+            <span className="text-xs font-heading font-bold uppercase tracking-wider">Avg Voting Time</span>
           </div>
           <div className="mt-3 text-3xl font-heading font-medium text-foreground">
-            13:00 UTC
+            42s
           </div>
           <span className="text-[11px] font-mono text-muted-foreground mt-1 block">
-            420 ballots/hr throughput
+            From auth to receipt
           </span>
         </div>
 
         <div className="bg-card border-2 border-border p-5 text-left">
           <div className="flex items-center gap-2 text-muted-foreground mb-1">
             <CheckmarkCircle02Icon size={16} className="text-brand" />
-            <span className="text-xs font-heading font-bold uppercase tracking-wider">Merkle Roots Verified</span>
+            <span className="text-xs font-heading font-bold uppercase tracking-wider">Proof Verification</span>
           </div>
           <div className="mt-3 text-3xl font-heading font-medium text-foreground">
             100%
           </div>
           <span className="text-[11px] font-mono text-status-confirmed mt-1 block">
-            Zero duplicate attempts
+            Zero mathematical discrepancies
           </span>
         </div>
       </div>
 
-      {/* Domain Participation Breakdown */}
-      <div className="bg-card border-2 border-border p-6 text-left space-y-5">
-        <h2 className="text-lg font-heading font-medium text-foreground">
-          Turnout Breakdown by Institutional Domain
+      <div className="space-y-4">
+        <h2 className="text-lg font-heading font-medium text-foreground text-left">
+          Turnout by Academic Unit / Department
         </h2>
 
-        <div className="space-y-4">
-          <div className="space-y-1.5">
-            <div className="flex justify-between text-xs font-mono">
-              <span className="text-foreground font-semibold">@oauife.edu.ng (Faculty of Technology)</span>
-              <span className="text-brand font-bold">78.1% (879/1,125)</span>
-            </div>
-            <div className="w-full h-2 bg-muted border border-border">
-              <div className="h-full bg-brand" style={{ width: "78.1%" }} />
-            </div>
-          </div>
-
-          <div className="space-y-1.5">
-            <div className="flex justify-between text-xs font-mono">
-              <span className="text-foreground font-semibold">@oauife.edu.ng (Student Union Government)</span>
-              <span className="text-brand font-bold">82.4% (1,420/1,723)</span>
-            </div>
-            <div className="w-full h-2 bg-muted border border-border">
-              <div className="h-full bg-brand" style={{ width: "82.4%" }} />
-            </div>
-          </div>
-
-          <div className="space-y-1.5">
-            <div className="flex justify-between text-xs font-mono">
-              <span className="text-foreground font-semibold">@oauife.edu.ng (Postgraduate Studies)</span>
-              <span className="text-brand font-bold">68.2% (532/780)</span>
-            </div>
-            <div className="w-full h-2 bg-muted border border-border">
-              <div className="h-full bg-brand" style={{ width: "68.2%" }} />
-            </div>
-          </div>
+        <div className="bg-card border-2 border-border overflow-x-auto text-left">
+          <table className="w-full text-xs font-mono">
+            <thead>
+              <tr className="border-b-2 border-border bg-muted/40 font-heading font-bold uppercase tracking-wider text-muted-foreground">
+                <th className="py-3 px-4 text-left">Department / Unit</th>
+                <th className="py-3 px-4 text-left">Domain Filter</th>
+                <th className="py-3 px-4 text-right">Registered</th>
+                <th className="py-3 px-4 text-right">Ballots Cast</th>
+                <th className="py-3 px-4 text-right">Turnout</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border">
+              <tr className="hover:bg-muted/20">
+                <td className="py-3.5 px-4 font-sans font-medium text-foreground">Computer Science &amp; Engineering</td>
+                <td className="py-3.5 px-4 text-brand">@oauife.edu.ng</td>
+                <td className="py-3.5 px-4 text-right text-muted-foreground">1,200</td>
+                <td className="py-3.5 px-4 text-right text-foreground font-bold">1,015</td>
+                <td className="py-3.5 px-4 text-right text-status-confirmed font-bold">84.6%</td>
+              </tr>
+              <tr className="hover:bg-muted/20">
+                <td className="py-3.5 px-4 font-sans font-medium text-foreground">Faculty of Technology Exco</td>
+                <td className="py-3.5 px-4 text-brand">@oauife.edu.ng</td>
+                <td className="py-3.5 px-4 text-right text-muted-foreground">1,125</td>
+                <td className="py-3.5 px-4 text-right text-foreground font-bold">879</td>
+                <td className="py-3.5 px-4 text-right text-status-confirmed font-bold">78.1%</td>
+              </tr>
+              <tr className="hover:bg-muted/20">
+                <td className="py-3.5 px-4 font-sans font-medium text-foreground">Postgraduate Hall Assembly</td>
+                <td className="py-3.5 px-4 text-brand">@oauife.edu.ng</td>
+                <td className="py-3.5 px-4 text-right text-muted-foreground">780</td>
+                <td className="py-3.5 px-4 text-right text-foreground font-bold">532</td>
+                <td className="py-3.5 px-4 text-right text-muted-foreground font-bold">68.2%</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
