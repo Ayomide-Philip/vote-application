@@ -6,8 +6,8 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(100) UNIQUE NOT NULL,
     password TEXT NOT NULL,
     domain VARCHAR(100) NOT NULL,
-    is_verified BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMP DEFAULT NOW (),
+    is_verified BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT NOW ()
 );
 
 CREATE INDEX IF NOT EXISTS idx_users_email ON users (email);

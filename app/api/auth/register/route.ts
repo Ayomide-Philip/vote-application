@@ -1,3 +1,5 @@
+import pool from "@/server/config/db";
+import encryptPassword from "@/server/lib/encrypt";
 import { NextRequest, NextResponse } from "next/server";
 
 export const emailRegex =
@@ -67,9 +69,47 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  return NextResponse.json({
-    success: true,
-    message: "Registration endpoint initialized.",
-    domain,
-  });
+  try {
+    const existingUser = await pool.query(
+      "SELECT id FROM users WHERE email = $1",
+      [email],
+    );
+
+    if (existingUser.rows.length > 0) {
+      return NextResponse.json(
+        {
+          error: "Email already exists.",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+
+    const newUser = await pool.query(
+      "INSERT INTO users (fullname, email, password,domain) VALUES ($1, $2,$3,$4) RETURNING id",
+      [
+        fullname?.trim(),
+        email?.trim(),
+        await encryptPassword(password?.trim()),
+        domain,
+      ],
+    );
+
+    return NextResponse.json({
+      success: true,
+      message: "Sucessfully created an account",
+      id: newUser.rows[0].id,
+    });
+  } catch (err) {
+    console.log(err);
+    return NextResponse.json(
+      {
+        error: "An error occurred while creating an account",
+      },
+      {
+        status: 500,
+      },
+    );
+  }
 }
