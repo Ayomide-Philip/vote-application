@@ -147,8 +147,8 @@ export default function DashboardLayout({
               <Menu01Icon size={18} />
             </button>
 
-            <span className="text-xs font-mono uppercase tracking-widest text-muted-foreground hidden sm:inline">
-              Institutional Ledger // Elections
+            <span className="text-xs font-heading font-medium text-muted-foreground hidden sm:inline">
+              Dashboard / Elections
             </span>
           </div>
 
