@@ -104,7 +104,8 @@ export default function LoginPage() {
             Sign in to Ballot
           </h1>
           <p className="text-muted-foreground text-xs sm:text-sm mt-1.5 leading-relaxed max-w-sm mx-auto">
-            Enter your campus credentials or sign in with your institutional Google account.
+            Enter your campus credentials or sign in with your institutional
+            Google account.
           </p>
         </div>
 
@@ -268,12 +269,12 @@ export default function LoginPage() {
 
         <div className="mt-6 pt-5 border-t border-border/60 text-center text-xs text-muted-foreground">
           <span>Don&apos;t have an institutional account? </span>
-          <Link
+          <a
             href="/register"
             className="text-brand font-medium hover:underline"
           >
             Register here
-          </Link>
+          </a>
         </div>
       </div>
     </div>

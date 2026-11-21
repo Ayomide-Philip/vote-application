@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   ArrowRight01Icon,
@@ -68,6 +67,7 @@ export default function RegisterPage() {
     "icloud.com",
     "live.com",
   ].includes(emailDomain);
+
   const isEduDomain =
     emailDomain.includes(".edu") ||
     emailDomain.includes(".ac.") ||
@@ -133,12 +133,14 @@ export default function RegisterPage() {
         return;
       }
 
+      setLoading(false);
       setSuccess("Account successfully created. Redirecting to login...");
       setFullName("");
       setEmail("");
       setPassword("");
       setConfirmPassword("");
       setTimeout(() => {
+        setSuccess(null);
         router.push("/login?registered=true");
       }, 1000);
     } catch {
@@ -429,12 +431,9 @@ export default function RegisterPage() {
 
         <div className="mt-6 pt-5 border-t border-border/60 text-center text-xs text-muted-foreground">
           <span>Already have an account? </span>
-          <Link
-            href="/login"
-            className="text-brand font-medium hover:underline"
-          >
+          <a href="/login" className="text-brand font-medium hover:underline">
             Sign in here
-          </Link>
+          </a>
         </div>
       </div>
     </div>
