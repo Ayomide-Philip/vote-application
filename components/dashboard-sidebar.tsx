@@ -107,11 +107,11 @@ export function DashboardSidebar({
       <aside
         className={`fixed top-0 bottom-0 left-0 z-50 bg-card border-r-2 border-border flex flex-col justify-between transition-all duration-200 lg:translate-x-0 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
-        } ${isCollapsed ? "lg:w-[72px]" : "lg:w-64"} w-64`}
+        } ${isCollapsed ? "lg:w-18" : "lg:w-64"} w-64`}
       >
         <div className="flex flex-col">
           <div
-            className={`h-16 border-b-2 border-border flex items-center ${
+            className={`h-16 border-b-2 border-border capitalize flex items-center ${
               isCollapsed ? "px-0 justify-center" : "px-5 justify-between"
             }`}
           >
@@ -119,11 +119,11 @@ export function DashboardSidebar({
               <button
                 type="button"
                 onClick={onToggleCollapse}
-                className="w-10 h-10 flex items-center justify-center text-foreground hover:bg-muted/50 border border-transparent hover:border-border transition-colors font-heading font-bold text-xl"
+                className="w-10 h-10 flex items-center cursor-pointer justify-center text-foreground hover:bg-muted/50 border border-transparent hover:border-border transition-colors font-heading font-bold text-xl"
                 aria-label="Expand sidebar"
                 title="Expand sidebar"
               >
-                b<span className="text-brand">.</span>
+                B<span className="text-brand">.</span>
               </button>
             ) : (
               <>
@@ -139,7 +139,7 @@ export function DashboardSidebar({
                     <button
                       type="button"
                       onClick={onToggleCollapse}
-                      className="hidden lg:flex p-1.5 text-muted-foreground hover:text-foreground hover:bg-muted/50 border border-transparent hover:border-border transition-colors"
+                      className="hidden lg:flex p-1.5 cursor-pointer text-muted-foreground hover:text-foreground hover:bg-muted/50 border border-transparent hover:border-border transition-colors"
                       aria-label="Collapse sidebar"
                       title="Collapse sidebar"
                     >
@@ -205,7 +205,10 @@ export function DashboardSidebar({
           </nav>
         </div>
 
-        <div ref={userMenuRef} className="p-3 border-t-2 border-border relative">
+        <div
+          ref={userMenuRef}
+          className="p-3 border-t-2 border-border relative"
+        >
           {isUserMenuOpen && (
             <div
               className={`absolute bg-card border-2 border-border p-2 shadow-2xl z-50 ${
