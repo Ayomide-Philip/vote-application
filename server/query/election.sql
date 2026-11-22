@@ -17,5 +17,6 @@ create table if not exists elections (
 );
 
 CREATE INDEX IF NOT EXISTS idx_elections_code ON elections (election_code);
-
+CREATE INDEX IF NOT EXISTS idx_elections_start_time ON elections (start_time);
+CREATE INDEX IF NOT EXISTS idx_elections_end_time ON elections (end_time);
 CREATE INDEX IF NOT EXISTS idx_elections_creator ON elections (creator_id);

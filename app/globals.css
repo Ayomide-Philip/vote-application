@@ -390,6 +390,13 @@ h6,
   transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
 }
 
+textarea.text-input {
+  height: auto;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  line-height: 1.5;
+}
+
 .text-input:focus {
   border-color: var(--brand);
   background-color: var(--card);
