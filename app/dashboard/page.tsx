@@ -32,7 +32,8 @@ const ELECTIONS_DATA: ElectionCardItem[] = [
     id: "elec-1",
     code: "OAU-TECH-26",
     title: "Faculty of Technology Executive Council Election",
-    description: "Executive leadership and departmental representative elections.",
+    description:
+      "Executive leadership and departmental representative elections.",
     status: "Active",
     lastActivity: "Last ballot cast: 5 mins ago",
     ballotsCast: 879,
@@ -65,7 +66,8 @@ const ELECTIONS_DATA: ElectionCardItem[] = [
     id: "elec-4",
     code: "NACOS-2026",
     title: "National Association of Computing Students (NACOS) Poll",
-    description: "Departmental executive committee voting across all academic levels.",
+    description:
+      "Departmental executive committee voting across all academic levels.",
     status: "Active",
     lastActivity: "Last ballot cast: 3 mins ago",
     ballotsCast: 1015,
@@ -108,7 +110,8 @@ const STATS_DATA = [
 export default function DashboardPage() {
   const [filter, setFilter] = useState<"All" | "Active" | "Concluded">("All");
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
-  const [inspectingElection, setInspectingElection] = useState<ElectionCardItem | null>(null);
+  const [inspectingElection, setInspectingElection] =
+    useState<ElectionCardItem | null>(null);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -137,7 +140,8 @@ export default function DashboardPage() {
             Elections &amp; Institutional Ballots
           </h1>
           <p className="text-xs sm:text-sm text-muted-foreground mt-1 leading-relaxed">
-            Create, configure, and monitor domain-verified elections with cryptographic tally auditing.
+            Create, configure, and monitor domain-verified elections with
+            cryptographic tally auditing.
           </p>
         </div>
 
@@ -146,7 +150,7 @@ export default function DashboardPage() {
           className="btn btn-primary h-11 px-5 text-xs font-bold tracking-wider flex items-center justify-center gap-2 shrink-0 self-start sm:self-auto"
         >
           <Add01Icon size={16} />
-          <span>Create New Election</span>
+          <span>Create</span>
         </Link>
       </div>
 
@@ -218,7 +222,8 @@ export default function DashboardPage() {
               No elections found
             </h3>
             <p className="text-xs text-muted-foreground mt-1 max-w-sm mx-auto">
-              There are no elections currently matching the {filter.toLowerCase()} filter.
+              There are no elections currently matching the{" "}
+              {filter.toLowerCase()} filter.
             </p>
           </div>
         ) : (
@@ -379,19 +384,25 @@ export default function DashboardPage() {
                 </span>
               </div>
               <div className="flex justify-between py-1.5 border-b border-border/40">
-                <span className="text-muted-foreground">Institutional Domain:</span>
+                <span className="text-muted-foreground">
+                  Institutional Domain:
+                </span>
                 <span className="text-status-confirmed font-semibold">
                   {inspectingElection.allowedDomain}
                 </span>
               </div>
               <div className="flex justify-between py-1.5 border-b border-border/40">
-                <span className="text-muted-foreground">Total Ballots Cast:</span>
+                <span className="text-muted-foreground">
+                  Total Ballots Cast:
+                </span>
                 <span className="text-foreground">
                   {inspectingElection.ballotsCast} verified ballots
                 </span>
               </div>
               <div className="flex justify-between py-1.5">
-                <span className="text-muted-foreground">Certified Turnout:</span>
+                <span className="text-muted-foreground">
+                  Certified Turnout:
+                </span>
                 <span className="text-foreground font-bold">
                   {inspectingElection.turnoutRate}
                 </span>
