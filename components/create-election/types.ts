@@ -6,9 +6,15 @@ export interface InitialCandidate {
   manifesto: string;
 }
 
-export type EligibilityScope = "institution" | "departmental" | "custom";
+export type EmailPartType = "wildcard" | "exact" | "options" | "digits";
 
-export interface DepartmentPreset {
-  code: string;
-  label: string;
+export interface EmailPartRule {
+  id: string;
+  originalText: string;
+  type: EmailPartType;
+  options: string[];
+  digitPrefixes: string[];
+  digitsMode: "any" | "prefix";
+  isOptional: boolean;
+  delimiter: string;
 }

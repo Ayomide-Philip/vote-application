@@ -10,13 +10,15 @@ import {
   StepCandidatesReview,
   AddContestantModal,
   InitialCandidate,
-  EligibilityScope,
+  EmailPartRule,
+  parseEmailToParts,
+  compilePartsToRegex,
 } from "@/components/create-election";
 
 export default function CreateElectionPage() {
   const router = useRouter();
 
-  const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(1);
+  const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(2);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -24,23 +26,15 @@ export default function CreateElectionPage() {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
 
-  const [domain, setDomain] = useState("oauife.edu.ng");
+  const [sampleEmail, setSampleEmail] = useState(
+    "a.areo.csc2021104@oauife.edu.ng",
+  );
+  const [emailParts, setEmailParts] = useState<EmailPartRule[]>(() =>
+    parseEmailToParts("a.areo.csc2021104@oauife.edu.ng"),
+  );
   const [domainLabel, setDomainLabel] = useState(
     "Faculty of Technology (@oauife.edu.ng)",
   );
-  const [eligibilityScope, setEligibilityScope] =
-    useState<EligibilityScope>("departmental");
-  const [selectedDepts, setSelectedDepts] = useState<string[]>([
-    "csc",
-    "eee",
-    "mee",
-  ]);
-  const [allYears, setAllYears] = useState(true);
-  const [selectedYears, setSelectedYears] = useState<string[]>([
-    "2021",
-    "2022",
-  ]);
-  const [customPattern, setCustomPattern] = useState("");
   const [testEmail, setTestEmail] = useState("a.areo.csc2021104@oauife.edu.ng");
 
   const [candidates, setCandidates] = useState<InitialCandidate[]>([
@@ -67,27 +61,7 @@ export default function CreateElectionPage() {
   const [publishSuccess, setPublishSuccess] = useState(false);
   const [stepError, setStepError] = useState<string | null>(null);
 
-  const cleanDomain = domain.replace(/^@/, "").trim().toLowerCase();
-
-  const compiledRegex = (() => {
-    if (eligibilityScope === "custom" && customPattern.trim()) {
-      return customPattern.trim();
-    }
-    if (eligibilityScope === "institution") {
-      return `.*@${cleanDomain.replace(/\./g, "\\.")}$`;
-    }
-
-    const deptPart =
-      selectedDepts.length > 0
-        ? `\\.(${selectedDepts.join("|")})`
-        : "\\.[a-z]+";
-    const yearPart =
-      allYears || selectedYears.length === 0
-        ? "[0-9]*"
-        : `(${selectedYears.join("|")})[0-9]*`;
-
-    return `.*${deptPart}${yearPart}@${cleanDomain.replace(/\./g, "\\.")}$`;
-  })();
+  const compiledRegex = compilePartsToRegex(emailParts);
 
   const isTestEmailEligible = (() => {
     try {
@@ -98,27 +72,22 @@ export default function CreateElectionPage() {
     }
   })();
 
+  const handleSampleEmailChange = (newSample: string) => {
+    setSampleEmail(newSample);
+    const newParts = parseEmailToParts(newSample);
+    setEmailParts(newParts);
+
+    if (newSample.includes("@")) {
+      const parts = newSample.split("@");
+      setDomainLabel(parts[1] ? `@${parts[1]}` : "");
+    }
+  };
+
   const handleGenerateCode = () => {
     const prefixes = ["OAU", "TECH", "ENG", "SUG", "NACOS", "VOTE"];
     const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
     const randomNum = Math.floor(100 + Math.random() * 900);
     setAccessionCode(`${randomPrefix}-${randomNum}-26`);
-  };
-
-  const handleAddDept = (code: string) => {
-    const trimmed = code.trim().toLowerCase();
-    if (!trimmed || selectedDepts.includes(trimmed)) return;
-    setSelectedDepts((prev) => [...prev, trimmed]);
-  };
-
-  const handleRemoveDept = (code: string) => {
-    setSelectedDepts((prev) => prev.filter((d) => d !== code));
-  };
-
-  const handleToggleYear = (year: string) => {
-    setSelectedYears((prev) =>
-      prev.includes(year) ? prev.filter((y) => y !== year) : [...prev, year],
-    );
   };
 
   const handleAddCandidate = (candidateData: Omit<InitialCandidate, "id">) => {
@@ -152,12 +121,8 @@ export default function CreateElectionPage() {
 
   const handleStep2Next = () => {
     setStepError(null);
-    if (!domain.trim()) {
-      setStepError("Please specify the institutional domain.");
-      return;
-    }
-    if (eligibilityScope === "departmental" && selectedDepts.length === 0) {
-      setStepError("Please select at least one department code.");
+    if (!sampleEmail.trim()) {
+      setStepError("Please provide a sample email.");
       return;
     }
     setCurrentStep(3);
@@ -235,24 +200,13 @@ export default function CreateElectionPage() {
 
         {currentStep === 2 && (
           <StepEligibilityRules
-            domain={domain}
-            onDomainChange={setDomain}
-            domainLabel={domainLabel}
-            onDomainLabelChange={setDomainLabel}
-            eligibilityScope={eligibilityScope}
-            onEligibilityScopeChange={setEligibilityScope}
-            selectedDepts={selectedDepts}
-            onAddDept={handleAddDept}
-            onRemoveDept={handleRemoveDept}
-            allYears={allYears}
-            onAllYearsChange={setAllYears}
-            selectedYears={selectedYears}
-            onToggleYear={handleToggleYear}
-            customPattern={customPattern}
-            onCustomPatternChange={setCustomPattern}
-            compiledRegex={compiledRegex}
+            sampleEmail={sampleEmail}
+            onSampleEmailChange={handleSampleEmailChange}
+            emailParts={emailParts}
+            onEmailPartsChange={setEmailParts}
             testEmail={testEmail}
             onTestEmailChange={setTestEmail}
+            compiledRegex={compiledRegex}
             isTestEmailEligible={isTestEmailEligible}
             onBack={() => setCurrentStep(1)}
             onNext={handleStep2Next}

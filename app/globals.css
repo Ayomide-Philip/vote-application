@@ -397,6 +397,13 @@ textarea.text-input {
   line-height: 1.5;
 }
 
+textarea.text-input {
+  height: auto;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  line-height: 1.5;
+}
+
 .text-input:focus {
   border-color: var(--brand);
   background-color: var(--card);
