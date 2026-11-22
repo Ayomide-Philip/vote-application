@@ -31,7 +31,7 @@ export function DashboardHero({ onOpenJoinModal }: DashboardHeroProps) {
         </button>
 
         <Link
-          href="/#how-it-works"
+          href="/dashboard/create"
           className="btn btn-primary h-11 px-5 text-xs font-bold tracking-wider flex items-center justify-center gap-2 cursor-pointer"
         >
           <Add01Icon size={16} />
