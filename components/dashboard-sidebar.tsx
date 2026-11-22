@@ -8,7 +8,6 @@ import {
   ArrowDown01Icon,
   ArrowLeft01Icon,
   Cancel01Icon,
-  CheckListIcon,
   GridViewIcon,
   Logout01Icon,
   Settings02Icon,
@@ -30,7 +29,6 @@ interface SidebarItem {
 
 const SIDEBAR_NAV: SidebarItem[] = [
   { label: "Dashboard", href: "/dashboard", icon: GridViewIcon },
-  { label: "Elections", href: "/dashboard/elections", icon: CheckListIcon },
   { label: "Voting History", href: "/dashboard/history", icon: Shield01Icon },
   {
     label: "Analytics & Tallies",
@@ -169,7 +167,8 @@ export function DashboardSidebar({
               const Icon = item.icon;
               const isActive =
                 item.href === "/dashboard"
-                  ? pathname === "/dashboard"
+                  ? pathname === "/dashboard" ||
+                    pathname.startsWith("/dashboard/elections")
                   : pathname.startsWith(item.href);
 
               return (
@@ -178,7 +177,7 @@ export function DashboardSidebar({
                   href={item.href}
                   onClick={onClose}
                   title={isCollapsed ? item.label : undefined}
-                  className={`flex items-center text-xs font-heading uppercase tracking-wider font-semibold transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand ${
+                  className={`flex items-center text-xs font-heading uppercase tracking-wider font-semibold transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand ${
                     isCollapsed
                       ? "w-10 h-10 justify-center"
                       : "w-full gap-3 px-3.5 py-2.5"

@@ -1,14 +1,15 @@
 "use client";
 
 import { CheckListIcon } from "hugeicons-react";
-import { ElectionCardItem, ElectionFilter } from "./types";
+import { ElectionCardItem, ElectionFilter, ElectionRoleFilter } from "./types";
 import { ElectionCard } from "./election-card";
 
 interface ElectionsSectionProps {
   elections: ElectionCardItem[];
   filter: ElectionFilter;
   onFilterChange: (filter: ElectionFilter) => void;
-  onInspect: (election: ElectionCardItem) => void;
+  roleFilter: ElectionRoleFilter;
+  onRoleFilterChange: (role: ElectionRoleFilter) => void;
   onCopyCode: (code: string) => void;
   copiedCode: string | null;
 }
@@ -17,39 +18,85 @@ export function ElectionsSection({
   elections,
   filter,
   onFilterChange,
-  onInspect,
+  roleFilter,
+  onRoleFilterChange,
   onCopyCode,
   copiedCode,
 }: ElectionsSectionProps) {
   const filteredElections = elections.filter((e) => {
-    if (filter === "All") return true;
-    return e.status === filter;
+    const matchesStatus = filter === "All" || e.status === filter;
+    const matchesRole =
+      roleFilter === "All" ||
+      (roleFilter === "Admin" && e.role === "admin") ||
+      (roleFilter === "Voter" && e.role === "voter");
+    return matchesStatus && matchesRole;
   });
+
+  const adminCount = elections.filter((e) => e.role === "admin").length;
+  const voterCount = elections.filter((e) => e.role === "voter").length;
 
   return (
     <div className="space-y-5">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b-2 border-border text-left">
-        <div className="flex items-center gap-3">
-          <h2 className="text-lg sm:text-xl font-medium font-heading text-foreground">
-            All Institutional Elections
-          </h2>
-        </div>
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-3 border-b-2 border-border text-left">
+        <h2 className="text-lg sm:text-xl font-medium font-heading text-foreground">
+          All Institutional Elections
+        </h2>
 
-        <div className="flex items-center gap-1 font-heading text-xs uppercase font-bold tracking-wider">
-          {(["All", "Active", "Concluded"] as const).map((tab) => (
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="flex items-center border border-border bg-muted/40 p-0.5 text-xs font-sans">
             <button
-              key={tab}
               type="button"
-              onClick={() => onFilterChange(tab)}
-              className={`px-3 py-1.5 transition-colors border cursor-pointer ${
-                filter === tab
-                  ? "bg-foreground text-background border-foreground font-bold"
-                  : "bg-card text-muted-foreground border-border hover:text-foreground hover:border-border/80"
+              onClick={() => onRoleFilterChange("All")}
+              className={`px-2.5 py-1 transition-colors cursor-pointer ${
+                roleFilter === "All"
+                  ? "bg-card text-foreground font-semibold shadow-xs"
+                  : "text-muted-foreground hover:text-foreground"
               }`}
             >
-              {tab === "All" ? "All Elections" : tab}
+              All Roles ({elections.length})
             </button>
-          ))}
+            <button
+              type="button"
+              onClick={() => onRoleFilterChange("Admin")}
+              className={`px-2.5 py-1 transition-colors cursor-pointer ${
+                roleFilter === "Admin"
+                  ? "bg-card text-foreground font-semibold shadow-xs"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Admin ({adminCount})
+            </button>
+            <button
+              type="button"
+              onClick={() => onRoleFilterChange("Voter")}
+              className={`px-2.5 py-1 transition-colors cursor-pointer ${
+                roleFilter === "Voter"
+                  ? "bg-card text-foreground font-semibold shadow-xs"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Voter ({voterCount})
+            </button>
+          </div>
+
+          <div className="flex items-center gap-1 font-heading text-xs uppercase font-bold tracking-wider">
+            {(["All", "Active", "Upcoming", "Concluded"] as const).map(
+              (tab) => (
+                <button
+                  key={tab}
+                  type="button"
+                  onClick={() => onFilterChange(tab)}
+                  className={`px-3 py-1.5 transition-colors border cursor-pointer ${
+                    filter === tab
+                      ? "bg-foreground text-background border-foreground font-bold"
+                      : "bg-card text-muted-foreground border-border hover:text-foreground hover:border-border/80"
+                  }`}
+                >
+                  {tab === "All" ? "All Status" : tab}
+                </button>
+              ),
+            )}
+          </div>
         </div>
       </div>
 
@@ -63,7 +110,7 @@ export function ElectionsSection({
           </h3>
           <p className="text-xs text-muted-foreground mt-1 max-w-sm mx-auto font-sans">
             There are no elections currently matching the {filter.toLowerCase()}{" "}
-            filter.
+            status and {roleFilter.toLowerCase()} role filter.
           </p>
         </div>
       ) : (
@@ -72,7 +119,6 @@ export function ElectionsSection({
             <ElectionCard
               key={election.id}
               election={election}
-              onInspect={onInspect}
               onCopyCode={onCopyCode}
               copiedCode={copiedCode}
             />

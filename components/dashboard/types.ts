@@ -1,7 +1,8 @@
 import React from "react";
 
-export type ElectionStatus = "Active" | "Concluded" | "Upcoming";
-export type ElectionFilter = "All" | "Active" | "Concluded";
+export type ElectionStatus = "Active" | "Upcoming" | "Concluded";
+export type ElectionFilter = "All" | "Active" | "Upcoming" | "Concluded";
+export type ElectionRoleFilter = "All" | "Admin" | "Voter";
 
 export interface ElectionCardItem {
   id: string;
@@ -9,11 +10,14 @@ export interface ElectionCardItem {
   title: string;
   description: string;
   status: ElectionStatus;
-  lastActivity: string;
+  role: "admin" | "voter";
   ballotsCast: number;
   turnoutRate: string;
   allowedDomain: string;
   eligibleVoters?: number;
+  startDate?: string;
+  endDate?: string;
+  lastActivity?: string;
 }
 
 export interface StatCardItem {
