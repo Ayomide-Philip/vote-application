@@ -79,10 +79,15 @@ export function StepEligibilityRules({
   const handleAddDigitPrefix = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newPrefixInput.trim() || !activePart) return;
-    const clean = newPrefixInput.trim().replace(/\*$/, "");
-    if (!activePart.digitPrefixes.includes(clean)) {
+    // Strictly numbers only
+    const clean = newPrefixInput.replace(/[^0-9]/g, "");
+    if (!clean) return;
+    const existing = activePart.digitPrefixes
+      .map((p) => p.replace(/[^0-9]/g, ""))
+      .filter(Boolean);
+    if (!existing.includes(clean)) {
       handleUpdateActivePart({
-        digitPrefixes: [...activePart.digitPrefixes, clean],
+        digitPrefixes: [...existing, clean],
       });
     }
     setNewPrefixInput("");
@@ -90,9 +95,11 @@ export function StepEligibilityRules({
 
   const handleRemoveDigitPrefix = (pfx: string) => {
     if (!activePart) return;
-    const clean = pfx.replace(/\*$/, "");
+    const clean = pfx.replace(/[^0-9]/g, "");
     handleUpdateActivePart({
-      digitPrefixes: activePart.digitPrefixes.filter((p) => p !== clean),
+      digitPrefixes: activePart.digitPrefixes
+        .map((p) => p.replace(/[^0-9]/g, ""))
+        .filter((p) => p && p !== clean),
     });
   };
 
@@ -103,16 +110,30 @@ export function StepEligibilityRules({
       case "wildcard":
         return "Any Text";
       case "options":
-        return "Option List";
-      case "digits":
-        return part.digitsMode === "prefix" && part.digitPrefixes.length > 0
-          ? `${part.digitPrefixes.map((p) => `${p}*`).join(", ")}`
-          : "Numbers Only";
+        return part.options.length > 0
+          ? `Options (${part.options.length + 1})`
+          : "Option List";
+      case "digits": {
+        const cleanPrefixes = part.digitPrefixes
+          .map((p) => p.replace(/[^0-9]/g, ""))
+          .filter(Boolean);
+        return part.digitsMode === "prefix" && cleanPrefixes.length > 0
+          ? `${cleanPrefixes.map((p) => `${p}*`).join(", ")}`
+          : "Numbers";
+      }
     }
   };
 
+  // Ensure digits sub-panel only operates on clean numeric prefixes
+  const validDigitPrefixes = activePart
+    ? activePart.digitPrefixes
+        .map((p) => p.replace(/[^0-9]/g, ""))
+        .filter(Boolean)
+    : [];
+
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
+      {/* Sample Email Input & Presets */}
       <div>
         <div className="flex items-center justify-between mb-1.5">
           <label
@@ -121,23 +142,33 @@ export function StepEligibilityRules({
           >
             Sample Student Email
           </label>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
+            <span className="text-[11px] font-sans text-muted-foreground/60 mr-0.5">
+              Presets:
+            </span>
+            <button
+              type="button"
+              onClick={() => onSampleEmailChange("jdoe@lautech.edu.ng")}
+              className={`px-2 py-0.5 text-[11px] font-mono border transition-colors cursor-pointer ${
+                sampleEmail === "jdoe@lautech.edu.ng"
+                  ? "border-brand text-brand bg-brand/10 font-medium"
+                  : "border-border/80 text-muted-foreground bg-muted/30 hover:border-brand/50 hover:text-foreground"
+              }`}
+            >
+              LAUTECH
+            </button>
             <button
               type="button"
               onClick={() =>
                 onSampleEmailChange("a.areo.csc2021104@oauife.edu.ng")
               }
-              className="text-[11px] font-sans text-brand hover:underline cursor-pointer"
+              className={`px-2 py-0.5 text-[11px] font-mono border transition-colors cursor-pointer ${
+                sampleEmail === "a.areo.csc2021104@oauife.edu.ng"
+                  ? "border-brand text-brand bg-brand/10 font-medium"
+                  : "border-border/80 text-muted-foreground bg-muted/30 hover:border-brand/50 hover:text-foreground"
+              }`}
             >
-              OAU Format
-            </button>
-            <span className="text-muted-foreground/40">•</span>
-            <button
-              type="button"
-              onClick={() => onSampleEmailChange("jdoe@lautech.edu.ng")}
-              className="text-[11px] font-sans text-brand hover:underline cursor-pointer"
-            >
-              LAUTECH Format
+              OAU
             </button>
           </div>
         </div>
@@ -152,18 +183,24 @@ export function StepEligibilityRules({
         />
       </div>
 
-      <div className="space-y-3">
-        <span className="block text-xs font-bold uppercase tracking-wider font-heading text-muted-foreground">
-          Email Parts — Click a part to configure its rule
-        </span>
+      {/* Slices Ribbon */}
+      <div className="space-y-2">
+        <div className="flex items-center justify-between">
+          <span className="block text-xs font-bold uppercase tracking-wider font-heading text-muted-foreground">
+            Email Slices
+          </span>
+          <span className="text-[11px] font-sans text-muted-foreground/70">
+            Click a slice to configure its rule
+          </span>
+        </div>
 
-        <div className="flex flex-wrap items-center gap-2 p-3 bg-muted/30 border border-border">
+        <div className="p-3 bg-muted/20 border border-border/80 flex flex-wrap items-center gap-1.5">
           {emailParts.map((part) => {
             const isSelected = activePart?.id === part.id;
             return (
               <div key={part.id} className="flex items-center">
                 {part.delimiter && (
-                  <span className="font-mono text-sm text-muted-foreground mx-1">
+                  <span className="font-mono text-xs font-semibold text-muted-foreground/60 px-1 select-none">
                     {part.delimiter}
                   </span>
                 )}
@@ -172,20 +209,20 @@ export function StepEligibilityRules({
                   onClick={() => setSelectedPartId(part.id)}
                   className={`px-3 py-2 border text-left transition-all cursor-pointer flex flex-col gap-0.5 ${
                     isSelected
-                      ? "border-brand bg-brand/10 text-foreground ring-1 ring-brand"
-                      : "border-border bg-card text-muted-foreground hover:text-foreground hover:border-border/80"
+                      ? "border-brand bg-brand/10 text-foreground ring-1 ring-brand shadow-[0_0_12px_rgba(245,158,11,0.08)]"
+                      : "border-border/80 bg-card text-muted-foreground hover:text-foreground hover:border-border"
                   }`}
                 >
-                  <span className="font-mono text-xs font-bold text-foreground">
+                  <span className="font-mono text-xs font-bold text-foreground tracking-tight">
                     {part.originalText}
                   </span>
                   <span
-                    className={`text-[10px] font-sans font-medium ${
-                      isSelected ? "text-brand" : "text-muted-foreground"
+                    className={`text-[9px] font-sans font-semibold uppercase tracking-wider ${
+                      isSelected ? "text-brand" : "text-muted-foreground/70"
                     }`}
                   >
                     {getPartTypeBadge(part)}
-                    {part.isOptional && " (Optional)"}
+                    {part.isOptional && " • Opt"}
                   </span>
                 </button>
               </div>
@@ -194,19 +231,20 @@ export function StepEligibilityRules({
         </div>
       </div>
 
+      {/* Active Slice Rule Configurator Card */}
       {activePart && (
         <div className="p-5 bg-card border border-border space-y-4 text-left">
-          <div className="flex items-center justify-between pb-3 border-b border-border/80">
+          <div className="flex items-center justify-between pb-3 border-b border-border/70">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold uppercase tracking-wider font-heading text-foreground">
-                Configuring Part:
+              <span className="text-xs font-bold uppercase tracking-wider font-heading text-muted-foreground">
+                Configuring Slice:
               </span>
-              <span className="px-2 py-0.5 bg-muted border border-border font-mono text-xs font-bold text-foreground">
+              <span className="px-2.5 py-0.5 bg-brand/10 border border-brand/30 font-mono text-xs font-bold text-brand">
                 {activePart.originalText}
               </span>
             </div>
 
-            <label className="flex items-center gap-2 text-xs font-sans text-muted-foreground cursor-pointer select-none">
+            <label className="flex items-center gap-2 text-xs font-sans text-muted-foreground hover:text-foreground cursor-pointer select-none">
               <input
                 type="checkbox"
                 checked={activePart.isOptional}
@@ -215,19 +253,19 @@ export function StepEligibilityRules({
                 }
                 className="w-4 h-4 rounded-none accent-brand cursor-pointer"
               />
-              <span>Optional part</span>
+              <span>Optional slice</span>
             </label>
           </div>
 
           <div className="space-y-2">
             <span className="block text-xs font-bold uppercase tracking-wider font-heading text-muted-foreground">
-              What should happen to this part?
+              Rule Type
             </span>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {[
                 {
                   type: "wildcard" as const,
-                  title: "Any Text / Username (Wildcard)",
+                  title: "Any Text / Username",
                   desc: "Any student name, username, or characters allowed.",
                 },
                 {
@@ -245,44 +283,92 @@ export function StepEligibilityRules({
                   title: "Numbers Only (Digits)",
                   desc: "Must be student ID or matriculation digits.",
                 },
-              ].map((opt) => (
-                <button
-                  key={opt.type}
-                  type="button"
-                  onClick={() => handleUpdateActivePart({ type: opt.type })}
-                  className={`p-3.5 border text-left transition-all cursor-pointer ${
-                    activePart.type === opt.type
-                      ? "border-brand bg-brand/5 ring-1 ring-brand"
-                      : "border-border/80 bg-muted/20 hover:border-border"
-                  }`}
-                >
-                  <span className="block text-xs font-heading font-medium text-foreground">
-                    {opt.title}
-                  </span>
-                  <span className="block text-[11px] font-sans text-muted-foreground mt-0.5 leading-snug">
-                    {opt.desc}
-                  </span>
-                </button>
-              ))}
+              ].map((opt) => {
+                const isActive = activePart.type === opt.type;
+                return (
+                  <button
+                    key={opt.type}
+                    type="button"
+                    onClick={() => {
+                      if (opt.type === "digits") {
+                        // Purge any text that was previously in digitPrefixes
+                        const cleanPrefixes = activePart.digitPrefixes
+                          .map((p) => p.replace(/[^0-9]/g, ""))
+                          .filter(Boolean);
+
+                        // Only extract default prefix if original text contains digits
+                        const digitsInOriginal =
+                          activePart.originalText.replace(/[^0-9]/g, "");
+                        const defaultPrefix =
+                          digitsInOriginal.length >= 4
+                            ? digitsInOriginal.slice(0, 4)
+                            : "";
+
+                        handleUpdateActivePart({
+                          type: "digits",
+                          digitPrefixes:
+                            cleanPrefixes.length > 0
+                              ? cleanPrefixes
+                              : defaultPrefix
+                                ? [defaultPrefix]
+                                : [],
+                          digitsMode:
+                            cleanPrefixes.length > 0 || defaultPrefix
+                              ? activePart.digitsMode
+                              : "any",
+                        });
+                      } else {
+                        handleUpdateActivePart({ type: opt.type });
+                      }
+                    }}
+                    className={`p-3.5 border text-left transition-all cursor-pointer relative ${
+                      isActive
+                        ? "border-brand bg-brand/5 ring-1 ring-brand shadow-[0_0_12px_rgba(245,158,11,0.06)]"
+                        : "border-border/70 bg-muted/10 hover:border-border hover:bg-muted/30"
+                    }`}
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <span className="block text-xs font-heading font-medium text-foreground">
+                        {opt.title}
+                      </span>
+                      <span
+                        className={`w-3.5 h-3.5 rounded-full border mt-0.5 flex items-center justify-center shrink-0 ${
+                          isActive
+                            ? "border-brand bg-brand"
+                            : "border-border/80 bg-background"
+                        }`}
+                      >
+                        {isActive && (
+                          <span className="w-1.5 h-1.5 rounded-full bg-background" />
+                        )}
+                      </span>
+                    </div>
+                    <span className="block text-[11px] font-sans text-muted-foreground mt-1 leading-snug">
+                      {opt.desc}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
           </div>
 
+          {/* Options List Sub-panel */}
           {activePart.type === "options" && (
-            <div className="pt-3 border-t border-border/60 space-y-2">
+            <div className="pt-3.5 border-t border-border/70 space-y-2.5">
               <span className="block text-xs font-bold uppercase tracking-wider font-heading text-muted-foreground">
-                Allowed Options for this Part
+                Allowed Choices for this Slice
               </span>
               <div className="flex flex-wrap items-center gap-2">
                 <span className="px-2.5 py-1 text-xs font-mono bg-brand/10 border border-brand/30 text-brand font-medium">
-                  {activePart.originalText} (Default)
+                  {activePart.originalText} (Base)
                 </span>
                 {activePart.options.map((opt) => (
                   <button
                     key={opt}
                     type="button"
                     onClick={() => handleRemoveOption(opt)}
-                    className="px-2.5 py-1 text-xs font-mono bg-muted border border-border hover:border-status-rejected hover:text-status-rejected transition-colors cursor-pointer flex items-center gap-1.5"
-                    title="Click to remove"
+                    className="px-2.5 py-1 text-xs font-mono bg-muted/50 border border-border text-foreground hover:border-status-rejected/60 hover:text-status-rejected transition-colors cursor-pointer flex items-center gap-1.5"
+                    title="Remove choice"
                   >
                     <span>{opt}</span>
                     <Cancel01Icon size={12} />
@@ -312,60 +398,74 @@ export function StepEligibilityRules({
             </div>
           )}
 
+          {/* Digits Sub-panel */}
           {activePart.type === "digits" && (
-            <div className="pt-3 border-t border-border/60 space-y-3">
+            <div className="pt-3.5 border-t border-border/70 space-y-3">
               <span className="block text-xs font-bold uppercase tracking-wider font-heading text-muted-foreground">
-                Number / Matric Rule
+                Number Constraint
               </span>
 
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={() => handleUpdateActivePart({ digitsMode: "any" })}
-                  className={`px-3 py-1.5 text-xs font-sans border cursor-pointer ${
+                  className={`px-3 py-1.5 text-xs font-sans border transition-colors cursor-pointer ${
                     activePart.digitsMode === "any"
                       ? "bg-foreground text-background font-bold border-foreground"
-                      : "bg-muted text-muted-foreground border-border hover:text-foreground"
+                      : "bg-muted/40 text-muted-foreground border-border/80 hover:text-foreground hover:border-border"
                   }`}
                 >
-                  Any Numbers (All levels)
+                  Any Digits (All cohorts)
                 </button>
                 <button
                   type="button"
                   onClick={() => {
-                    const defaultPrefix = activePart.originalText.slice(0, 4);
+                    // Filter out any non-numeric text
+                    const cleanPrefixes = activePart.digitPrefixes
+                      .map((p) => p.replace(/[^0-9]/g, ""))
+                      .filter(Boolean);
+
+                    const digitsInOriginal = activePart.originalText.replace(
+                      /[^0-9]/g,
+                      "",
+                    );
+                    const defaultPrefix =
+                      digitsInOriginal.length >= 4
+                        ? digitsInOriginal.slice(0, 4)
+                        : "";
+
                     handleUpdateActivePart({
                       digitsMode: "prefix",
                       digitPrefixes:
-                        activePart.digitPrefixes.length > 0
-                          ? activePart.digitPrefixes
+                        cleanPrefixes.length > 0
+                          ? cleanPrefixes
                           : defaultPrefix
                             ? [defaultPrefix]
                             : [],
                     });
                   }}
-                  className={`px-3 py-1.5 text-xs font-sans border cursor-pointer ${
+                  className={`px-3 py-1.5 text-xs font-sans border transition-colors cursor-pointer ${
                     activePart.digitsMode === "prefix"
                       ? "bg-foreground text-background font-bold border-foreground"
-                      : "bg-muted text-muted-foreground border-border hover:text-foreground"
+                      : "bg-muted/40 text-muted-foreground border-border/80 hover:text-foreground hover:border-border"
                   }`}
                 >
-                  Starts with Year / Prefix (e.g. 2021*, 2022*)
+                  Starts with Year Prefix (e.g. 2021*, 2022*)
                 </button>
               </div>
 
               {activePart.digitsMode === "prefix" && (
                 <div className="space-y-2 pt-1">
                   <div className="flex flex-wrap items-center gap-2">
-                    {activePart.digitPrefixes.map((pfx) => (
+                    {validDigitPrefixes.map((pfx) => (
                       <button
                         key={pfx}
                         type="button"
                         onClick={() => handleRemoveDigitPrefix(pfx)}
-                        className="px-2.5 py-1 text-xs font-mono bg-brand/10 border border-brand/30 text-brand hover:border-status-rejected hover:text-status-rejected transition-colors cursor-pointer flex items-center gap-1.5"
-                        title="Click to remove"
+                        className="px-2.5 py-1 text-xs font-mono bg-brand/10 border border-brand/30 text-brand hover:border-status-rejected/60 hover:text-status-rejected transition-colors cursor-pointer flex items-center gap-1.5"
+                        title="Remove prefix"
                       >
-                        <span>{pfx.endsWith("*") ? pfx : `${pfx}*`}</span>
+                        <span>{pfx}*</span>
                         <Cancel01Icon size={12} />
                       </button>
                     ))}
@@ -377,9 +477,13 @@ export function StepEligibilityRules({
                   >
                     <input
                       type="text"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
                       value={newPrefixInput}
-                      onChange={(e) => setNewPrefixInput(e.target.value)}
-                      placeholder="Add prefix (e.g. 2022*)"
+                      onChange={(e) =>
+                        setNewPrefixInput(e.target.value.replace(/[^0-9]/g, ""))
+                      }
+                      placeholder="Add year prefix (e.g. 2022)"
                       className="text-input h-9 text-xs font-mono flex-1"
                     />
                     <button
@@ -396,15 +500,24 @@ export function StepEligibilityRules({
         </div>
       )}
 
-      <div className="p-4 bg-muted/30 border border-border/80 space-y-3">
-        <div className="flex items-center justify-between">
+      {/* Live Eligibility Tester */}
+      <div className="p-4 bg-muted/20 border border-border/80 space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <span className="text-xs font-bold uppercase tracking-wider font-heading text-foreground flex items-center gap-1.5">
             <SecurityCheckIcon size={14} className="text-brand" />
-            <span>Interactive Email Eligibility Tester</span>
+            <span>Live Eligibility Tester</span>
           </span>
-          <span className="text-[11px] font-mono text-muted-foreground">
-            Pattern: {compiledRegex}
-          </span>
+          <div
+            className="flex items-center gap-1.5 text-[11px] font-mono text-muted-foreground/80 max-w-sm truncate"
+            title={compiledRegex}
+          >
+            <span className="text-[10px] uppercase font-sans font-bold text-muted-foreground/60 tracking-wider">
+              Pattern:
+            </span>
+            <span className="px-1.5 py-0.5 bg-background/80 border border-border/60 truncate">
+              {compiledRegex}
+            </span>
+          </div>
         </div>
 
         <div className="relative">
@@ -414,32 +527,29 @@ export function StepEligibilityRules({
             value={testEmail}
             onChange={(e) => onTestEmailChange(e.target.value)}
             placeholder="Type any student email to test against your configured rules..."
-            className="text-input h-10 w-full text-xs font-sans pr-24"
+            className="text-input h-10 w-full text-xs font-sans pr-28"
           />
           <div className="absolute right-2 top-1/2 -translate-y-1/2">
-            <span
-              className={`inline-flex items-center gap-1 px-2 py-0.5 text-[11px] font-sans font-medium border ${
-                isTestEmailEligible
-                  ? "bg-status-confirmed/10 text-status-confirmed border-status-confirmed/30"
-                  : "bg-status-rejected/10 text-status-rejected border-status-rejected/30"
-              }`}
-            >
-              {isTestEmailEligible ? (
-                <>
-                  <CheckmarkCircle02Icon size={12} />
-                  <span>Eligible</span>
-                </>
-              ) : (
-                <>
-                  <Cancel01Icon size={12} />
-                  <span>Ineligible</span>
-                </>
-              )}
-            </span>
+            {!testEmail.trim() ? (
+              <span className="px-2 py-0.5 text-[11px] font-sans font-medium text-muted-foreground bg-muted/60 border border-border">
+                Awaiting input
+              </span>
+            ) : isTestEmailEligible ? (
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-[11px] font-sans font-medium text-status-confirmed bg-status-confirmed/10 border border-status-confirmed/30">
+                <CheckmarkCircle02Icon size={12} />
+                <span>Eligible</span>
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-[11px] font-sans font-medium text-status-rejected bg-status-rejected/10 border border-status-rejected/30">
+                <Cancel01Icon size={12} />
+                <span>Ineligible</span>
+              </span>
+            )}
           </div>
         </div>
       </div>
 
+      {/* Stepper Navigation */}
       <div className="flex items-center justify-between">
         <button
           type="button"
