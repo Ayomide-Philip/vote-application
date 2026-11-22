@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  ArrowUpRight01Icon,
   CheckListIcon,
   CheckmarkCircle02Icon,
   Shield01Icon,
@@ -12,21 +13,21 @@ const DEFAULT_STATS: StatCardItem[] = [
   {
     label: "Total Elections",
     value: "12",
-    pill: "↗ +2",
+    pill: "+2",
     isPositive: true,
     icon: CheckmarkCircle02Icon,
   },
   {
     label: "Total Ballots Cast",
     value: "3,273",
-    pill: "↗ +14%",
+    pill: "+14%",
     isPositive: true,
     icon: Shield01Icon,
   },
   {
     label: "Avg Turnout Rate",
     value: "78.4%",
-    pill: "↗ +3.2%",
+    pill: "+3.2%",
     isPositive: true,
     icon: Time02Icon,
   },
@@ -67,13 +68,16 @@ export function DashboardStats({ stats = DEFAULT_STATS }: DashboardStatsProps) {
                 {stat.value}
               </span>
               <span
-                className={`px-2 py-0.5 text-[11px] font-mono font-medium border ${
+                className={`inline-flex items-center gap-0.5 px-2 py-0.5 text-[11px] font-sans font-medium border ${
                   stat.isPositive
                     ? "bg-status-confirmed/10 border-status-confirmed/30 text-status-confirmed"
                     : "bg-muted border-border text-muted-foreground"
                 }`}
               >
-                {stat.pill}
+                {stat.isPositive && (
+                  <ArrowUpRight01Icon size={12} className="shrink-0" />
+                )}
+                <span>{stat.pill}</span>
               </span>
             </div>
           </div>

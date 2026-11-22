@@ -45,12 +45,12 @@ export function ElectionInspectModal({
           >
             {election.title}
           </h2>
-          <p className="text-muted-foreground text-xs font-mono mt-1">
+          <p className="text-muted-foreground text-xs font-sans mt-1">
             Accession Code: {election.code}
           </p>
         </div>
 
-        <div className="space-y-3 font-mono text-xs border-b-2 border-dashed border-border pb-5">
+        <div className="space-y-3 font-sans text-xs border-b-2 border-dashed border-border pb-5">
           <div className="flex justify-between py-1.5 border-b border-border/40">
             <span className="text-muted-foreground">Status:</span>
             <span className="font-bold text-foreground uppercase">

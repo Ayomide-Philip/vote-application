@@ -6,6 +6,7 @@ import {
   DashboardStats,
   ElectionsSection,
   ElectionInspectModal,
+  JoinElectionModal,
   ElectionCardItem,
   ElectionFilter,
 } from "@/components/dashboard";
@@ -62,12 +63,16 @@ const ELECTIONS_DATA: ElectionCardItem[] = [
 export default function DashboardPage() {
   const [filter, setFilter] = useState<ElectionFilter>("All");
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
+  const [isJoinModalOpen, setIsJoinModalOpen] = useState(false);
   const [inspectingElection, setInspectingElection] =
     useState<ElectionCardItem | null>(null);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setInspectingElection(null);
+      if (e.key === "Escape") {
+        setInspectingElection(null);
+        setIsJoinModalOpen(false);
+      }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
@@ -81,7 +86,7 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-8">
-      <DashboardHero />
+      <DashboardHero onOpenJoinModal={() => setIsJoinModalOpen(true)} />
       <DashboardStats />
       <ElectionsSection
         elections={ELECTIONS_DATA}
@@ -96,6 +101,10 @@ export default function DashboardPage() {
         onClose={() => setInspectingElection(null)}
         onCopyCode={handleCopyCode}
         copiedCode={copiedCode}
+      />
+      <JoinElectionModal
+        isOpen={isJoinModalOpen}
+        onClose={() => setIsJoinModalOpen(false)}
       />
     </div>
   );

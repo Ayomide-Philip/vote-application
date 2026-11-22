@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { Menu01Icon, Cancel01Icon } from "hugeicons-react";
+import { Menu01Icon, Cancel01Icon, ArrowUpRight01Icon } from "hugeicons-react";
 
 /**
  * Centralized Navigation Configuration
@@ -116,12 +116,13 @@ export function Navbar() {
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="py-3 px-1 text-muted-foreground hover:text-brand hover:bg-muted/40 border-b border-border/40 transition-colors flex items-center justify-between"
+                      className="py-3 px-1 text-muted-foreground hover:text-brand hover:bg-muted/40 border-b border-border/40 transition-colors flex items-center justify-between cursor-pointer"
                     >
                       <span>{item.label}</span>
-                      <span className="text-subtle text-[10px] font-mono">
-                        ↗
-                      </span>
+                      <ArrowUpRight01Icon
+                        size={12}
+                        className="text-subtle shrink-0"
+                      />
                     </a>
                   );
                 }

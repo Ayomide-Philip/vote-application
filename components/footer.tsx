@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowUpRight01Icon } from "hugeicons-react";
 
 interface FooterLink {
   label: string;
@@ -101,10 +102,13 @@ export function Footer() {
                       href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1"
+                      className="text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1 cursor-pointer"
                     >
                       <span>{link.label}</span>
-                      <span className="text-xs text-muted-foreground">↗</span>
+                      <ArrowUpRight01Icon
+                        size={12}
+                        className="text-muted-foreground shrink-0"
+                      />
                     </a>
                   ) : (
                     <Link
