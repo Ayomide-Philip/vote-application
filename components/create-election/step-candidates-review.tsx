@@ -1,11 +1,7 @@
 "use client";
 
 import { useId } from "react";
-import {
-  ArrowLeft01Icon,
-  ArrowUpRight01Icon,
-  Ticket01Icon,
-} from "hugeicons-react";
+import { ArrowLeft01Icon, ArrowUpRight01Icon } from "hugeicons-react";
 
 interface StepCandidatesReviewProps {
   title: string;
@@ -57,9 +53,6 @@ export function StepCandidatesReview({
             className="text-input h-11 w-full text-xs font-mono tracking-wider font-medium uppercase pr-9"
             required
           />
-          <div className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-            <Ticket01Icon size={16} />
-          </div>
         </div>
       </div>
 
@@ -130,7 +123,7 @@ export function StepCandidatesReview({
             <span>Publishing &amp; Certifying...</span>
           ) : (
             <>
-              <span>Publish Institutional Election</span>
+              <span>Publish Election</span>
               <ArrowUpRight01Icon size={14} />
             </>
           )}
