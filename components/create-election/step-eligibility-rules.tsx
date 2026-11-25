@@ -124,7 +124,6 @@ export function StepEligibilityRules({
     }
   };
 
-  // Ensure digits sub-panel only operates on clean numeric prefixes
   const validDigitPrefixes = activePart
     ? activePart.digitPrefixes
         .map((p) => p.replace(/[^0-9]/g, ""))
@@ -133,7 +132,6 @@ export function StepEligibilityRules({
 
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
-      {/* Sample Email Input & Presets */}
       <div>
         <div className="flex items-center justify-between mb-1.5">
           <label
@@ -142,35 +140,6 @@ export function StepEligibilityRules({
           >
             Sample Student Email
           </label>
-          <div className="flex items-center gap-1.5">
-            <span className="text-[11px] font-sans text-muted-foreground/60 mr-0.5">
-              Presets:
-            </span>
-            <button
-              type="button"
-              onClick={() => onSampleEmailChange("jdoe@lautech.edu.ng")}
-              className={`px-2 py-0.5 text-[11px] font-mono border transition-colors cursor-pointer ${
-                sampleEmail === "jdoe@lautech.edu.ng"
-                  ? "border-brand text-brand bg-brand/10 font-medium"
-                  : "border-border/80 text-muted-foreground bg-muted/30 hover:border-brand/50 hover:text-foreground"
-              }`}
-            >
-              LAUTECH
-            </button>
-            <button
-              type="button"
-              onClick={() =>
-                onSampleEmailChange("a.areo.csc2021104@oauife.edu.ng")
-              }
-              className={`px-2 py-0.5 text-[11px] font-mono border transition-colors cursor-pointer ${
-                sampleEmail === "a.areo.csc2021104@oauife.edu.ng"
-                  ? "border-brand text-brand bg-brand/10 font-medium"
-                  : "border-border/80 text-muted-foreground bg-muted/30 hover:border-brand/50 hover:text-foreground"
-              }`}
-            >
-              OAU
-            </button>
-          </div>
         </div>
         <input
           id={sampleInputId}
@@ -183,55 +152,55 @@ export function StepEligibilityRules({
         />
       </div>
 
-      {/* Slices Ribbon */}
-      <div className="space-y-2">
-        <div className="flex items-center justify-between">
-          <span className="block text-xs font-bold uppercase tracking-wider font-heading text-muted-foreground">
-            Email Slices
-          </span>
-          <span className="text-[11px] font-sans text-muted-foreground/70">
-            Click a slice to configure its rule
-          </span>
-        </div>
+      {sampleEmail && (
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="block text-xs font-bold uppercase tracking-wider font-heading text-muted-foreground">
+              Email Slices
+            </span>
+            <span className="text-[11px] font-sans text-muted-foreground/70">
+              Click a slice to configure its rule
+            </span>
+          </div>
 
-        <div className="p-3 bg-muted/20 border border-border/80 flex flex-wrap items-center gap-1.5">
-          {emailParts.map((part) => {
-            const isSelected = activePart?.id === part.id;
-            return (
-              <div key={part.id} className="flex items-center">
-                {part.delimiter && (
-                  <span className="font-mono text-xs font-semibold text-muted-foreground/60 px-1 select-none">
-                    {part.delimiter}
-                  </span>
-                )}
-                <button
-                  type="button"
-                  onClick={() => setSelectedPartId(part.id)}
-                  className={`px-3 py-2 border text-left transition-all cursor-pointer flex flex-col gap-0.5 ${
-                    isSelected
-                      ? "border-brand bg-brand/10 text-foreground ring-1 ring-brand shadow-[0_0_12px_rgba(245,158,11,0.08)]"
-                      : "border-border/80 bg-card text-muted-foreground hover:text-foreground hover:border-border"
-                  }`}
-                >
-                  <span className="font-mono text-xs font-bold text-foreground tracking-tight">
-                    {part.originalText}
-                  </span>
-                  <span
-                    className={`text-[9px] font-sans font-semibold uppercase tracking-wider ${
-                      isSelected ? "text-brand" : "text-muted-foreground/70"
+          <div className="p-3 bg-muted/20 border border-border/80 flex flex-wrap items-center gap-1.5">
+            {emailParts.map((part) => {
+              const isSelected = activePart?.id === part.id;
+              return (
+                <div key={part.id} className="flex items-center">
+                  {part.delimiter && (
+                    <span className="font-mono text-xs font-semibold text-muted-foreground/60 px-1 select-none">
+                      {part.delimiter}
+                    </span>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => setSelectedPartId(part.id)}
+                    className={`px-3 py-2 border text-left transition-all cursor-pointer flex flex-col gap-0.5 ${
+                      isSelected
+                        ? "border-brand bg-brand/10 text-foreground ring-1 ring-brand shadow-[0_0_12px_rgba(245,158,11,0.08)]"
+                        : "border-border/80 bg-card text-muted-foreground hover:text-foreground hover:border-border"
                     }`}
                   >
-                    {getPartTypeBadge(part)}
-                    {part.isOptional && " • Opt"}
-                  </span>
-                </button>
-              </div>
-            );
-          })}
+                    <span className="font-mono text-xs font-bold text-foreground tracking-tight">
+                      {part.originalText}
+                    </span>
+                    <span
+                      className={`text-[9px] font-sans font-semibold uppercase tracking-wider ${
+                        isSelected ? "text-brand" : "text-muted-foreground/70"
+                      }`}
+                    >
+                      {getPartTypeBadge(part)}
+                      {part.isOptional && " • Opt"}
+                    </span>
+                  </button>
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* Active Slice Rule Configurator Card */}
       {activePart && (
         <div className="p-5 bg-card border border-border space-y-4 text-left">
           <div className="flex items-center justify-between pb-3 border-b border-border/70">
@@ -500,56 +469,56 @@ export function StepEligibilityRules({
         </div>
       )}
 
-      {/* Live Eligibility Tester */}
-      <div className="p-4 bg-muted/20 border border-border/80 space-y-3">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <span className="text-xs font-bold uppercase tracking-wider font-heading text-foreground flex items-center gap-1.5">
-            <SecurityCheckIcon size={14} className="text-brand" />
-            <span>Live Eligibility Tester</span>
-          </span>
-          <div
-            className="flex items-center gap-1.5 text-[11px] font-mono text-muted-foreground/80 max-w-sm truncate"
-            title={compiledRegex}
-          >
-            <span className="text-[10px] uppercase font-sans font-bold text-muted-foreground/60 tracking-wider">
-              Pattern:
+      {sampleEmail?.trim() && (
+        <div className="p-4 bg-muted/20 border border-border/80 space-y-3">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <span className="text-xs font-bold uppercase tracking-wider font-heading text-foreground flex items-center gap-1.5">
+              <SecurityCheckIcon size={14} className="text-brand" />
+              <span>Live Eligibility Tester</span>
             </span>
-            <span className="px-1.5 py-0.5 bg-background/80 border border-border/60 truncate">
-              {compiledRegex}
-            </span>
+            <div
+              className="flex items-center gap-1.5 text-[11px] font-mono text-muted-foreground/80 max-w-sm truncate"
+              title={compiledRegex}
+            >
+              <span className="text-[10px] uppercase font-sans font-bold text-muted-foreground/60 tracking-wider">
+                Pattern:
+              </span>
+              <span className="px-1.5 py-0.5 bg-background/80 border border-border/60 truncate">
+                {compiledRegex}
+              </span>
+            </div>
+          </div>
+
+          <div className="relative">
+            <input
+              id={testInputId}
+              type="email"
+              value={testEmail}
+              onChange={(e) => onTestEmailChange(e.target.value)}
+              placeholder="Type any student email to test against your configured rules..."
+              className="text-input h-10 w-full text-xs font-sans pr-28"
+            />
+            <div className="absolute right-2 top-1/2 -translate-y-1/2">
+              {!testEmail.trim() ? (
+                <span className="px-2 py-0.5 text-[11px] font-sans font-medium text-muted-foreground bg-muted/60 border border-border">
+                  Awaiting input
+                </span>
+              ) : isTestEmailEligible ? (
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-[11px] font-sans font-medium text-status-confirmed bg-status-confirmed/10 border border-status-confirmed/30">
+                  <CheckmarkCircle02Icon size={12} />
+                  <span>Eligible</span>
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-[11px] font-sans font-medium text-status-rejected bg-status-rejected/10 border border-status-rejected/30">
+                  <Cancel01Icon size={12} />
+                  <span>Ineligible</span>
+                </span>
+              )}
+            </div>
           </div>
         </div>
+      )}
 
-        <div className="relative">
-          <input
-            id={testInputId}
-            type="email"
-            value={testEmail}
-            onChange={(e) => onTestEmailChange(e.target.value)}
-            placeholder="Type any student email to test against your configured rules..."
-            className="text-input h-10 w-full text-xs font-sans pr-28"
-          />
-          <div className="absolute right-2 top-1/2 -translate-y-1/2">
-            {!testEmail.trim() ? (
-              <span className="px-2 py-0.5 text-[11px] font-sans font-medium text-muted-foreground bg-muted/60 border border-border">
-                Awaiting input
-              </span>
-            ) : isTestEmailEligible ? (
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-[11px] font-sans font-medium text-status-confirmed bg-status-confirmed/10 border border-status-confirmed/30">
-                <CheckmarkCircle02Icon size={12} />
-                <span>Eligible</span>
-              </span>
-            ) : (
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-[11px] font-sans font-medium text-status-rejected bg-status-rejected/10 border border-status-rejected/30">
-                <Cancel01Icon size={12} />
-                <span>Ineligible</span>
-              </span>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Stepper Navigation */}
       <div className="flex items-center justify-between">
         <button
           type="button"

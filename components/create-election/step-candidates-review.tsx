@@ -115,7 +115,9 @@ export function StepCandidatesReview({
           </div>
 
           <div>
-            <span className="text-muted-foreground block">Eligibility Scope:</span>
+            <span className="text-muted-foreground block">
+              Eligibility Scope:
+            </span>
             <span className="text-foreground">{domainLabel}</span>
           </div>
 

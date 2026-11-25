@@ -26,16 +26,12 @@ export default function CreateElectionPage() {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
 
-  const [sampleEmail, setSampleEmail] = useState(
-    "a.areo.csc2021104@oauife.edu.ng",
-  );
+  const [sampleEmail, setSampleEmail] = useState("");
   const [emailParts, setEmailParts] = useState<EmailPartRule[]>(() =>
-    parseEmailToParts("a.areo.csc2021104@oauife.edu.ng"),
+    parseEmailToParts(""),
   );
-  const [domainLabel, setDomainLabel] = useState(
-    "Faculty of Technology (@oauife.edu.ng)",
-  );
-  const [testEmail, setTestEmail] = useState("a.areo.csc2021104@oauife.edu.ng");
+  const [domainLabel, setDomainLabel] = useState("");
+  const [testEmail, setTestEmail] = useState("");
 
   const [candidates, setCandidates] = useState<InitialCandidate[]>([
     {
@@ -55,6 +51,7 @@ export default function CreateElectionPage() {
         "Industry internship partnerships and student welfare advocacy.",
     },
   ]);
+
   const [isAddCandOpen, setIsAddCandOpen] = useState(false);
 
   const [isPublishing, setIsPublishing] = useState(false);
