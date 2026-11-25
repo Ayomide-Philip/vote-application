@@ -40,12 +40,8 @@ export default function CreateElectionPage() {
 
   const isTestEmailEligible = (() => {
     try {
-      const isCaseInsensitive = compiledRegex.startsWith("(?i)");
-      const jsPattern = isCaseInsensitive
-        ? compiledRegex.slice(4)
-        : compiledRegex;
-      const reg = new RegExp(jsPattern, isCaseInsensitive ? "i" : "");
-      return reg.test(testEmail.trim());
+      const reg = new RegExp(compiledRegex, "i");
+      return reg.test(testEmail.trim().toLowerCase());
     } catch {
       return false;
     }

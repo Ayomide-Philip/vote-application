@@ -5,7 +5,7 @@ function escapeRegex(str: string): string {
 }
 
 export function parseEmailToParts(email: string): EmailPartRule[] {
-  const trimmed = email.trim();
+  const trimmed = email.trim().toLowerCase();
   if (!trimmed) return [];
 
   const atIndex = trimmed.indexOf("@");
@@ -96,14 +96,14 @@ export function parseEmailToParts(email: string): EmailPartRule[] {
 export function compilePartsToRegex(parts: EmailPartRule[]): string {
   if (parts.length === 0) return ".*";
 
-  let pattern = "(?i)^";
+  let pattern = "^";
 
   for (const part of parts) {
     let segmentPattern = "";
     const delim = part.delimiter ? escapeRegex(part.delimiter) : "";
 
     if (part.type === "exact") {
-      segmentPattern = `${delim}${escapeRegex(part.originalText)}`;
+      segmentPattern = `${delim}${escapeRegex(part.originalText.toLowerCase())}`;
     } else if (part.type === "wildcard") {
       segmentPattern = `${delim}[a-zA-Z0-9_-]+`;
     } else if (part.type === "digits") {
@@ -125,7 +125,12 @@ export function compilePartsToRegex(parts: EmailPartRule[]): string {
       }
     } else if (part.type === "options") {
       const allChoices = Array.from(
-        new Set([part.originalText, ...part.options].filter(Boolean)),
+        new Set(
+          [
+            part.originalText.toLowerCase(),
+            ...part.options.map((o) => o.toLowerCase()),
+          ].filter(Boolean),
+        ),
       );
       const choicesPattern = allChoices.map(escapeRegex).join("|");
       segmentPattern = `${delim}(${choicesPattern})`;
