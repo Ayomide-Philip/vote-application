@@ -8,7 +8,7 @@ interface CreateStepNavProps {
 const STEPS: { step: 1 | 2 | 3; label: string }[] = [
   { step: 1, label: "1. Ballot Details" },
   { step: 2, label: "2. Eligibility Rules" },
-  { step: 3, label: "3. Candidates & Launch" },
+  { step: 3, label: "3. Launch" },
 ];
 
 export function CreateStepNav({ currentStep, onStepClick }: CreateStepNavProps) {

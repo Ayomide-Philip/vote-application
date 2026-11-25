@@ -13,6 +13,8 @@ import { EmailPartRule } from "./types";
 interface StepEligibilityRulesProps {
   sampleEmail: string;
   onSampleEmailChange: (val: string) => void;
+  domainLabel: string;
+  onDomainLabelChange: (val: string) => void;
   emailParts: EmailPartRule[];
   onEmailPartsChange: (parts: EmailPartRule[]) => void;
   testEmail: string;
@@ -26,6 +28,8 @@ interface StepEligibilityRulesProps {
 export function StepEligibilityRules({
   sampleEmail,
   onSampleEmailChange,
+  domainLabel,
+  onDomainLabelChange,
   emailParts,
   onEmailPartsChange,
   testEmail,
@@ -36,6 +40,7 @@ export function StepEligibilityRules({
   onNext,
 }: StepEligibilityRulesProps) {
   const sampleInputId = useId();
+  const domainLabelId = useId();
   const testInputId = useId();
   const newOptionId = useId();
 
@@ -146,15 +151,32 @@ export function StepEligibilityRules({
           type="email"
           value={sampleEmail}
           onChange={(e) => onSampleEmailChange(e.target.value)}
-          placeholder="e.g. jdoe@lautech.edu.ng or a.areo.csc2021104@oauife.edu.ng"
+          placeholder="e.g. jdoe@domain.co"
           className="text-input h-11 w-full text-xs font-sans"
           required
         />
       </div>
 
+      <div>
+        <label
+          htmlFor={domainLabelId}
+          className="block text-xs font-bold uppercase tracking-wider font-heading text-muted-foreground mb-1.5"
+        >
+          Domain Label
+        </label>
+        <input
+          id={domainLabelId}
+          type="text"
+          value={domainLabel}
+          onChange={(e) => onDomainLabelChange(e.target.value)}
+          placeholder="e.g. @domain.co"
+          className="text-input h-11 w-full text-xs font-sans"
+        />
+      </div>
+
       {sampleEmail && (
         <div className="space-y-2">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-wrap items-center justify-between gap-1.5">
             <span className="block text-xs font-bold uppercase tracking-wider font-heading text-muted-foreground">
               Email Slices
             </span>
@@ -167,22 +189,22 @@ export function StepEligibilityRules({
             {emailParts.map((part) => {
               const isSelected = activePart?.id === part.id;
               return (
-                <div key={part.id} className="flex items-center">
+                <div key={part.id} className="flex items-center max-w-full">
                   {part.delimiter && (
-                    <span className="font-mono text-xs font-semibold text-muted-foreground/60 px-1 select-none">
+                    <span className="font-mono text-xs font-semibold text-muted-foreground/60 px-1 select-none shrink-0">
                       {part.delimiter}
                     </span>
                   )}
                   <button
                     type="button"
                     onClick={() => setSelectedPartId(part.id)}
-                    className={`px-3 py-2 border text-left transition-all cursor-pointer flex flex-col gap-0.5 ${
+                    className={`px-3 py-2 border text-left transition-all cursor-pointer flex flex-col gap-0.5 max-w-full ${
                       isSelected
                         ? "border-brand bg-brand/10 text-foreground ring-1 ring-brand shadow-[0_0_12px_rgba(245,158,11,0.08)]"
                         : "border-border/80 bg-card text-muted-foreground hover:text-foreground hover:border-border"
                     }`}
                   >
-                    <span className="font-mono text-xs font-bold text-foreground tracking-tight">
+                    <span className="font-mono text-xs font-bold text-foreground tracking-tight break-all">
                       {part.originalText}
                     </span>
                     <span
@@ -202,18 +224,18 @@ export function StepEligibilityRules({
       )}
 
       {activePart && (
-        <div className="p-5 bg-card border border-border space-y-4 text-left">
-          <div className="flex items-center justify-between pb-3 border-b border-border/70">
-            <div className="flex items-center gap-2">
+        <div className="p-4 sm:p-5 bg-card border border-border space-y-4 text-left">
+          <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-border/70">
+            <div className="flex flex-wrap items-center gap-2 min-w-0">
               <span className="text-xs font-bold uppercase tracking-wider font-heading text-muted-foreground">
                 Configuring Slice:
               </span>
-              <span className="px-2.5 py-0.5 bg-brand/10 border border-brand/30 font-mono text-xs font-bold text-brand">
+              <span className="px-2.5 py-0.5 bg-brand/10 border border-brand/30 font-mono text-xs font-bold text-brand break-all">
                 {activePart.originalText}
               </span>
             </div>
 
-            <label className="flex items-center gap-2 text-xs font-sans text-muted-foreground hover:text-foreground cursor-pointer select-none">
+            <label className="flex items-center gap-2 text-xs font-sans text-muted-foreground hover:text-foreground cursor-pointer select-none shrink-0">
               <input
                 type="checkbox"
                 checked={activePart.isOptional}
@@ -328,7 +350,7 @@ export function StepEligibilityRules({
                 Allowed Choices for this Slice
               </span>
               <div className="flex flex-wrap items-center gap-2">
-                <span className="px-2.5 py-1 text-xs font-mono bg-brand/10 border border-brand/30 text-brand font-medium">
+                <span className="px-2.5 py-1 text-xs font-mono bg-brand/10 border border-brand/30 text-brand font-medium break-all">
                   {activePart.originalText} (Base)
                 </span>
                 {activePart.options.map((opt) => (
@@ -339,15 +361,15 @@ export function StepEligibilityRules({
                     className="px-2.5 py-1 text-xs font-mono bg-muted/50 border border-border text-foreground hover:border-status-rejected/60 hover:text-status-rejected transition-colors cursor-pointer flex items-center gap-1.5"
                     title="Remove choice"
                   >
-                    <span>{opt}</span>
-                    <Cancel01Icon size={12} />
+                    <span className="break-all">{opt}</span>
+                    <Cancel01Icon size={12} className="shrink-0" />
                   </button>
                 ))}
               </div>
 
               <form
                 onSubmit={handleAddOption}
-                className="flex items-center gap-2 max-w-xs pt-1"
+                className="flex items-center gap-2 w-full sm:max-w-xs pt-1"
               >
                 <input
                   id={newOptionId}
@@ -355,11 +377,11 @@ export function StepEligibilityRules({
                   value={newOptionInput}
                   onChange={(e) => setNewOptionInput(e.target.value)}
                   placeholder="Add alternative (e.g. eee)"
-                  className="text-input h-9 text-xs font-mono flex-1"
+                  className="text-input h-9 text-xs font-mono flex-1 min-w-0"
                 />
                 <button
                   type="submit"
-                  className="btn btn-secondary h-9 px-3 text-xs font-bold cursor-pointer"
+                  className="btn btn-secondary h-9 px-3 text-xs font-bold cursor-pointer shrink-0"
                 >
                   Add
                 </button>
@@ -374,11 +396,11 @@ export function StepEligibilityRules({
                 Number Constraint
               </span>
 
-              <div className="flex items-center gap-2">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2">
                 <button
                   type="button"
                   onClick={() => handleUpdateActivePart({ digitsMode: "any" })}
-                  className={`px-3 py-1.5 text-xs font-sans border transition-colors cursor-pointer ${
+                  className={`px-3 py-2 sm:py-1.5 text-xs font-sans border transition-colors cursor-pointer text-left sm:text-center ${
                     activePart.digitsMode === "any"
                       ? "bg-foreground text-background font-bold border-foreground"
                       : "bg-muted/40 text-muted-foreground border-border/80 hover:text-foreground hover:border-border"
@@ -413,7 +435,7 @@ export function StepEligibilityRules({
                             : [],
                     });
                   }}
-                  className={`px-3 py-1.5 text-xs font-sans border transition-colors cursor-pointer ${
+                  className={`px-3 py-2 sm:py-1.5 text-xs font-sans border transition-colors cursor-pointer text-left sm:text-center ${
                     activePart.digitsMode === "prefix"
                       ? "bg-foreground text-background font-bold border-foreground"
                       : "bg-muted/40 text-muted-foreground border-border/80 hover:text-foreground hover:border-border"
@@ -442,7 +464,7 @@ export function StepEligibilityRules({
 
                   <form
                     onSubmit={handleAddDigitPrefix}
-                    className="flex items-center gap-2 max-w-xs pt-1"
+                    className="flex items-center gap-2 w-full sm:max-w-xs pt-1"
                   >
                     <input
                       type="text"
@@ -453,11 +475,11 @@ export function StepEligibilityRules({
                         setNewPrefixInput(e.target.value.replace(/[^0-9]/g, ""))
                       }
                       placeholder="Add year prefix (e.g. 2022)"
-                      className="text-input h-9 text-xs font-mono flex-1"
+                      className="text-input h-9 text-xs font-mono flex-1 min-w-0"
                     />
                     <button
                       type="submit"
-                      className="btn btn-secondary h-9 px-3 text-xs font-bold cursor-pointer"
+                      className="btn btn-secondary h-9 px-3 text-xs font-bold cursor-pointer shrink-0"
                     >
                       Add
                     </button>
@@ -473,14 +495,14 @@ export function StepEligibilityRules({
         <div className="p-4 bg-muted/20 border border-border/80 space-y-3">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <span className="text-xs font-bold uppercase tracking-wider font-heading text-foreground flex items-center gap-1.5">
-              <SecurityCheckIcon size={14} className="text-brand" />
+              <SecurityCheckIcon size={14} className="text-brand shrink-0" />
               <span>Live Eligibility Tester</span>
             </span>
             <div
-              className="flex items-center gap-1.5 text-[11px] font-mono text-muted-foreground/80 max-w-sm truncate"
+              className="flex items-center gap-1.5 text-[11px] font-mono text-muted-foreground/80 max-w-full sm:max-w-sm min-w-0"
               title={compiledRegex}
             >
-              <span className="text-[10px] uppercase font-sans font-bold text-muted-foreground/60 tracking-wider">
+              <span className="text-[10px] uppercase font-sans font-bold text-muted-foreground/60 tracking-wider shrink-0">
                 Pattern:
               </span>
               <span className="px-1.5 py-0.5 bg-background/80 border border-border/60 truncate">
@@ -495,35 +517,41 @@ export function StepEligibilityRules({
               type="email"
               value={testEmail}
               onChange={(e) => onTestEmailChange(e.target.value)}
-              placeholder="Type any student email to test against your configured rules..."
-              className="text-input h-10 w-full text-xs font-sans pr-28"
+              placeholder="Type any student email to test..."
+              className={`text-input h-10 w-full text-xs font-sans ${
+                testEmail.trim() ? "pr-10" : ""
+              }`}
             />
-            <div className="absolute right-2 top-1/2 -translate-y-1/2">
-              {!testEmail.trim() ? (
-                <span className="px-2 py-0.5 text-[11px] font-sans font-medium text-muted-foreground bg-muted/60 border border-border">
-                  Awaiting input
-                </span>
-              ) : isTestEmailEligible ? (
-                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-[11px] font-sans font-medium text-status-confirmed bg-status-confirmed/10 border border-status-confirmed/30">
-                  <CheckmarkCircle02Icon size={12} />
-                  <span>Eligible</span>
-                </span>
-              ) : (
-                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-[11px] font-sans font-medium text-status-rejected bg-status-rejected/10 border border-status-rejected/30">
-                  <Cancel01Icon size={12} />
-                  <span>Ineligible</span>
-                </span>
-              )}
-            </div>
+            {testEmail.trim() && (
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center">
+                {isTestEmailEligible ? (
+                  <span
+                    className="inline-flex items-center justify-center text-status-confirmed"
+                    title="Eligible"
+                    aria-label="Eligible"
+                  >
+                    <CheckmarkCircle02Icon size={16} />
+                  </span>
+                ) : (
+                  <span
+                    className="inline-flex items-center justify-center text-status-rejected"
+                    title="Ineligible"
+                    aria-label="Ineligible"
+                  >
+                    <Cancel01Icon size={16} />
+                  </span>
+                )}
+              </div>
+            )}
           </div>
         </div>
       )}
 
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3">
         <button
           type="button"
           onClick={onBack}
-          className="btn btn-secondary h-11 px-5 text-xs font-bold tracking-wider flex items-center gap-2 cursor-pointer"
+          className="btn btn-secondary h-11 px-5 text-xs font-bold tracking-wider flex items-center justify-center gap-2 cursor-pointer"
         >
           <ArrowLeft01Icon size={16} />
           <span>Back</span>
@@ -532,9 +560,9 @@ export function StepEligibilityRules({
         <button
           type="button"
           onClick={onNext}
-          className="btn btn-primary h-11 px-6 text-xs font-bold tracking-wider flex items-center gap-2 cursor-pointer"
+          className="btn btn-primary h-11 px-6 text-xs font-bold tracking-wider flex items-center justify-center gap-2 cursor-pointer"
         >
-          <span>Continue to Candidates &amp; Review</span>
+          <span>Continue to Launch</span>
           <ArrowRight01Icon size={16} />
         </button>
       </div>

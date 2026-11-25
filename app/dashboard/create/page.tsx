@@ -8,8 +8,6 @@ import {
   StepBallotDetails,
   StepEligibilityRules,
   StepCandidatesReview,
-  AddContestantModal,
-  InitialCandidate,
   EmailPartRule,
   parseEmailToParts,
   compilePartsToRegex,
@@ -18,7 +16,7 @@ import {
 export default function CreateElectionPage() {
   const router = useRouter();
 
-  const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(2);
+  const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(3);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -30,29 +28,9 @@ export default function CreateElectionPage() {
   const [emailParts, setEmailParts] = useState<EmailPartRule[]>(() =>
     parseEmailToParts(""),
   );
+
   const [domainLabel, setDomainLabel] = useState("");
   const [testEmail, setTestEmail] = useState("");
-
-  const [candidates, setCandidates] = useState<InitialCandidate[]>([
-    {
-      id: "c-1",
-      name: "Toluwani Adeleke",
-      position: "President",
-      department: "Computer Science & Engineering",
-      manifesto:
-        "Transparent departmental budgeting and digital lab expansion.",
-    },
-    {
-      id: "c-2",
-      name: "Chukwudi Nnamdi",
-      position: "President",
-      department: "Mechanical Engineering",
-      manifesto:
-        "Industry internship partnerships and student welfare advocacy.",
-    },
-  ]);
-
-  const [isAddCandOpen, setIsAddCandOpen] = useState(false);
 
   const [isPublishing, setIsPublishing] = useState(false);
   const [publishSuccess, setPublishSuccess] = useState(false);
@@ -87,26 +65,10 @@ export default function CreateElectionPage() {
     setAccessionCode(`${randomPrefix}-${randomNum}-26`);
   };
 
-  const handleAddCandidate = (candidateData: Omit<InitialCandidate, "id">) => {
-    const newCand: InitialCandidate = {
-      id: `c-${Date.now()}`,
-      ...candidateData,
-    };
-    setCandidates((prev) => [...prev, newCand]);
-  };
-
-  const handleRemoveCandidate = (id: string) => {
-    setCandidates((prev) => prev.filter((c) => c.id !== id));
-  };
-
   const handleStep1Next = () => {
     setStepError(null);
     if (!title.trim()) {
       setStepError("Please provide an election title.");
-      return;
-    }
-    if (!accessionCode.trim()) {
-      setStepError("Please provide an accession code.");
       return;
     }
     if (new Date(endTime) <= new Date(startTime)) {
@@ -126,8 +88,12 @@ export default function CreateElectionPage() {
   };
 
   const handlePublish = async () => {
-    setIsPublishing(true);
     setStepError(null);
+    if (!accessionCode.trim()) {
+      setStepError("Please provide an accession code.");
+      return;
+    }
+    setIsPublishing(true);
 
     await new Promise((r) => setTimeout(r, 1200));
 
@@ -184,9 +150,6 @@ export default function CreateElectionPage() {
             onTitleChange={setTitle}
             description={description}
             onDescriptionChange={setDescription}
-            accessionCode={accessionCode}
-            onAccessionCodeChange={setAccessionCode}
-            onGenerateCode={handleGenerateCode}
             startTime={startTime}
             onStartTimeChange={setStartTime}
             endTime={endTime}
@@ -199,6 +162,8 @@ export default function CreateElectionPage() {
           <StepEligibilityRules
             sampleEmail={sampleEmail}
             onSampleEmailChange={handleSampleEmailChange}
+            domainLabel={domainLabel}
+            onDomainLabelChange={setDomainLabel}
             emailParts={emailParts}
             onEmailPartsChange={setEmailParts}
             testEmail={testEmail}
@@ -212,12 +177,12 @@ export default function CreateElectionPage() {
 
         {currentStep === 3 && (
           <StepCandidatesReview
-            candidates={candidates}
-            onOpenAddModal={() => setIsAddCandOpen(true)}
-            onRemoveCandidate={handleRemoveCandidate}
             title={title}
             accessionCode={accessionCode}
+            onAccessionCodeChange={setAccessionCode}
+            onGenerateCode={handleGenerateCode}
             domainLabel={domainLabel}
+            compiledRegex={compiledRegex}
             startTime={startTime}
             endTime={endTime}
             isPublishing={isPublishing}
@@ -227,12 +192,6 @@ export default function CreateElectionPage() {
           />
         )}
       </div>
-
-      <AddContestantModal
-        isOpen={isAddCandOpen}
-        onClose={() => setIsAddCandOpen(false)}
-        onAddCandidate={handleAddCandidate}
-      />
     </div>
   );
 }
