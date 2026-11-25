@@ -3,43 +3,16 @@
 import { useState } from "react";
 import { Ticket01Icon } from "hugeicons-react";
 import {
-  ElectionCardItem,
   ElectionFilter,
-} from "@/components/dashboard/types";
-import { ElectionCard } from "@/components/dashboard/election-card";
-import { JoinElectionModal } from "@/components/dashboard/join-election-modal";
-
-const JOINED_ELECTIONS: ElectionCardItem[] = [
-  {
-    id: "elec-2",
-    code: "OAU-SUG-26",
-    title: "Student Union Government Presidential Ballot",
-    description:
-      "General campus election for the 2026/2027 academic session executive body.",
-    status: "Active",
-    role: "voter",
-    ballotsCast: 1420,
-    turnoutRate: "82.4%",
-    allowedDomain: "@oauife.edu.ng",
-  },
-  {
-    id: "elec-4",
-    code: "NACOS-2026",
-    title: "National Association of Computing Students (NACOS) Poll",
-    description:
-      "Departmental executive committee voting across all academic levels and computer labs.",
-    status: "Upcoming",
-    role: "voter",
-    ballotsCast: 0,
-    turnoutRate: "0.0%",
-    allowedDomain: "@oauife.edu.ng",
-    startDate: "Starts in 5 days",
-  },
-];
+  ElectionCard,
+  JoinElectionModal,
+  useElections,
+} from "@/components/dashboard";
 
 const FILTERS: ElectionFilter[] = ["All", "Active", "Upcoming", "Concluded"];
 
 export default function JoinedElectionsPage() {
+  const { elections, isLoading, reload } = useElections("voter");
   const [filter, setFilter] = useState<ElectionFilter>("All");
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
   const [isJoinOpen, setIsJoinOpen] = useState(false);
@@ -50,7 +23,7 @@ export default function JoinedElectionsPage() {
     setTimeout(() => setCopiedCode(null), 2000);
   };
 
-  const filtered = JOINED_ELECTIONS.filter(
+  const filtered = elections.filter(
     (e) => filter === "All" || e.status === filter,
   );
 
@@ -95,7 +68,16 @@ export default function JoinedElectionsPage() {
         </div>
       </div>
 
-      {filtered.length === 0 ? (
+      {isLoading ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {[0, 1].map((idx) => (
+            <div
+              key={idx}
+              className="h-64 bg-card border border-border/60 animate-pulse"
+            />
+          ))}
+        </div>
+      ) : filtered.length === 0 ? (
         <div className="border-2 border-dashed border-border p-12 text-center bg-card/50">
           <Ticket01Icon
             size={32}
@@ -124,6 +106,7 @@ export default function JoinedElectionsPage() {
       <JoinElectionModal
         isOpen={isJoinOpen}
         onClose={() => setIsJoinOpen(false)}
+        onJoined={reload}
       />
     </div>
   );

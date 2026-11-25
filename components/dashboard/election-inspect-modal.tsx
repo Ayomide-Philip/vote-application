@@ -43,10 +43,10 @@ export function ElectionInspectModal({
             id="modal-inspection-title"
             className="text-xl sm:text-2xl font-medium font-heading text-foreground"
           >
-            {election.title}
+            {election.election_title}
           </h2>
           <p className="text-muted-foreground text-xs font-sans mt-1">
-            Accession Code: {election.code}
+            Accession Code: {election.election_code}
           </p>
         </div>
 
@@ -58,41 +58,42 @@ export function ElectionInspectModal({
             </span>
           </div>
           <div className="flex justify-between py-1.5 border-b border-border/40">
-            <span className="text-muted-foreground">Institutional Domain:</span>
-            <span className="text-status-confirmed font-semibold">
-              {election.allowedDomain}
+            <span className="text-muted-foreground">Admin:</span>
+            <span className="text-foreground font-semibold">
+              {election.admin_fullname}
             </span>
           </div>
           <div className="flex justify-between py-1.5 border-b border-border/40">
-            <span className="text-muted-foreground">Total Ballots Cast:</span>
-            <span className="text-foreground">
-              {election.ballotsCast.toLocaleString()} verified ballots
+            <span className="text-muted-foreground">Visibility:</span>
+            <span className="text-foreground capitalize">
+              {election.election_type}
             </span>
           </div>
           <div className="flex justify-between py-1.5">
-            <span className="text-muted-foreground">Certified Turnout:</span>
+            <span className="text-muted-foreground">Total Voters:</span>
             <span className="text-foreground font-bold">
-              {election.turnoutRate}
+              {election.total_voters.toLocaleString()}
             </span>
           </div>
         </div>
 
         <div className="mt-6 flex items-center justify-end gap-3">
           <button
-            onClick={() => onCopyCode(election.code)}
+            onClick={() => onCopyCode(election.election_code)}
             className="btn btn-secondary h-10 px-4 text-xs font-bold flex items-center gap-1.5 cursor-pointer"
           >
             <Copy01Icon size={14} />
             <span>
-              {copiedCode === election.code ? "Code Copied!" : "Copy Join Code"}
+              {copiedCode === election.election_code
+                ? "Code Copied!"
+                : "Copy Join Code"}
             </span>
           </button>
-
           <button
             onClick={onClose}
             className="btn btn-primary h-10 px-5 text-xs font-bold cursor-pointer"
           >
-            Close
+            Done
           </button>
         </div>
       </div>

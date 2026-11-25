@@ -10,74 +10,11 @@ import {
   ElectionCardItem,
   ElectionFilter,
   ElectionRoleFilter,
+  useElections,
 } from "@/components/dashboard";
 
-const ELECTIONS_DATA: ElectionCardItem[] = [
-  {
-    id: "elec-1",
-    code: "OAU-TECH-26",
-    title: "Faculty of Technology Executive Council Election",
-    description:
-      "Executive leadership and departmental representative elections across engineering programs.",
-    status: "Active",
-    role: "admin",
-    ballotsCast: 879,
-    turnoutRate: "78.1%",
-    allowedDomain: "@oauife.edu.ng",
-  },
-  {
-    id: "elec-2",
-    code: "OAU-SUG-26",
-    title: "Student Union Government Presidential Ballot",
-    description:
-      "General campus election for the 2026/2027 academic session executive body.",
-    status: "Active",
-    role: "voter",
-    ballotsCast: 1420,
-    turnoutRate: "82.4%",
-    allowedDomain: "@oauife.edu.ng",
-  },
-  {
-    id: "elec-3",
-    code: "SCI-DEAN-26",
-    title: "Faculty of Science Dean & Advisory Board Ballot",
-    description:
-      "Academic advisory representatives and departmental student delegates.",
-    status: "Upcoming",
-    role: "admin",
-    ballotsCast: 0,
-    turnoutRate: "0.0%",
-    allowedDomain: "@oauife.edu.ng",
-    startDate: "Starts in 2 days",
-  },
-  {
-    id: "elec-4",
-    code: "NACOS-2026",
-    title: "National Association of Computing Students (NACOS) Poll",
-    description:
-      "Departmental executive committee voting across all academic levels and computer labs.",
-    status: "Upcoming",
-    role: "voter",
-    ballotsCast: 0,
-    turnoutRate: "0.0%",
-    allowedDomain: "@oauife.edu.ng",
-    startDate: "Starts tomorrow",
-  },
-  {
-    id: "elec-5",
-    code: "PG-HALL-26",
-    title: "Postgraduate Hall of Residence Executive Representative",
-    description:
-      "Hall committee representative and floor delegate voting for postgraduate residents.",
-    status: "Concluded",
-    role: "voter",
-    ballotsCast: 532,
-    turnoutRate: "68.2%",
-    allowedDomain: "@oauife.edu.ng",
-  },
-];
-
 export default function DashboardPage() {
+  const { elections, isLoading, reload } = useElections("all");
   const [filter, setFilter] = useState<ElectionFilter>("All");
   const [roleFilter, setRoleFilter] = useState<ElectionRoleFilter>("All");
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
@@ -106,15 +43,26 @@ export default function DashboardPage() {
     <div className="space-y-8">
       <DashboardHero onOpenJoinModal={() => setIsJoinModalOpen(true)} />
       <DashboardStats />
-      <ElectionsSection
-        elections={ELECTIONS_DATA}
-        filter={filter}
-        onFilterChange={setFilter}
-        roleFilter={roleFilter}
-        onRoleFilterChange={setRoleFilter}
-        onCopyCode={handleCopyCode}
-        copiedCode={copiedCode}
-      />
+      {isLoading ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {[0, 1].map((idx) => (
+            <div
+              key={idx}
+              className="h-64 bg-card border border-border/60 animate-pulse"
+            />
+          ))}
+        </div>
+      ) : (
+        <ElectionsSection
+          elections={elections}
+          filter={filter}
+          onFilterChange={setFilter}
+          roleFilter={roleFilter}
+          onRoleFilterChange={setRoleFilter}
+          onCopyCode={handleCopyCode}
+          copiedCode={copiedCode}
+        />
+      )}
       <ElectionInspectModal
         election={inspectingElection}
         onClose={() => setInspectingElection(null)}
@@ -124,6 +72,7 @@ export default function DashboardPage() {
       <JoinElectionModal
         isOpen={isJoinModalOpen}
         onClose={() => setIsJoinModalOpen(false)}
+        onJoined={reload}
       />
     </div>
   );

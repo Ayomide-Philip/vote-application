@@ -2,34 +2,62 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { gooeyToast } from "goey-toast";
 import { ArrowRight01Icon, Cancel01Icon, Ticket01Icon } from "hugeicons-react";
 
 interface JoinElectionModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onJoined?: () => void;
 }
 
 export function JoinElectionModal({
   isOpen,
   onClose,
+  onJoined,
 }: JoinElectionModalProps) {
   const router = useRouter();
   const [code, setCode] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  const [isJoining, setIsJoining] = useState(false);
 
   if (!isOpen) return null;
 
-  const handleJoin = (e: React.FormEvent) => {
+  const handleJoin = async (e: React.FormEvent) => {
     e.preventDefault();
     const trimmed = code.trim().toUpperCase();
     if (!trimmed) {
-      setError("Please enter a valid election code.");
+      gooeyToast.error("Please enter a valid election code.");
       return;
     }
 
-    setError(null);
-    onClose();
-    router.push(`/dashboard/elections/${trimmed}`);
+    setIsJoining(true);
+    try {
+      const res = await fetch("/api/election/join", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ election_code: trimmed }),
+      });
+
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        gooeyToast.error(data.error || "Unable to join election.");
+        setIsJoining(false);
+        return;
+      }
+
+      gooeyToast.success(data.message || "Successfully joined election.");
+      setCode("");
+      setIsJoining(false);
+      onJoined?.();
+      onClose();
+
+      if (data.data?.status === "approved" && data.data?.election_id) {
+        router.push(`/dashboard/elections/${data.data.election_id}`);
+      }
+    } catch {
+      gooeyToast.error("Network error while joining election.");
+      setIsJoining(false);
+    }
   };
 
   return (
@@ -44,6 +72,7 @@ export function JoinElectionModal({
         onClick={(e) => e.stopPropagation()}
       >
         <button
+          type="button"
           onClick={onClose}
           className="absolute top-4 right-4 p-1.5 text-muted-foreground hover:text-foreground border border-transparent hover:border-border transition-colors cursor-pointer"
           aria-label="Close modal"
@@ -59,15 +88,9 @@ export function JoinElectionModal({
             Join an Election
           </h2>
           <p className="text-muted-foreground text-xs font-sans mt-1">
-            Enter the accession code provided by your department or faculty to access the live ballot.
+            Enter the accession code provided by your department or faculty.
           </p>
         </div>
-
-        {error && (
-          <div className="mb-4 p-3 bg-status-rejected/10 border border-status-rejected/30 text-xs font-sans text-status-rejected">
-            {error}
-          </div>
-        )}
 
         <form onSubmit={handleJoin} className="space-y-4">
           <div>
@@ -81,28 +104,11 @@ export function JoinElectionModal({
               id="accessionCode"
               type="text"
               value={code}
-              onChange={(e) => {
-                setCode(e.target.value.toUpperCase());
-                if (error) setError(null);
-              }}
-              placeholder="e.g. OAU-TECH-26"
-              className="text-input h-11 w-full text-xs font-sans uppercase tracking-wider"
+              onChange={(e) => setCode(e.target.value.toUpperCase())}
+              placeholder="e.g. OAU-CSC-1024"
+              className="text-input h-11 w-full text-xs font-mono uppercase"
               autoFocus
             />
-          </div>
-
-          <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-sans text-muted-foreground">
-            <span>Quick codes:</span>
-            {["OAU-TECH-26", "OAU-SUG-26", "NACOS-2026"].map((quickCode) => (
-              <button
-                key={quickCode}
-                type="button"
-                onClick={() => setCode(quickCode)}
-                className="px-2 py-0.5 bg-muted hover:bg-muted/80 border border-border text-foreground cursor-pointer transition-colors"
-              >
-                {quickCode}
-              </button>
-            ))}
           </div>
 
           <div className="pt-2 flex items-center justify-end gap-3">
@@ -115,9 +121,10 @@ export function JoinElectionModal({
             </button>
             <button
               type="submit"
-              className="btn btn-primary h-10 px-5 text-xs font-bold flex items-center gap-2 cursor-pointer"
+              disabled={isJoining}
+              className="btn btn-primary h-10 px-5 text-xs font-bold flex items-center gap-2 cursor-pointer disabled:opacity-50"
             >
-              <span>Join Ballot</span>
+              <span>{isJoining ? "Joining..." : "Join Ballot"}</span>
               <ArrowRight01Icon size={14} />
             </button>
           </div>

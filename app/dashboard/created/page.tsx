@@ -4,42 +4,15 @@ import { useState } from "react";
 import Link from "next/link";
 import { Add01Icon, CheckListIcon } from "hugeicons-react";
 import {
-  ElectionCardItem,
   ElectionFilter,
-} from "@/components/dashboard/types";
-import { ElectionCard } from "@/components/dashboard/election-card";
-
-const CREATED_ELECTIONS: ElectionCardItem[] = [
-  {
-    id: "elec-1",
-    code: "OAU-TECH-26",
-    title: "Faculty of Technology Executive Council Election",
-    description:
-      "Executive leadership and departmental representative elections across engineering programs.",
-    status: "Active",
-    role: "admin",
-    ballotsCast: 879,
-    turnoutRate: "78.1%",
-    allowedDomain: "@oauife.edu.ng",
-  },
-  {
-    id: "elec-3",
-    code: "SCI-DEAN-26",
-    title: "Faculty of Science Dean & Advisory Board Ballot",
-    description:
-      "Academic advisory representatives and departmental student delegates.",
-    status: "Upcoming",
-    role: "admin",
-    ballotsCast: 0,
-    turnoutRate: "0.0%",
-    allowedDomain: "@oauife.edu.ng",
-    startDate: "Starts in 2 days",
-  },
-];
+  ElectionCard,
+  useElections,
+} from "@/components/dashboard";
 
 const FILTERS: ElectionFilter[] = ["All", "Active", "Upcoming", "Concluded"];
 
 export default function CreatedElectionsPage() {
+  const { elections, isLoading } = useElections("admin");
   const [filter, setFilter] = useState<ElectionFilter>("All");
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
 
@@ -49,7 +22,7 @@ export default function CreatedElectionsPage() {
     setTimeout(() => setCopiedCode(null), 2000);
   };
 
-  const filtered = CREATED_ELECTIONS.filter(
+  const filtered = elections.filter(
     (e) => filter === "All" || e.status === filter,
   );
 
@@ -93,7 +66,16 @@ export default function CreatedElectionsPage() {
         </div>
       </div>
 
-      {filtered.length === 0 ? (
+      {isLoading ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {[0, 1].map((idx) => (
+            <div
+              key={idx}
+              className="h-64 bg-card border border-border/60 animate-pulse"
+            />
+          ))}
+        </div>
+      ) : filtered.length === 0 ? (
         <div className="border-2 border-dashed border-border p-12 text-center bg-card/50">
           <CheckListIcon
             size={32}

@@ -15,7 +15,7 @@ export function ElectionCard({
   onCopyCode,
   copiedCode,
 }: ElectionCardProps) {
-  const isCopied = copiedCode === election.code;
+  const isCopied = copiedCode === election.election_code;
 
   return (
     <div className="bg-card border border-border/80 hover:border-border p-6 flex flex-col justify-between transition-colors text-left shadow-2xs">
@@ -23,13 +23,13 @@ export function ElectionCard({
         <div className="flex items-center justify-between gap-3 pb-3 border-b border-border/60">
           <button
             type="button"
-            onClick={() => onCopyCode(election.code)}
+            onClick={() => onCopyCode(election.election_code)}
             className="group inline-flex items-center gap-1.5 px-2.5 py-1 bg-muted/40 hover:bg-muted border border-border/70 hover:border-border text-xs font-sans text-muted-foreground hover:text-foreground transition-colors cursor-pointer relative"
             title="Click to copy accession code"
-            aria-label={`Copy accession code for ${election.title}`}
+            aria-label={`Copy accession code for ${election.election_title}`}
           >
             <span className="font-mono text-[11px] font-medium text-foreground">
-              {election.code}
+              {election.election_code}
             </span>
             <Copy01Icon
               size={13}
@@ -81,11 +81,11 @@ export function ElectionCard({
             href={`/dashboard/elections/${election.id}`}
             className="text-base sm:text-lg font-heading font-medium text-foreground hover:text-brand transition-colors block leading-snug cursor-pointer"
           >
-            {election.title}
+            {election.election_title}
           </Link>
 
           <p className="text-xs text-muted-foreground font-sans line-clamp-2 leading-relaxed">
-            {election.description}
+            {election.election_description}
           </p>
         </div>
       </div>
@@ -94,21 +94,23 @@ export function ElectionCard({
         <div className="grid grid-cols-2 border border-border/60 bg-muted/30 divide-x divide-border/60 p-4">
           <div className="text-left pr-3">
             <span className="block text-xs font-sans text-muted-foreground mb-1">
-              Ballots Cast
+              Total Voters
             </span>
             <span className="text-2xl font-heading font-semibold text-foreground">
-              {election.status === "Upcoming"
-                ? "0"
-                : election.ballotsCast.toLocaleString()}
+              {election.total_voters.toLocaleString()}
             </span>
           </div>
 
           <div className="text-left pl-3">
             <span className="block text-xs font-sans text-muted-foreground mb-1">
-              Turnout Rate
+              {election.role === "voter" && election.voter_status
+                ? "Voter Status"
+                : "Visibility"}
             </span>
-            <span className="text-2xl font-heading font-semibold text-foreground">
-              {election.status === "Upcoming" ? "0.0%" : election.turnoutRate}
+            <span className="text-lg sm:text-xl font-heading font-semibold text-foreground capitalize">
+              {election.role === "voter" && election.voter_status
+                ? election.voter_status
+                : election.election_type}
             </span>
           </div>
         </div>
