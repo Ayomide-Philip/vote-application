@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { ThemeProvider } from "@/components/theme-provider";
+import { ToastProvider } from "@/components/toast-provider";
 import "./globals.css";
 
 const satoshi = localFont({
@@ -58,6 +59,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <ToastProvider />
         </ThemeProvider>
       </body>
     </html>
