@@ -11,6 +11,7 @@ create table if not exists elections (
     start_time TIMESTAMPTZ NOT NULL,
     end_time TIMESTAMPTZ NOT NULL,
     election_type VARCHAR(10) NOT NULL CHECK (election_type IN ('private', 'public')),
+    sample_email VARCHAR(255) NOT NULL,
     created_at TIMESTAMPTZ DEFAULT NOW (),
     updated_at TIMESTAMPTZ DEFAULT NOW ()
 );

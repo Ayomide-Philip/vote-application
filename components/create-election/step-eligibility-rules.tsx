@@ -19,7 +19,6 @@ interface StepEligibilityRulesProps {
   onEmailPartsChange: (parts: EmailPartRule[]) => void;
   testEmail: string;
   onTestEmailChange: (val: string) => void;
-  compiledRegex: string;
   isTestEmailEligible: boolean;
   onBack: () => void;
   onNext: () => void;
@@ -34,7 +33,6 @@ export function StepEligibilityRules({
   onEmailPartsChange,
   testEmail,
   onTestEmailChange,
-  compiledRegex,
   isTestEmailEligible,
   onBack,
   onNext,
@@ -526,22 +524,11 @@ export function StepEligibilityRules({
 
       {sampleEmail?.trim() && (
         <div className="p-4 bg-muted/20 border border-border/80 space-y-3">
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <span className="text-xs font-bold uppercase tracking-wider font-heading text-foreground flex items-center gap-1.5">
-              <SecurityCheckIcon size={14} className="text-brand shrink-0" />
-              <span>Live Eligibility Tester</span>
+          <div className="flex items-center gap-1.5">
+            <SecurityCheckIcon size={14} className="text-brand shrink-0" />
+            <span className="text-xs font-bold uppercase tracking-wider font-heading text-foreground">
+              Live Eligibility Tester
             </span>
-            <div
-              className="flex items-center gap-1.5 text-[11px] font-mono text-muted-foreground/80 max-w-full sm:max-w-sm min-w-0"
-              title={compiledRegex}
-            >
-              <span className="text-[10px] uppercase font-sans font-bold text-muted-foreground/60 tracking-wider shrink-0">
-                Pattern:
-              </span>
-              <span className="px-1.5 py-0.5 bg-background/80 border border-border/60 truncate">
-                {compiledRegex}
-              </span>
-            </div>
           </div>
 
           <div className="relative">

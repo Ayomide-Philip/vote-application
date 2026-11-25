@@ -7,8 +7,9 @@ interface StepCandidatesReviewProps {
   title: string;
   accessionCode: string;
   onAccessionCodeChange: (val: string) => void;
+  electionType: "private" | "public";
+  onElectionTypeChange: (val: "private" | "public") => void;
   domainLabel: string;
-  compiledRegex: string;
   startTime: string;
   endTime: string;
   isPublishing: boolean;
@@ -21,8 +22,9 @@ export function StepCandidatesReview({
   title,
   accessionCode,
   onAccessionCodeChange,
+  electionType,
+  onElectionTypeChange,
   domainLabel,
-  compiledRegex,
   startTime,
   endTime,
   isPublishing,
@@ -31,6 +33,19 @@ export function StepCandidatesReview({
   onPublish,
 }: StepCandidatesReviewProps) {
   const codeId = useId();
+
+  const formatDate = (val: string) => {
+    if (!val) return "Not set";
+    const d = new Date(val);
+    if (Number.isNaN(d.getTime())) return "Not set";
+    return d.toLocaleString(undefined, {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+    });
+  };
 
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
@@ -41,64 +56,122 @@ export function StepCandidatesReview({
         >
           Accession Code
         </label>
-        <div className="relative">
-          <input
-            id={codeId}
-            type="text"
-            value={accessionCode}
-            onChange={(e) =>
-              onAccessionCodeChange(e.target.value.toUpperCase())
-            }
-            placeholder="e.g. INSTITUTION-DEPARTMENT-CODE"
-            className="text-input h-11 w-full text-xs font-mono tracking-wider font-medium uppercase pr-9"
-            required
-          />
+        <input
+          id={codeId}
+          type="text"
+          value={accessionCode}
+          onChange={(e) => onAccessionCodeChange(e.target.value.toUpperCase())}
+          placeholder="e.g. OAU-CSC-1024"
+          className="text-input h-11 w-full text-xs font-mono uppercase"
+          required
+        />
+      </div>
+
+      <div className="space-y-2">
+        <span className="block text-xs font-bold uppercase tracking-wider font-heading text-muted-foreground">
+          Ballot Visibility
+        </span>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {[
+            {
+              value: "public" as const,
+              title: "Public Ballot",
+              desc: "Auto-verifies eligible voters with no approval needed.",
+            },
+            {
+              value: "private" as const,
+              title: "Private Ballot",
+              desc: "Admin approves each voter joining the ballot.",
+            },
+          ].map((opt) => {
+            const isActive = electionType === opt.value;
+            return (
+              <button
+                key={opt.value}
+                type="button"
+                onClick={() => onElectionTypeChange(opt.value)}
+                className={`p-3.5 border text-left transition-all cursor-pointer ${
+                  isActive
+                    ? "border-brand bg-brand/5 ring-1 ring-brand shadow-[0_0_12px_rgba(245,158,11,0.06)]"
+                    : "border-border/70 bg-muted/10 hover:border-border hover:bg-muted/30"
+                }`}
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <span className="block text-xs font-heading font-medium text-foreground">
+                    {opt.title}
+                  </span>
+                  <span
+                    className={`w-3.5 h-3.5 rounded-full border mt-0.5 flex items-center justify-center shrink-0 ${
+                      isActive
+                        ? "border-brand bg-brand"
+                        : "border-border/80 bg-background"
+                    }`}
+                  >
+                    {isActive && (
+                      <span className="w-1.5 h-1.5 rounded-full bg-background" />
+                    )}
+                  </span>
+                </div>
+                <span className="block text-[11px] font-sans text-muted-foreground mt-1 leading-snug">
+                  {opt.desc}
+                </span>
+              </button>
+            );
+          })}
         </div>
       </div>
 
-      <div className="border border-border/80 bg-muted/20 p-4 sm:p-5 space-y-4">
-        <h4 className="text-xs font-bold uppercase tracking-wider font-heading text-foreground">
-          Election Summary &amp; Verification Slip
-        </h4>
+      <div className="border border-border bg-muted/15">
+        <div className="px-4 py-3 border-b border-border/80 flex items-center justify-between gap-2 bg-muted/25">
+          <h4 className="text-[11px] font-bold uppercase tracking-wider font-heading text-foreground">
+            Verification Slip
+          </h4>
+          <span
+            className={`px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider border ${
+              electionType === "private"
+                ? "border-brand/40 bg-brand/10 text-brand"
+                : "border-border bg-card text-muted-foreground"
+            }`}
+          >
+            {electionType}
+          </span>
+        </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-sans">
-          <div>
-            <span className="text-muted-foreground block">Election Title:</span>
-            <strong className="text-foreground wrap-break-word">
+        <div className="divide-y divide-border/60 text-xs font-sans">
+          <div className="px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+            <span className="text-muted-foreground shrink-0">Ballot Title</span>
+            <span className="font-medium text-foreground sm:text-right wrap-break-word">
               {title || "Not set"}
-            </strong>
+            </span>
           </div>
 
-          <div>
-            <span className="text-muted-foreground block">Accession Code:</span>
-            <span className="font-mono font-medium text-foreground break-all">
+          <div className="px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+            <span className="text-muted-foreground shrink-0">
+              Accession Code
+            </span>
+            <span className="font-mono text-foreground sm:text-right break-all">
               {accessionCode || "Not set"}
             </span>
           </div>
 
-          <div>
-            <span className="text-muted-foreground block">
-              Eligibility Scope:
+          <div className="px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+            <span className="text-muted-foreground shrink-0">
+              Eligibility Scope
             </span>
-            <span className="text-foreground wrap-break-word">
+            <span className="text-foreground sm:text-right wrap-break-word">
               {domainLabel || "Not set"}
             </span>
           </div>
 
-          <div>
-            <span className="text-muted-foreground block">Timeline:</span>
-            <span className="text-foreground">
+          <div className="px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+            <span className="text-muted-foreground shrink-0">
+              Voting Window
+            </span>
+            <span className="text-foreground sm:text-right">
               {startTime && endTime
-                ? `${new Date(startTime).toLocaleString()} → ${new Date(endTime).toLocaleString()}`
+                ? `${formatDate(startTime)} — ${formatDate(endTime)}`
                 : "Not set"}
             </span>
-          </div>
-
-          <div className="sm:col-span-2">
-            <span className="text-muted-foreground block mb-1">Pattern:</span>
-            <code className="block px-2.5 py-1.5 bg-background/80 border border-border/70 font-mono text-[11px] text-foreground break-all">
-              {compiledRegex}
-            </code>
           </div>
         </div>
       </div>

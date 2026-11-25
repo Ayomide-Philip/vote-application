@@ -21,6 +21,9 @@ export default function CreateElectionPage() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [accessionCode, setAccessionCode] = useState("");
+  const [electionType, setElectionType] = useState<"private" | "public">(
+    "private",
+  );
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
 
@@ -64,6 +67,14 @@ export default function CreateElectionPage() {
       setStepError("Please provide an election title.");
       return;
     }
+    if (!description.trim()) {
+      setStepError("Please provide a description.");
+      return;
+    }
+    if (!startTime || !endTime) {
+      setStepError("Please provide both start and end times.");
+      return;
+    }
     if (new Date(endTime) <= new Date(startTime)) {
       setStepError("End time must be after the start time.");
       return;
@@ -86,16 +97,47 @@ export default function CreateElectionPage() {
       setStepError("Please provide an accession code.");
       return;
     }
+    if (!startTime || !endTime) {
+      setStepError("Please provide both start and end times.");
+      return;
+    }
     setIsPublishing(true);
 
-    await new Promise((r) => setTimeout(r, 1200));
+    try {
+      const res = await fetch("/api/election", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: title.trim(),
+          description: description.trim(),
+          election_code: accessionCode.trim(),
+          email_parts: emailParts,
+          domain_label:
+            domainLabel.trim() || sampleEmail.split("@")[1] || "Institutional",
+          start_time: new Date(startTime).toISOString(),
+          end_time: new Date(endTime).toISOString(),
+          election_type: electionType,
+          sample_email: sampleEmail.trim().toLowerCase(),
+        }),
+      });
 
-    setIsPublishing(false);
-    setPublishSuccess(true);
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setStepError(data.error || "Failed to publish election.");
+        setIsPublishing(false);
+        return;
+      }
 
-    setTimeout(() => {
-      router.push(`/dashboard/elections/${accessionCode}`);
-    }, 1400);
+      setIsPublishing(false);
+      setPublishSuccess(true);
+
+      setTimeout(() => {
+        router.push(`/dashboard/elections/${data.data.election_id}`);
+      }, 1400);
+    } catch {
+      setStepError("Network error while publishing election.");
+      setIsPublishing(false);
+    }
   };
 
   return (
@@ -161,7 +203,6 @@ export default function CreateElectionPage() {
             onEmailPartsChange={setEmailParts}
             testEmail={testEmail}
             onTestEmailChange={setTestEmail}
-            compiledRegex={compiledRegex}
             isTestEmailEligible={isTestEmailEligible}
             onBack={() => setCurrentStep(1)}
             onNext={handleStep2Next}
@@ -173,8 +214,9 @@ export default function CreateElectionPage() {
             title={title}
             accessionCode={accessionCode}
             onAccessionCodeChange={setAccessionCode}
+            electionType={electionType}
+            onElectionTypeChange={setElectionType}
             domainLabel={domainLabel}
-            compiledRegex={compiledRegex}
             startTime={startTime}
             endTime={endTime}
             isPublishing={isPublishing}
