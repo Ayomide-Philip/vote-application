@@ -122,9 +122,13 @@ export function StepEligibilityRules({
         const cleanPrefixes = part.digitPrefixes
           .map((p) => p.replace(/[^0-9]/g, ""))
           .filter(Boolean);
+        const lenSuffix =
+          part.digitLength && part.digitLength > 0
+            ? ` (${part.digitLength}d)`
+            : "";
         return part.digitsMode === "prefix" && cleanPrefixes.length > 0
-          ? `${cleanPrefixes.map((p) => `${p}*`).join(", ")}`
-          : "Numbers";
+          ? `${cleanPrefixes.map((p) => `${p}*`).join(", ")}${lenSuffix}`
+          : `Numbers${lenSuffix}`;
       }
     }
   };
@@ -486,6 +490,35 @@ export function StepEligibilityRules({
                   </form>
                 </div>
               )}
+
+              <div className="pt-2 flex flex-col sm:flex-row sm:items-center gap-2">
+                <label className="text-[11px] font-sans font-medium text-muted-foreground shrink-0">
+                  {activePart.digitsMode === "prefix"
+                    ? "Serial digits after prefix:"
+                    : "Exact digit count:"}
+                </label>
+                <div className="flex items-center gap-2 w-full sm:max-w-45">
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    value={
+                      activePart.digitLength
+                        ? String(activePart.digitLength)
+                        : ""
+                    }
+                    onChange={(e) => {
+                      const raw = e.target.value.replace(/[^0-9]/g, "");
+                      const num = raw ? parseInt(raw, 10) : null;
+                      handleUpdateActivePart({
+                        digitLength: num && num > 0 ? num : null,
+                      });
+                    }}
+                    placeholder="Any length"
+                    className="text-input h-9 text-xs font-mono w-full min-w-0"
+                  />
+                </div>
+              </div>
             </div>
           )}
         </div>

@@ -16,7 +16,7 @@ import {
 export default function CreateElectionPage() {
   const router = useRouter();
 
-  const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(3);
+  const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(1);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -40,7 +40,11 @@ export default function CreateElectionPage() {
 
   const isTestEmailEligible = (() => {
     try {
-      const reg = new RegExp(compiledRegex, "i");
+      const isCaseInsensitive = compiledRegex.startsWith("(?i)");
+      const jsPattern = isCaseInsensitive
+        ? compiledRegex.slice(4)
+        : compiledRegex;
+      const reg = new RegExp(jsPattern, isCaseInsensitive ? "i" : "");
       return reg.test(testEmail.trim());
     } catch {
       return false;

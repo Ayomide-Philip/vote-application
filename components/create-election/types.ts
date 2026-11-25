@@ -15,6 +15,7 @@ export interface EmailPartRule {
   options: string[];
   digitPrefixes: string[];
   digitsMode: "any" | "prefix";
+  digitLength?: number | null;
   isOptional: boolean;
   delimiter: string;
 }

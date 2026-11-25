@@ -49,6 +49,8 @@ export function parseEmailToParts(email: string): EmailPartRule[] {
 
       const yearMatch = match[2].match(/^(20[1-3][0-9])(.*)$/);
       const defaultYearPrefix = yearMatch ? yearMatch[1] : "";
+      const trailingLength =
+        yearMatch && yearMatch[2].length > 0 ? yearMatch[2].length : null;
 
       parts.push({
         id: `part-${partIndex++}`,
@@ -57,6 +59,7 @@ export function parseEmailToParts(email: string): EmailPartRule[] {
         options: [],
         digitPrefixes: defaultYearPrefix ? [defaultYearPrefix] : [],
         digitsMode: defaultYearPrefix ? "prefix" : "any",
+        digitLength: trailingLength,
         isOptional: false,
         delimiter: "",
       });
@@ -69,6 +72,7 @@ export function parseEmailToParts(email: string): EmailPartRule[] {
         options: [],
         digitPrefixes: [],
         digitsMode: "any",
+        digitLength: isDigits ? chunk.length : null,
         isOptional: false,
         delimiter,
       });
@@ -92,7 +96,7 @@ export function parseEmailToParts(email: string): EmailPartRule[] {
 export function compilePartsToRegex(parts: EmailPartRule[]): string {
   if (parts.length === 0) return ".*";
 
-  let pattern = "^";
+  let pattern = "(?i)^";
 
   for (const part of parts) {
     let segmentPattern = "";
@@ -101,20 +105,23 @@ export function compilePartsToRegex(parts: EmailPartRule[]): string {
     if (part.type === "exact") {
       segmentPattern = `${delim}${escapeRegex(part.originalText)}`;
     } else if (part.type === "wildcard") {
-      segmentPattern = `${delim}[a-zA-Z0-9._-]+`;
+      segmentPattern = `${delim}[a-zA-Z0-9_-]+`;
     } else if (part.type === "digits") {
+      const hasLength = part.digitLength && part.digitLength > 0;
+      const quant = hasLength ? `{${part.digitLength}}` : null;
+
       if (part.digitsMode === "prefix" && part.digitPrefixes.length > 0) {
         const cleanPrefixes = part.digitPrefixes
-          .map((p) => p.replace(/\*$/, "").trim())
+          .map((p) => p.replace(/[^0-9]/g, "").trim())
           .filter(Boolean)
           .map(escapeRegex);
         if (cleanPrefixes.length > 0) {
-          segmentPattern = `${delim}(?:${cleanPrefixes.join("|")})[0-9]*`;
+          segmentPattern = `${delim}(?:${cleanPrefixes.join("|")})[0-9]${quant ?? "+"}`;
         } else {
-          segmentPattern = `${delim}[0-9]+`;
+          segmentPattern = `${delim}[0-9]${quant ?? "+"}`;
         }
       } else {
-        segmentPattern = `${delim}[0-9]+`;
+        segmentPattern = `${delim}[0-9]${quant ?? "+"}`;
       }
     } else if (part.type === "options") {
       const allChoices = Array.from(
