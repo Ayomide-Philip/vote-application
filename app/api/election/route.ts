@@ -7,7 +7,11 @@ import {
 } from "@/components/create-election";
 import pool from "@/server/config/db";
 import { ELECTION_CODE_REGEX } from "@/server/lib/validation";
-import { GET_ADMIN_ELECTIONS_QUERY } from "@/server/query/election";
+import {
+  GET_ADMIN_ELECTIONS_QUERY,
+  GET_ALL_ELECTIONS_QUERY,
+  GET_VOTER_ELECTIONS_QUERY,
+} from "@/server/query/election";
 
 const VALID_PART_TYPES = new Set<EmailPartType>([
   "wildcard",
@@ -372,9 +376,11 @@ export const GET = auth(async (req) => {
 
   const userId = req.auth.user.id;
   const searchParams = req.nextUrl.searchParams;
-  const role = searchParams.get("role")?.toLowerCase() as "admin" | "voter";
+  const role =
+    searchParams.get("role")?.toLowerCase() ||
+    ("all" as "admin" | "voter" | "all");
 
-  if (!["admin", "voter"].includes(role)) {
+  if (!["admin", "voter", "all"].includes(role)) {
     return NextResponse.json(
       {
         error: " Invalid role parameter. Must be either 'admin' or 'voter'.",
@@ -412,19 +418,24 @@ export const GET = auth(async (req) => {
       );
     }
 
-    if (role === "admin") {
-      const { rows } = await pool.query(GET_ADMIN_ELECTIONS_QUERY, [userId]);
+    const query =
+      role === "admin"
+        ? GET_ADMIN_ELECTIONS_QUERY
+        : role === "voter"
+          ? GET_VOTER_ELECTIONS_QUERY
+          : GET_ALL_ELECTIONS_QUERY;
 
-      return NextResponse.json(
-        {
-          message: "Successfully fetched all admin elections",
-          elections: rows,
-        },
-        {
-          status: 200,
-        },
-      );
-    }
+    const { rows } = await pool.query(query, [userId]);
+
+    return NextResponse.json(
+      {
+        message: "Successfully fetched all admin elections",
+        elections: rows,
+      },
+      {
+        status: 200,
+      },
+    );
   } catch (err) {
     console.log(err);
     return NextResponse.json(
