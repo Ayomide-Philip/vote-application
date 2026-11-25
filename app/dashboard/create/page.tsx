@@ -22,7 +22,7 @@ export default function CreateElectionPage() {
   const [description, setDescription] = useState("");
   const [accessionCode, setAccessionCode] = useState("");
   const [electionType, setElectionType] = useState<"private" | "public">(
-    "private",
+    "public",
   );
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");

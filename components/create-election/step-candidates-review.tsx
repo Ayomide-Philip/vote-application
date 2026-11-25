@@ -7,7 +7,7 @@ interface StepCandidatesReviewProps {
   title: string;
   accessionCode: string;
   onAccessionCodeChange: (val: string) => void;
-  electionType: "private" | "public";
+  electionType: "public" | "private";
   onElectionTypeChange: (val: "private" | "public") => void;
   domainLabel: string;
   startTime: string;
