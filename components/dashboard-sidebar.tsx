@@ -8,10 +8,12 @@ import {
   ArrowDown01Icon,
   ArrowLeft01Icon,
   Cancel01Icon,
+  CheckListIcon,
   GridViewIcon,
   Logout01Icon,
   Settings02Icon,
   Shield01Icon,
+  Ticket01Icon,
 } from "hugeicons-react";
 
 export interface DashboardUserProps {
@@ -29,6 +31,8 @@ interface SidebarItem {
 
 const SIDEBAR_NAV: SidebarItem[] = [
   { label: "Dashboard", href: "/dashboard", icon: GridViewIcon },
+  { label: "Created Ballots", href: "/dashboard/created", icon: CheckListIcon },
+  { label: "Joined Ballots", href: "/dashboard/joined", icon: Ticket01Icon },
   { label: "Voting History", href: "/dashboard/history", icon: Shield01Icon },
   {
     label: "Analytics & Tallies",

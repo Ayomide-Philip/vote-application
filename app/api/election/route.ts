@@ -7,6 +7,7 @@ import {
 } from "@/components/create-election";
 import pool from "@/server/config/db";
 import { ELECTION_CODE_REGEX } from "@/server/lib/validation";
+import { GET_ADMIN_ELECTIONS_QUERY } from "@/server/query/election";
 
 const VALID_PART_TYPES = new Set<EmailPartType>([
   "wildcard",
@@ -349,6 +350,86 @@ export const POST = auth(async (req) => {
     return NextResponse.json(
       {
         error: "Failed to create election",
+      },
+      {
+        status: 500,
+      },
+    );
+  }
+});
+
+export const GET = auth(async (req) => {
+  if (!req.auth || !req.auth.user) {
+    return NextResponse.json(
+      {
+        error: "Unauthorized Access",
+      },
+      {
+        status: 401,
+      },
+    );
+  }
+
+  const userId = req.auth.user.id;
+  const searchParams = req.nextUrl.searchParams;
+  const role = searchParams.get("role")?.toLowerCase() as "admin" | "voter";
+
+  if (!["admin", "voter"].includes(role)) {
+    return NextResponse.json(
+      {
+        error: " Invalid role parameter. Must be either 'admin' or 'voter'.",
+      },
+      {
+        status: 400,
+      },
+    );
+  }
+  try {
+    const existingUser = await pool.query(
+      "SELECT id, is_verified FROM users WHERE id=$1",
+      [userId],
+    );
+
+    if (existingUser.rowCount === 0) {
+      return NextResponse.json(
+        {
+          error: "Unauthorized Access",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+
+    if (!existingUser.rows[0].is_verified) {
+      return NextResponse.json(
+        {
+          error: "Email not verified",
+        },
+        {
+          status: 401,
+        },
+      );
+    }
+
+    if (role === "admin") {
+      const { rows } = await pool.query(GET_ADMIN_ELECTIONS_QUERY, [userId]);
+
+      return NextResponse.json(
+        {
+          message: "Successfully fetched all admin elections",
+          elections: rows,
+        },
+        {
+          status: 200,
+        },
+      );
+    }
+  } catch (err) {
+    console.log(err);
+    return NextResponse.json(
+      {
+        error: "Failed to fetch elections",
       },
       {
         status: 500,
