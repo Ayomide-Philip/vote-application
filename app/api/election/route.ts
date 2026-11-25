@@ -6,6 +6,7 @@ import {
   EmailPartType,
 } from "@/components/create-election";
 import pool from "@/server/config/db";
+import { ELECTION_CODE_REGEX } from "@/server/lib/validation";
 
 const VALID_PART_TYPES = new Set<EmailPartType>([
   "wildcard",
@@ -15,7 +16,6 @@ const VALID_PART_TYPES = new Set<EmailPartType>([
 ]);
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const ELECTION_CODE_REGEX = /^[A-Z]{3,5}-[A-Z]{3,5}-[0-9]{1,10}$/;
 
 function isValidEmailParts(parts: unknown): parts is EmailPartRule[] {
   if (!Array.isArray(parts) || parts.length === 0 || parts.length > 20) {
