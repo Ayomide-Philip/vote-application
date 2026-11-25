@@ -11,7 +11,6 @@ interface StepCandidatesReviewProps {
   title: string;
   accessionCode: string;
   onAccessionCodeChange: (val: string) => void;
-  onGenerateCode: () => void;
   domainLabel: string;
   compiledRegex: string;
   startTime: string;
@@ -26,7 +25,6 @@ export function StepCandidatesReview({
   title,
   accessionCode,
   onAccessionCodeChange,
-  onGenerateCode,
   domainLabel,
   compiledRegex,
   startTime,
@@ -41,21 +39,12 @@ export function StepCandidatesReview({
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
       <div>
-        <div className="flex flex-wrap items-center justify-between gap-2 mb-1.5">
-          <label
-            htmlFor={codeId}
-            className="block text-xs font-bold uppercase tracking-wider font-heading text-muted-foreground"
-          >
-            Accession Code
-          </label>
-          <button
-            type="button"
-            onClick={onGenerateCode}
-            className="text-[11px] font-sans text-brand hover:underline cursor-pointer"
-          >
-            Generate Random
-          </button>
-        </div>
+        <label
+          htmlFor={codeId}
+          className="block text-xs font-bold uppercase tracking-wider font-heading text-muted-foreground mb-1.5"
+        >
+          Accession Code
+        </label>
         <div className="relative">
           <input
             id={codeId}
@@ -64,7 +53,7 @@ export function StepCandidatesReview({
             onChange={(e) =>
               onAccessionCodeChange(e.target.value.toUpperCase())
             }
-            placeholder="e.g. OAU-TECH-26"
+            placeholder="e.g. INSTITUTION-DEPARTMENT-CODE"
             className="text-input h-11 w-full text-xs font-mono tracking-wider font-medium uppercase pr-9"
             required
           />

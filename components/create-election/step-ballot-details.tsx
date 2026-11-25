@@ -112,7 +112,7 @@ export function StepBallotDetails({
           onClick={onNext}
           className="btn btn-primary h-11 w-full sm:w-auto px-6 text-xs font-bold tracking-wider flex items-center justify-center gap-2 cursor-pointer"
         >
-          <span>Continue to Eligibility Rules</span>
+          <span>Continue</span>
           <ArrowRight01Icon size={16} />
         </button>
       </div>

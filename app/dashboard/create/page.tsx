@@ -20,7 +20,7 @@ export default function CreateElectionPage() {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [accessionCode, setAccessionCode] = useState("OAU-TECH-26");
+  const [accessionCode, setAccessionCode] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
 
@@ -56,13 +56,6 @@ export default function CreateElectionPage() {
       const parts = newSample.split("@");
       setDomainLabel(parts[1] ? `@${parts[1]}` : "");
     }
-  };
-
-  const handleGenerateCode = () => {
-    const prefixes = ["OAU", "TECH", "ENG", "SUG", "NACOS", "VOTE"];
-    const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
-    const randomNum = Math.floor(100 + Math.random() * 900);
-    setAccessionCode(`${randomPrefix}-${randomNum}-26`);
   };
 
   const handleStep1Next = () => {
@@ -180,7 +173,6 @@ export default function CreateElectionPage() {
             title={title}
             accessionCode={accessionCode}
             onAccessionCodeChange={setAccessionCode}
-            onGenerateCode={handleGenerateCode}
             domainLabel={domainLabel}
             compiledRegex={compiledRegex}
             startTime={startTime}
