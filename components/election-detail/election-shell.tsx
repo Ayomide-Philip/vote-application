@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useSyncExternalStore } from "react";
-import { DashboardHeader } from "@/components/dashboard-header";
+import { ElectionHeader } from "./election-header";
 import { ElectionSidebar } from "./election-sidebar";
 
 function subscribe(callback: () => void) {
@@ -63,7 +63,10 @@ export function ElectionShell({ electionId, children }: ElectionShellProps) {
           isCollapsed ? "lg:pl-18" : "lg:pl-64"
         }`}
       >
-        <DashboardHeader onOpenSidebar={() => setMobileSidebarOpen(true)} />
+        <ElectionHeader
+          electionId={electionId}
+          onOpenSidebar={() => setMobileSidebarOpen(true)}
+        />
 
         <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
           {children}

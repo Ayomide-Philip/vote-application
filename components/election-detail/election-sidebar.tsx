@@ -142,11 +142,34 @@ export function ElectionSidebar({
           </div>
 
           {/* Election Context Pill */}
-          {!isCollapsed && (
-            <div className="px-4 py-3 border-b border-border/70 bg-muted/15 space-y-2 text-left">
-              <span className="block text-[10px] font-heading font-bold uppercase tracking-wider text-muted-foreground">
-                Election Workspace
-              </span>
+          {isCollapsed ? (
+            <div className="py-3 border-b border-border/70 flex justify-center">
+              <button
+                type="button"
+                onClick={handleCopyCode}
+                className="w-10 h-10 flex items-center justify-center bg-muted/30 hover:bg-muted border border-border text-muted-foreground hover:text-foreground transition-colors cursor-pointer relative"
+                title={`Copy ${displayCode}`}
+                aria-label="Copy election code"
+              >
+                <Copy01Icon size={15} />
+                {copied && (
+                  <span className="absolute left-full ml-2 px-2 py-0.5 bg-foreground text-background font-sans text-[10px] font-bold whitespace-nowrap z-50">
+                    Copied
+                  </span>
+                )}
+              </button>
+            </div>
+          ) : (
+            <div className="px-4 py-3.5 border-b border-border/70 bg-muted/15 space-y-2 text-left">
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-[10px] font-heading font-bold uppercase tracking-wider text-muted-foreground">
+                  Election Code
+                </span>
+                <span className="inline-flex items-center gap-1 text-[10px] font-sans font-medium text-status-confirmed">
+                  <span className="w-1.5 h-1.5 rounded-full bg-status-confirmed animate-pulse" />
+                  <span>Active</span>
+                </span>
+              </div>
               <button
                 type="button"
                 onClick={handleCopyCode}
@@ -168,48 +191,55 @@ export function ElectionSidebar({
           )}
 
           {/* Route Navigation */}
-          <nav
-            className={`p-3 space-y-1.5 ${
-              isCollapsed ? "flex flex-col items-center" : "text-left"
-            }`}
-          >
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = item.exact
-                ? pathname === item.href
-                : pathname.startsWith(item.href);
+          <div className="p-3 space-y-2 overflow-y-auto">
+            {!isCollapsed && (
+              <span className="block px-3.5 pt-1 text-[10px] font-heading font-bold uppercase tracking-wider text-muted-foreground/60 text-left">
+                Ballot Menu
+              </span>
+            )}
+            <nav
+              className={`space-y-1.5 ${
+                isCollapsed ? "flex flex-col items-center" : "text-left"
+              }`}
+            >
+              {navItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = item.exact
+                  ? pathname === item.href
+                  : pathname.startsWith(item.href);
 
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={onClose}
-                  title={isCollapsed ? item.label : undefined}
-                  className={`flex items-center text-xs font-heading uppercase tracking-wider font-semibold transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand ${
-                    isCollapsed
-                      ? "w-10 h-10 justify-center"
-                      : "w-full gap-3 px-3.5 py-2.5"
-                  } ${
-                    isActive
-                      ? "bg-brand text-black border border-brand font-bold"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted/40 border border-transparent"
-                  }`}
-                >
-                  <Icon
-                    size={18}
-                    className={
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={onClose}
+                    title={isCollapsed ? item.label : undefined}
+                    className={`flex items-center text-xs font-heading uppercase tracking-wider font-semibold transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand ${
+                      isCollapsed
+                        ? "w-10 h-10 justify-center"
+                        : "w-full gap-3 px-3.5 py-2.5"
+                    } ${
                       isActive
-                        ? "text-black shrink-0"
-                        : "text-muted-foreground shrink-0"
-                    }
-                  />
-                  {!isCollapsed && (
-                    <span className="truncate">{item.label}</span>
-                  )}
-                </Link>
-              );
-            })}
-          </nav>
+                        ? "bg-brand text-black border border-brand font-bold"
+                        : "text-muted-foreground hover:text-foreground hover:bg-muted/40 border border-transparent"
+                    }`}
+                  >
+                    <Icon
+                      size={18}
+                      className={
+                        isActive
+                          ? "text-black shrink-0"
+                          : "text-muted-foreground shrink-0"
+                      }
+                    />
+                    {!isCollapsed && (
+                      <span className="truncate">{item.label}</span>
+                    )}
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
         </div>
 
         {/* Back to Dashboard Footer */}
