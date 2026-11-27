@@ -4,6 +4,7 @@ import {
   CheckListIcon,
   GridViewIcon,
   Settings02Icon,
+  Ticket01Icon,
   UserGroupIcon,
   UserIcon,
 } from "hugeicons-react";
@@ -38,9 +39,15 @@ export function getElectionNavItems(
       adminOnly: true,
     },
     {
-      label: isAdmin ? "Candidates" : "Ballot",
+      label: "Candidates",
       href: `${basePath}/candidates`,
       icon: UserIcon,
+      adminOnly: true,
+    },
+    {
+      label: "Ballot",
+      href: `${basePath}/ballot`,
+      icon: Ticket01Icon,
     },
     {
       label: "Voters",

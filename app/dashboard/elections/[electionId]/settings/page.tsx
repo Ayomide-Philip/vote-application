@@ -1,4 +1,6 @@
 import { Suspense } from "react";
+import { auth } from "@/auth";
+import { getCachedUserElection } from "@/server/cache/election";
 
 interface SettingsPageProps {
   params: Promise<{
@@ -7,8 +9,19 @@ interface SettingsPageProps {
 }
 
 async function SettingsContent({ params }: SettingsPageProps) {
-  const { electionId } = await params;
+  const [{ electionId }, session] = await Promise.all([params, auth()]);
   const decodedId = decodeURIComponent(electionId);
+  const election = session?.user?.id
+    ? await getCachedUserElection(decodedId.trim(), session.user.id)
+    : null;
+
+  if (election?.role !== "admin") {
+    return (
+      <div className="border border-border bg-card p-8 text-center text-xs font-sans text-muted-foreground">
+        Only election administrators can manage election settings.
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6 text-left">

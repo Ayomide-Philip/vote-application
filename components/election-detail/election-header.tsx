@@ -13,6 +13,7 @@ interface ElectionHeaderProps {
 const SECTION_LABELS: Record<string, string> = {
   positions: "Positions",
   candidates: "Candidates",
+  ballot: "Ballot",
   voters: "Voters",
   results: "Results",
   settings: "Settings",
@@ -29,7 +30,9 @@ export function ElectionHeader({
     ? pathname.slice(basePath.length).replace(/^\//, "").split("/")[0]
     : "";
 
-  const currentSection = segment ? SECTION_LABELS[segment] || segment : "Overview";
+  const currentSection = segment
+    ? SECTION_LABELS[segment] || segment
+    : "Overview";
 
   return (
     <header className="h-16 bg-background/95 backdrop-blur-sm border-b-2 border-border sticky top-0 z-30 px-4 sm:px-8 flex items-center justify-between gap-4">
