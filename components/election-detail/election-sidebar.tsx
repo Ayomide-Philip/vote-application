@@ -4,17 +4,12 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  Analytics01Icon,
   ArrowLeft01Icon,
   Cancel01Icon,
-  CheckListIcon,
   Copy01Icon,
-  GridViewIcon,
-  Settings02Icon,
-  UserGroupIcon,
-  UserIcon,
 } from "hugeicons-react";
 import { useElectionRole } from "./election-context";
+import { getElectionNavItems } from "./electionNavbar";
 
 interface ElectionSidebarProps {
   electionId: string;
@@ -32,47 +27,13 @@ export function ElectionSidebar({
   onToggleCollapse,
 }: ElectionSidebarProps) {
   const pathname = usePathname();
-  const { role, setRole } = useElectionRole();
+  const { role } = useElectionRole();
   const [copied, setCopied] = useState(false);
 
-  const isAdmin = role === "admin";
-  const basePath = `/dashboard/elections/${encodeURIComponent(electionId)}`;
   const displayCode =
     electionId.length <= 25 ? electionId.toUpperCase() : "ELECTION";
 
-  const allNavItems = [
-    { label: "Overview", href: basePath, icon: GridViewIcon, exact: true },
-    {
-      label: "Positions",
-      href: `${basePath}/positions`,
-      icon: CheckListIcon,
-      adminOnly: true,
-    },
-    {
-      label: isAdmin ? "Candidates" : "Ballot",
-      href: `${basePath}/candidates`,
-      icon: UserIcon,
-    },
-    {
-      label: "Voters",
-      href: `${basePath}/voters`,
-      icon: UserGroupIcon,
-      adminOnly: true,
-    },
-    {
-      label: "Results",
-      href: `${basePath}/results`,
-      icon: Analytics01Icon,
-    },
-    {
-      label: "Settings",
-      href: `${basePath}/settings`,
-      icon: Settings02Icon,
-      adminOnly: true,
-    },
-  ];
-
-  const navItems = allNavItems.filter((item) => !item.adminOnly || isAdmin);
+  const navItems = getElectionNavItems(electionId, role);
 
   const handleCopyCode = () => {
     navigator.clipboard.writeText(displayCode);
@@ -202,7 +163,7 @@ export function ElectionSidebar({
           <div className="p-3 space-y-2 overflow-y-auto">
             {!isCollapsed && (
               <span className="block px-3.5 pt-1 text-[10px] font-heading font-bold uppercase tracking-wider text-muted-foreground/60 text-left">
-                {isAdmin ? "Admin Menu" : "Voter Menu"}
+                Navigation
               </span>
             )}
             <nav
@@ -250,34 +211,8 @@ export function ElectionSidebar({
           </div>
         </div>
 
-        {/* Footer: Role Switcher + Back to Dashboard */}
-        <div className="p-3 border-t-2 border-border space-y-2.5">
-          {!isCollapsed && (
-            <div className="grid grid-cols-2 border border-border bg-muted/40 p-0.5 text-[11px] font-sans">
-              <button
-                type="button"
-                onClick={() => setRole("admin")}
-                className={`py-1 transition-colors cursor-pointer ${
-                  isAdmin
-                    ? "bg-card text-brand font-semibold shadow-xs"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                Admin
-              </button>
-              <button
-                type="button"
-                onClick={() => setRole("voter")}
-                className={`py-1 transition-colors cursor-pointer ${
-                  !isAdmin
-                    ? "bg-card text-foreground font-semibold shadow-xs"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                Voter
-              </button>
-            </div>
-          )}
+        {/* Footer: Back to Dashboard */}
+        <div className="p-3 border-t-2 border-border">
 
           <Link
             href="/dashboard"
