@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { PositionsPanel } from "@/components/election-detail";
+import { PositionsPanel, useElectionRole } from "@/components/election-detail";
 
 export default function ElectionPositionsPage() {
+  const { role } = useElectionRole();
   const [positions, setPositions] = useState<string[]>([
     "President",
     "Vice President",
@@ -11,6 +12,14 @@ export default function ElectionPositionsPage() {
     "Financial Secretary",
     "Public Relations Officer",
   ]);
+
+  if (role !== "admin") {
+    return (
+      <div className="border border-border bg-card p-8 text-center text-xs font-sans text-muted-foreground">
+        Only election administrators can manage positions.
+      </div>
+    );
+  }
 
   const candidateCounts: Record<string, number> = {
     President: 2,

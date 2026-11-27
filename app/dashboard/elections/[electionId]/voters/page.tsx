@@ -2,7 +2,11 @@
 
 import { useState } from "react";
 import { gooeyToast } from "goey-toast";
-import { VoterApprovalsPanel, VoterMember } from "@/components/election-detail";
+import {
+  VoterApprovalsPanel,
+  VoterMember,
+  useElectionRole,
+} from "@/components/election-detail";
 
 const INITIAL_VOTERS: VoterMember[] = [
   {
@@ -22,7 +26,16 @@ const INITIAL_VOTERS: VoterMember[] = [
 ];
 
 export default function ElectionVotersPage() {
+  const { role } = useElectionRole();
   const [voters, setVoters] = useState<VoterMember[]>(INITIAL_VOTERS);
+
+  if (role !== "admin") {
+    return (
+      <div className="border border-border bg-card p-8 text-center text-xs font-sans text-muted-foreground">
+        Only election administrators can view the voter roster.
+      </div>
+    );
+  }
 
   const handleUpdateStatus = (
     voterId: string,
