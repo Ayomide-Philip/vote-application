@@ -49,6 +49,53 @@ const VOTER_ELECTIONS_SELECT = `
     v.user_id = $1
 `;
 
+export const GET_ELECTION_BY_ID_QUERY = `
+select
+    e.id AS election_id,
+    u.fullname AS admin_fullname,
+    u.image_url AS admin_profile_picture,
+    e.title AS election_title,
+    e.description AS election_description,
+    e.election_code,
+    e.election_type,
+    e.domain_label AS election_domain_label,
+    e.created_at,
+    CASE
+        when e.creator_id = $2 then 'admin'
+        WHEN EXISTS (
+            SELECT
+                1
+            FROM
+                voters AS v
+            WHERE
+                v.user_id = $2
+                AND v.election_id = e.id
+                AND v.status = 'approved'
+        ) THEN 'voter'
+        ELSE null
+    END AS role,
+    e.start_time,
+    e.end_time
+from
+    elections as e
+    left join users as u on e.creator_id = u.id
+where
+    e.id = $1
+    and (
+        e.creator_id = $2
+        or exists (
+            select
+                1
+            from
+                voters as v
+            where
+                v.user_id = $2
+                and v.election_id = e.id
+                and v.status = 'approved'
+        )
+    )
+`;
+
 export const GET_ADMIN_ELECTIONS_QUERY = `
   ${ADMIN_ELECTIONS_SELECT}
   order by
