@@ -1,10 +1,8 @@
 import { auth } from "@/auth";
 import pool from "@/server/config/db";
+import { UUID_REGEX } from "@/server/lib/validation";
 import { GET_ELECTION_BY_ID_QUERY } from "@/server/query/election";
 import { NextResponse } from "next/server";
-
-export const UUID_REGEX =
-  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 export const GET = auth(async (req, { params }) => {
   if (!req.auth || !req.auth.user) {
