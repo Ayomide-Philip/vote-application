@@ -1,5 +1,7 @@
 import { Suspense } from "react";
 import { ElectionShell } from "@/components/election-detail";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
 interface ElectionLayoutProps {
   children: React.ReactNode;
@@ -57,11 +59,13 @@ function ElectionWorkspaceSkeleton() {
 }
 
 async function ElectionShellWrapper({ children, params }: ElectionLayoutProps) {
-  const { electionId } = await params;
+  const [{ electionId }, session] = await Promise.all([params, auth()]);
+
+  if (!electionId || !session || !session.user) return redirect("/login");
+  const decodedElectionId = decodeURIComponent(electionId);
+
   return (
-    <ElectionShell electionId={decodeURIComponent(electionId)}>
-      {children}
-    </ElectionShell>
+    <ElectionShell electionId={decodedElectionId}>{children}</ElectionShell>
   );
 }
 

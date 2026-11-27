@@ -2,11 +2,12 @@ import { cacheLife, cacheTag } from "next/cache";
 import { UUID_REGEX } from "../lib/validation";
 import pool from "../config/db";
 import { GET_ELECTION_BY_ID_QUERY } from "../query/election";
+import { CachedUserElection } from "../types/election.types";
 
 export const getCachedUserElection = async (
   electionId: string,
   userId: string,
-) => {
+): Promise<CachedUserElection | null> => {
   "use cache";
   if (
     !userId ||
