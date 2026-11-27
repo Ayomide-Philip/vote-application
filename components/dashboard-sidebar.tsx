@@ -17,10 +17,24 @@ import {
 } from "hugeicons-react";
 
 export interface DashboardUserProps {
-  name?: string;
-  email?: string;
-  role?: string;
-  initials?: string;
+  id?: string;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+  domain?: string | null;
+  isVerified?: boolean;
+}
+
+function getUserInitials(name?: string | null, email?: string | null) {
+  if (name?.trim()) {
+    return name
+      .trim()
+      .split(/\s+/)
+      .slice(0, 2)
+      .map((part) => part[0]?.toUpperCase() ?? "")
+      .join("");
+  }
+  return (email?.trim()?.[0] ?? "U").toUpperCase();
 }
 
 interface SidebarItem {
@@ -59,12 +73,7 @@ export function DashboardSidebar({
   onClose,
   isCollapsed = false,
   onToggleCollapse,
-  user = {
-    name: "Katherine Adeyemi",
-    email: "k.adeyemi@oauife.edu.ng",
-    role: "Election Administrator",
-    initials: "KA",
-  },
+  user,
 }: DashboardSidebarProps) {
   const pathname = usePathname();
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -222,13 +231,26 @@ export function DashboardSidebar({
             >
               <div className="px-2.5 py-2 border-b border-border text-left">
                 <p className="text-xs font-heading font-bold text-foreground truncate">
-                  {user.name}
+                  {user?.name || "User"}
                 </p>
                 <p className="text-[10px] font-mono text-muted-foreground truncate">
-                  {user.email}
+                  {user?.email || ""}
                 </p>
-                <div className="mt-1 inline-block px-1.5 py-0.5 bg-brand/10 border border-brand/30 text-[9px] font-mono font-medium text-brand uppercase tracking-wider">
-                  {user.role || "Administrator"}
+                <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
+                  <span
+                    className={`inline-block px-1.5 py-0.5 border text-[9px] font-mono font-medium uppercase tracking-wider ${
+                      user?.isVerified
+                        ? "bg-status-confirmed/10 border-status-confirmed/30 text-status-confirmed"
+                        : "bg-brand/10 border-brand/30 text-brand"
+                    }`}
+                  >
+                    {user?.isVerified ? "Verified" : "Unverified"}
+                  </span>
+                  {user?.domain && (
+                    <span className="text-[9px] font-mono text-muted-foreground truncate">
+                      {user.domain}
+                    </span>
+                  )}
                 </div>
               </div>
 
@@ -236,7 +258,7 @@ export function DashboardSidebar({
                 <Link
                   href="/dashboard/settings"
                   onClick={() => setIsUserMenuOpen(false)}
-                  className="flex items-center gap-2 px-2.5 py-2 text-xs font-heading text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
+                  className="flex items-center gap-2 px-2.5 py-2 text-xs font-heading text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors cursor-pointer"
                 >
                   <Settings02Icon size={14} />
                   <span>Settings &amp; Access</span>
@@ -245,7 +267,7 @@ export function DashboardSidebar({
                 <Link
                   href="/login"
                   onClick={() => setIsUserMenuOpen(false)}
-                  className="flex items-center gap-2 px-2.5 py-2 text-xs font-heading text-status-rejected hover:bg-status-rejected/10 transition-colors"
+                  className="flex items-center gap-2 px-2.5 py-2 text-xs font-heading text-status-rejected hover:bg-status-rejected/10 transition-colors cursor-pointer"
                 >
                   <Logout01Icon size={14} />
                   <span>Sign Out</span>
@@ -259,25 +281,34 @@ export function DashboardSidebar({
             onClick={() => setIsUserMenuOpen((prev) => !prev)}
             aria-expanded={isUserMenuOpen}
             aria-label="User menu"
-            className={`w-full flex items-center transition-colors border border-transparent hover:border-border hover:bg-muted/30 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand ${
+            className={`w-full flex items-center transition-colors border border-transparent hover:border-border hover:bg-muted/30 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand ${
               isCollapsed ? "justify-center p-1.5" : "justify-between px-2 py-2"
             }`}
           >
             <div className="flex items-center gap-2.5 min-w-0">
               <div
-                className="w-9 h-9 shrink-0 bg-muted border border-border text-foreground font-heading font-bold text-xs flex items-center justify-center"
-                title={`${user.name || "User"} (${user.email || ""})`}
+                className="w-9 h-9 shrink-0 bg-muted border border-border text-foreground font-heading font-bold text-xs flex items-center justify-center overflow-hidden"
+                title={`${user?.name || "User"} (${user?.email || ""})`}
               >
-                {user.initials || "KA"}
+                {user?.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={user.image}
+                    alt={user.name || "User"}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  getUserInitials(user?.name, user?.email)
+                )}
               </div>
 
               {!isCollapsed && (
                 <div className="flex flex-col min-w-0 text-left">
                   <span className="text-xs font-heading font-medium text-foreground truncate">
-                    {user.name || "Katherine Adeyemi"}
+                    {user?.name || "User"}
                   </span>
                   <span className="text-[10px] font-mono text-muted-foreground truncate">
-                    {user.role || "Election Admin"}
+                    {user?.email || user?.domain || ""}
                   </span>
                 </div>
               )}

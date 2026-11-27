@@ -1,4 +1,6 @@
+import { auth } from "@/auth";
 import { DashboardShell } from "@/components/dashboard-shell";
+import { redirect } from "next/navigation";
 
 export default async function DashboardLayout({
   children,
@@ -9,11 +11,8 @@ export default async function DashboardLayout({
   // const session = await auth();
   // const user = await db.query("SELECT * FROM users WHERE id = $1", [session?.user?.id]);
 
-  const user = {
-    name: "Katherine Adeyemi",
-    email: "@oauife.edu.ng",
-    initials: "KA",
-  };
+  const session = await auth();
+  if (!session || !session.user) return redirect("/login");
 
-  return <DashboardShell user={user}>{children}</DashboardShell>;
+  return <DashboardShell user={session.user}>{children}</DashboardShell>;
 }

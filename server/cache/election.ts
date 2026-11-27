@@ -22,11 +22,11 @@ export const getCachedUserElection = async (
     expire: 60 * 60, // 1 hour
   });
 
-  cacheTag(`user-election-${userId}-${electionId}`);
+  cacheTag(`user-election-${userId?.trim()}-${electionId?.trim()}`);
 
   const { rows, rowCount } = await pool.query(GET_ELECTION_BY_ID_QUERY, [
-    electionId,
-    userId,
+    electionId?.trim(),
+    userId?.trim(),
   ]);
 
   if (rowCount === 0) return null;
