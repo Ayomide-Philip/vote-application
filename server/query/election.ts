@@ -60,18 +60,10 @@ select
     e.election_type,
     e.domain_label AS election_domain_label,
     e.created_at,
+    v.status AS voter_status,
     CASE
         when e.creator_id = $2 then 'admin'
-        WHEN EXISTS (
-            SELECT
-                1
-            FROM
-                voters AS v
-            WHERE
-                v.user_id = $2
-                AND v.election_id = e.id
-                AND v.status = 'approved'
-        ) THEN 'voter'
+        when v.user_id is not null then 'voter'
         ELSE null
     END AS role,
     e.start_time,
@@ -79,20 +71,12 @@ select
 from
     elections as e
     left join users as u on e.creator_id = u.id
+    left join voters as v on v.election_id = e.id and v.user_id = $2
 where
     e.id = $1
     and (
         e.creator_id = $2
-        or exists (
-            select
-                1
-            from
-                voters as v
-            where
-                v.user_id = $2
-                and v.election_id = e.id
-                and v.status = 'approved'
-        )
+        or v.status in ('approved', 'pending')
     )
 `;
 
