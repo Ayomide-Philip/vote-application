@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useSyncExternalStore } from "react";
-import { ElectionRoleProvider } from "./election-context";
+import { ElectionRole, ElectionRoleProvider } from "./election-context";
 import { ElectionHeader } from "./election-header";
 import { ElectionSidebar } from "./election-sidebar";
 
@@ -29,9 +29,14 @@ function getServerSnapshot(): boolean {
 interface ElectionShellProps {
   electionId: string;
   children: React.ReactNode;
+  role: ElectionRole;
 }
 
-export function ElectionShell({ electionId, children }: ElectionShellProps) {
+export function ElectionShell({
+  electionId,
+  children,
+  role,
+}: ElectionShellProps) {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const isCollapsed = useSyncExternalStore(
     subscribe,
@@ -50,7 +55,7 @@ export function ElectionShell({ electionId, children }: ElectionShellProps) {
   };
 
   return (
-    <ElectionRoleProvider>
+    <ElectionRoleProvider initialRole={role}>
       <div className="min-h-screen bg-background text-foreground flex transition-colors duration-200 site-grid-bg">
         <ElectionSidebar
           electionId={electionId}

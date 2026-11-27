@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 import { ELECTION_CODE_REGEX } from "@/server/lib/validation";
 import pool from "@/server/config/db";
+import { revalidateTag } from "next/cache";
 
 export const POST = auth(async (req) => {
   if (!req.auth || !req.auth.user) {
@@ -167,6 +168,10 @@ export const POST = auth(async (req) => {
        RETURNING id`,
       [election.id, userId, voterStatus],
     );
+
+    revalidateTag(`user-election-${userId}-${election.id}`, {
+      expire: 0,
+    });
 
     return NextResponse.json(
       {

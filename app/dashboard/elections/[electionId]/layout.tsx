@@ -1,7 +1,8 @@
 import { Suspense } from "react";
-import { ElectionShell } from "@/components/election-detail";
+import { ElectionNotFound, ElectionShell } from "@/components/election-detail";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import { getCachedUserElection } from "@/server/cache/election";
 
 interface ElectionLayoutProps {
   children: React.ReactNode;
@@ -64,8 +65,18 @@ async function ElectionShellWrapper({ children, params }: ElectionLayoutProps) {
   if (!electionId || !session || !session.user) return redirect("/login");
   const decodedElectionId = decodeURIComponent(electionId);
 
+  const election = await getCachedUserElection(
+    decodedElectionId.trim(),
+    session.user.id,
+  );
+  if (!election || !election.role) {
+    return <ElectionNotFound electionId={decodedElectionId} />;
+  }
+
   return (
-    <ElectionShell electionId={decodedElectionId}>{children}</ElectionShell>
+    <ElectionShell electionId={decodedElectionId} role={election.role}>
+      {children}
+    </ElectionShell>
   );
 }
 

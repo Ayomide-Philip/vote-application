@@ -6,7 +6,7 @@ import { CachedUserElection } from "../types/election.types";
 
 export const getCachedUserElection = async (
   electionId: string,
-  userId: string,
+  userId?: string,
 ): Promise<CachedUserElection | null> => {
   "use cache";
   if (
